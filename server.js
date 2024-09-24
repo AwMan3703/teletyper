@@ -30,17 +30,27 @@ const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const stringSimilarity = __importStar(require("string-similarity"));
+const roomManager_1 = require("./roomManager");
 const app = (0, express_1.default)();
 const port = 3000;
-const public_directory = './client';
-// Serve static files from the client directory
+const public_directory = './public';
+// DATA SERVER
+// Define data endpoints here
+app.get("/live-rooms", (req, res) => {
+    res.send(roomManager_1.liveRooms);
+});
+// APP SERVER
+// Serves html pages
+// Serve static files from the public directory
 app.use(express_1.default.static(path_1.default.join(__dirname, public_directory)));
 // Optional: Serve an error page if no route is matched
 app.use((req, res) => {
     // Get the original URL
     const requestedURL = req.originalUrl;
-    // Find best matching page in the client directory
+    // Find best matching page in the public directory
     const bestMatch = stringSimilarity.findBestMatch(requestedURL, fs_1.default.readdirSync(public_directory)).bestMatch.target;
+    // Log to help debug
+    console.log(`404 error for ${requestedURL}. Redirecting to 404 page. Best match: ${bestMatch}`);
     res.redirect(`/404.html?url=${encodeURIComponent(requestedURL)}&bm=${encodeURIComponent(bestMatch)}`);
 });
 // Start the server
