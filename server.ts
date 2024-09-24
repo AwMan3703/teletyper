@@ -32,12 +32,13 @@ app.use((req, res) => {
     const bestMatch = stringSimilarity.findBestMatch(requestedURL, fs.readdirSync(public_directory)).bestMatch.target
 
     // Log to help debug
-    console.log(`404 error for ${requestedURL}. Redirecting to 404 page. Best match: ${bestMatch}`);
+    console.log(`404 error for ${requestedURL}. Redirecting to 404 page.`);
 
     res.redirect(`/404.html?url=${encodeURIComponent(requestedURL)}&bm=${encodeURIComponent(bestMatch)}`);
 });
 
 // Start the server
 app.listen(port, '0.0.0.0', () => {
-    console.log(`Server running at http://localhost:${port}/`);
+    console.log('Server is live!')
+    console.log(`Access at http://localhost:${port}/`);
 });
