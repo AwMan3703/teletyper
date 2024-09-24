@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="height=device-width, initial-scale=1">
+
+	<title>TeleTyper</title>
+	<link rel="shortcut icon" href="_resources/img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+	<img src="_resources/img/logo72.png" alt="Logo not found">
+	<h1>TeleTyper</h1>
+	<p>
+		Instant chatting app with live typing
+	</p>
+
+	<section>
+		<h2>Currently available chats:</h2>
+		<div id="live-chats-list">
+			<!--Live chats will be appended here-->
+		</div>
+
+		<template id="live-chats-list-item-template">
+			<li class="live-chats-list-item">
+				<h4 class="chat-title">Chat Name</h4>
+				<p><span class="chat-participants-counter">0</span>participants</p>
+			</li>
+		</template>
+	</section>
+</body>
+</html>

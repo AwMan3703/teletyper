@@ -1,2 +1,5 @@
-# Project exclude paths
-/server.js
+*.env
+node_modules
+
+.idea/discord.xml
+.idea/.gitignore

@@ -1,12 +1,31 @@
 {
   "name": "teletyper",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "Live typing chat",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "AwMan3703",
+  "license": "SEE LICENSE IN LICENSE.md (No Copy + No AI)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AwMan3703/teletyper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AwMan3703/teletyper/issues"
+  },
+  "homepage": "https://github.com/AwMan3703/teletyper#readme",
+  "dependencies": {
+    "express": "^4.21.0",
+    "string-similarity": "^4.0.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.6.1",
+    "@types/string-similarity": "^4.0.2",
+    "typescript": "^5.6.2"
+  }
 }
