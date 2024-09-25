@@ -6,11 +6,13 @@ const liveChatElementTemplate = document.getElementById("live-chats-list-item-te
 function _new_liveChatElement(room) {
     // @ts-ignore
     const node = liveChatElementTemplate.content.cloneNode(true)
+    const owner = node.querySelector(".chat-owner")
     const title = node.querySelector(".chat-title")
     const participants_counter = node.querySelector(".chat-participants-counter")
     const creation_date = node.querySelector(".chat-creation-time")
 
-    title.innerText = `${room.owner.username}'s ${room.name}`
+    owner.innerText = `${room.owner.username}'s`
+    title.innerText = room.name
     participants_counter.innerText = room.participants.length
     creation_date.innerText = new Date(room.creation).toLocaleTimeString()
 

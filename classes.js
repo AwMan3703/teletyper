@@ -10,9 +10,10 @@ class User {
 exports.User = User;
 // A room for live texting
 class Room {
-    constructor(name, owner) {
+    constructor(name, owner, invite_only = false) {
         this.name = name;
         this.owner = owner;
+        this.invite_only = invite_only;
         this.participants = [owner];
         this.creation = new Date();
     }

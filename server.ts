@@ -14,7 +14,8 @@ const public_directory = './public'
 
 // Live chat rooms list
 app.get("/live-rooms", (req: express.Request, res: express.Response) => {
-    res.send(liveRooms);
+    const publicRooms = liveRooms.filter(room => !room.invite_only)
+    res.send(publicRooms);
 })
 
 

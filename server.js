@@ -38,7 +38,8 @@ const public_directory = './public';
 // Define data endpoints here
 // Live chat rooms list
 app.get("/live-rooms", (req, res) => {
-    res.send(roomManager_1.liveRooms);
+    const publicRooms = roomManager_1.liveRooms.filter(room => !room.invite_only);
+    res.send(publicRooms);
 });
 // APP SERVER
 // Serves html pages
