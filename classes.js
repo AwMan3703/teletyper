@@ -13,6 +13,8 @@ class Room {
     constructor(name, owner) {
         this.name = name;
         this.owner = owner;
+        this.participants = [owner];
+        this.creation = new Date();
     }
 }
 exports.Room = Room;

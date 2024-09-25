@@ -36,6 +36,7 @@ const port = 3000;
 const public_directory = './public';
 // DATA SERVER
 // Define data endpoints here
+// Live chat rooms list
 app.get("/live-rooms", (req, res) => {
     res.send(roomManager_1.liveRooms);
 });
@@ -43,17 +44,19 @@ app.get("/live-rooms", (req, res) => {
 // Serves html pages
 // Serve static files from the public directory
 app.use(express_1.default.static(path_1.default.join(__dirname, public_directory)));
-// Optional: Serve an error page if no route is matched
+// Serve an error page if no route is matched
 app.use((req, res) => {
     // Get the original URL
     const requestedURL = req.originalUrl;
     // Find best matching page in the public directory
     const bestMatch = stringSimilarity.findBestMatch(requestedURL, fs_1.default.readdirSync(public_directory)).bestMatch.target;
     // Log to help debug
-    console.log(`404 error for ${requestedURL}. Redirecting to 404 page. Best match: ${bestMatch}`);
+    console.log(`404 error for ${requestedURL}. Redirecting to 404 page.`);
+    // Pass URL parameters to dynamically update the page
     res.redirect(`/404.html?url=${encodeURIComponent(requestedURL)}&bm=${encodeURIComponent(bestMatch)}`);
 });
 // Start the server
 app.listen(port, '0.0.0.0', () => {
-    console.log(`Server running at http://localhost:${port}/`);
+    console.log('Server is live!');
+    console.log(`Connect at http://localhost:${port}/`);
 });

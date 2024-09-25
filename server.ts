@@ -12,6 +12,7 @@ const public_directory = './public'
 // DATA SERVER
 // Define data endpoints here
 
+// Live chat rooms list
 app.get("/live-rooms", (req: express.Request, res: express.Response) => {
     res.send(liveRooms);
 })
@@ -23,8 +24,8 @@ app.get("/live-rooms", (req: express.Request, res: express.Response) => {
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, public_directory)));
 
-// Optional: Serve an error page if no route is matched
-app.use((req, res) => {
+// Serve an error page if no route is matched
+app.use((req: express.Request, res: express.Response) => {
     // Get the original URL
     const requestedURL = req.originalUrl
 
@@ -34,11 +35,12 @@ app.use((req, res) => {
     // Log to help debug
     console.log(`404 error for ${requestedURL}. Redirecting to 404 page.`);
 
+    // Pass URL parameters to dynamically update the page
     res.redirect(`/404.html?url=${encodeURIComponent(requestedURL)}&bm=${encodeURIComponent(bestMatch)}`);
 });
 
 // Start the server
 app.listen(port, '0.0.0.0', () => {
     console.log('Server is live!')
-    console.log(`Access at http://localhost:${port}/`);
+    console.log(`Connect at http://localhost:${port}/`);
 });
