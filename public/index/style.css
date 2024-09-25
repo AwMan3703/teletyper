@@ -23,7 +23,12 @@
 /* CHAT LIST */
 #live-chats-list {
   gap: 20px;
+  padding: 10px;
   width: max-content;
+  height: 50vh;
+  overflow-y: scroll;
+  border-radius: 20px;
+  background-color: rgba(127, 127, 127, 0.1);
 }
 .live-chats-list-item {
   justify-content: space-between;
