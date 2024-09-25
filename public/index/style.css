@@ -30,7 +30,6 @@
   border-radius: 10px;
   background-color: rgba(127, 127, 127, 0.1);
   background-image: linear-gradient(0deg, rgba(127, 127, 127, 0.25), transparent 75%);
-  box-shadow: inset black 0 0;
 }
 .live-chats-list-item {
   justify-content: space-between;
