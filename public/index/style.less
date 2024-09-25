@@ -1,0 +1,33 @@
+@import "../_global/style";
+
+/* CHAT LIST */
+
+#live-chats-list {
+	&:extend(.flex-v);
+	gap: @gap-medium;
+	width: max-content;
+}
+
+.live-chats-list-item {
+	&:extend(.flex-h);
+	&:extend(.material-block);
+	justify-content: space-between;
+	gap: @gap-medium;
+}
+.live-chats-list-item::before {
+	content: "";
+	display: block;
+	min-height: 100%;
+	min-width: 50px;
+	border-radius: @gap-micro;
+	background: center center no-repeat;
+	background-image: url("../_resources/img/logo18.png");
+	background-color: white;
+}
+
+.live-chats-list-item .chat-title {
+	text-transform: uppercase;
+}
+.live-chats-list-item .chat-creation-label {
+	&:extend(.secondary-text);
+}

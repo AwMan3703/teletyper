@@ -1,0 +1,33 @@
+
+/* VARIABLES */
+
+@gap-micro: 5px;
+@gap-min: 10px;
+@gap-medium: 20px;
+@gap-max: 40px;
+@gap-macro: 80px;
+
+@color-layer-25: rgba(127, 127, 127, 0.25);
+@color-layer-50: rgba(127, 127, 127, 0.5);
+@color-layer-75: rgba(127, 127, 127, 0.75);
+
+/* GLOBAL STYLES */
+
+.flex-v {
+	display: flex;
+	flex-direction: column;
+}
+.flex-h {
+	display: flex;
+	flex-direction: row;
+}
+
+.material-block {
+	background-color: @color-layer-25;
+	border-radius: @gap-min;
+	padding: @gap-min;
+}
+
+.secondary-text {
+	color: @color-layer-75;
+}
