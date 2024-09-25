@@ -13,7 +13,49 @@
 @color-layer-75: rgba(127, 127, 127, 0.75);
 @color-layer-90: rgba(127, 127, 127, 0.9);
 
+/* STANDARD FONTS */
+
+@font-face {
+	font-family: "Gontserrat";
+	src:
+		url("../_resources/font/Gontserrat-Regular.ttf") format("truetype"),
+		url("../_resources/font/Gontserrat-Italic.ttf") format("truetype"),
+		url("../_resources/font/Gontserrat-Light.ttf") format("truetype"),
+		url("../_resources/font/Gontserrat-LightItalic.ttf") format("truetype"),
+		url("../_resources/font/Gontserrat-Medium.ttf") format("truetype"),
+		url("../_resources/font/Gontserrat-MediumItalic.ttf") format("truetype"),
+		url("../_resources/font/Gontserrat-SemiBold.ttf") format("truetype"),
+		url("../_resources/font/Gontserrat-SemiBoldItalic.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Nexa";
+	src:
+		url("../_resources/font/Nexa-ExtraLight.ttf") format("truetype"),
+		url("../_resources/font/Nexa-Heavy.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "ND Logos";
+	src:
+		url("../_resources/font/ND-LOGOS-REGULAR.ttf") format("truetype"),
+		url("../_resources/font/ND-LOGOS-REGULAR-ITALIC.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Veloped";
+	src: url("../_resources/font/Veloped.ttf") format("truetype");
+}
+
 /* GLOBAL STYLES */
+
+* {
+	font-family: "Gontserrat", sans-serif;
+}
+
+.logo-font {
+	font-family: "ND Logos", "Arial Black", arial, sans-serif;
+}
 
 .flex-v {
 	display: flex;
@@ -28,6 +70,7 @@
 	background-color: @color-layer-25;
 	border-radius: @gap-min;
 	padding: @gap-min;
+	background-image: linear-gradient(0deg, @color-layer-25, transparent);
 }
 
 .secondary-text {

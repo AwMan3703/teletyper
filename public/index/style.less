@@ -6,12 +6,13 @@
 	&:extend(.flex-v);
 	gap: @gap-medium;
 	padding: @gap-min;
-	width: max-content;
+	width: calc(min(100vw, 100vh) - calc(2 * @gap-min));
+	min-width: min-content;
 	height: 50vh;
 	overflow-y: scroll;
 	border-radius: @gap-min;
 	background-color: @color-layer-10;
-	background-image: linear-gradient(0deg, @color-layer-25, transparent 75%);
+	background-image: linear-gradient(0deg, @color-layer-25, transparent 25%);
 }
 
 .live-chats-list-item {
