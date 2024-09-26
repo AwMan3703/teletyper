@@ -12,11 +12,13 @@
 	<link rel="stylesheet" href="index/style.css">
 </head>
 <body>
-	<img src="_resources/img/logo72.png" alt="Logo not found">
-	<h1 class="logo-font">TeleTyper</h1>
-	<p>
-		Instant chatting app with live typing
-	</p>
+	<section>
+		<img src="_resources/img/logo72.png" alt="Logo not found">
+		<h1 class="logo-font">TeleTyper</h1>
+		<p>
+			Instant chatting app with live typing
+		</p>
+	</section>
 
 	<section>
 		<h2>Join a public chat:</h2>
@@ -26,16 +28,13 @@
 		<template id="live-chats-list-item-template">
 			<li class="live-chats-list-item">
 				<div>
-					<h4><span class="chat-owner"></span> <span class="chat-title">[no title]</span></h4>
+					<h4><span class="chat-owner"></span>'s <span class="chat-title">[no title]</span></h4>
 					<p><span class="chat-participants-counter">N/A</span> participants online</p>
 					<p class="chat-creation-label">Created: <span class="chat-creation-time">N/A</span></p>
 				</div>
-				<button id="chat-connect-button">Connect</button>
+				<button class="chat-connect-button">Connect</button>
 			</li>
 		</template>
-	</section>
-
-	<section>
 		<h2>...or <a href="#">create your own</a>.</h2>
 	</section>
 
