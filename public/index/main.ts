@@ -14,7 +14,7 @@ function _new_liveChatElement(room: any) {
 
     owner.innerText = room.owner.username
     title.innerText = room.name
-    participants_counter.innerText = room.participants.length
+    participants_counter.innerText = `${room.participants.length}/${room.max_participants}`
     creation_date.innerText = new Date(room.creation).toLocaleTimeString()
 
     join_button.onclick = function () {
@@ -31,7 +31,7 @@ const updateLiveChatList = () => {
         .then(response => {
             // Check if the response is OK (status code in the range 200-299)
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json(); // Parse JSON data
         })
