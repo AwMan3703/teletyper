@@ -18,6 +18,13 @@ app.get("/live-rooms", (req: express.Request, res: express.Response) => {
     res.send(publicRooms);
 })
 
+// Chat room data (:roomid is the room id passed by the client, just found out you can do that and i love it)
+app.get("/room-data/:roomid", (req: express.Request, res: express.Response) => {
+    const publicRooms = liveRooms.filter(room => !room.invite_only)
+    const room = publicRooms.filter(room => room.id===req.params.roomid)[0]
+    res.send(room)
+})
+
 
 // APP SERVER
 // Serves html pages
