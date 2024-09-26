@@ -49,10 +49,10 @@ app.use(express_1.default.static(path_1.default.join(__dirname, public_directory
 app.use((req, res) => {
     // Get the original URL
     const requestedURL = req.originalUrl;
-    // Find best matching page in the public directory
-    const bestMatch = stringSimilarity.findBestMatch(requestedURL, fs_1.default.readdirSync(public_directory)).bestMatch.target;
+    // Find best matching page in the public directory                    get all public contents          filter for file names, not directories
+    const bestMatch = stringSimilarity.findBestMatch(requestedURL, fs_1.default.readdirSync(public_directory).filter(name => name.includes('.'))).bestMatch.target;
     // Log to help debug
-    console.log(`404 error for ${requestedURL}. Redirecting to 404 page.`);
+    console.log(`404 error for ${requestedURL}. Redirecting to 404 page, suggesting "./${bestMatch}".`);
     // Pass URL parameters to dynamically update the page
     res.redirect(`/404.html?url=${encodeURIComponent(requestedURL)}&bm=${encodeURIComponent(bestMatch)}`);
 });
