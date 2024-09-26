@@ -17,12 +17,14 @@ export class Room {
     id: string;
     owner: User;
     participants: User[];
+    max_participants: number;
     creation: Date;
     invite_only: boolean;
 
-    constructor(name: string, owner: User, invite_only: boolean = false) {
+    constructor(name: string, owner: User, max_participants: number = 5, invite_only: boolean = false) {
         this.name = name;
         this.owner = owner;
+        this.max_participants = max_participants;
         this.invite_only = invite_only;
 
         this.id = getChatroomID(); //crypto.randomUUID();

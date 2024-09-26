@@ -11,9 +11,10 @@ class User {
 exports.User = User;
 // A room for live texting
 class Room {
-    constructor(name, owner, invite_only = false) {
+    constructor(name, owner, max_participants = 5, invite_only = false) {
         this.name = name;
         this.owner = owner;
+        this.max_participants = max_participants;
         this.invite_only = invite_only;
         this.id = (0, utility_1.getChatroomID)(); //crypto.randomUUID();
         this.participants = [owner];
