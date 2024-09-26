@@ -3,7 +3,7 @@ const liveChatsList = document.getElementById("live-chats-list");
 const liveChatElementTemplate = document.getElementById("live-chats-list-item-template");
 
 
-function _new_liveChatElement(room) {
+function _new_liveChatElement(room: any) {
     // @ts-ignore
     const node = liveChatElementTemplate.content.cloneNode(true)
     const owner = node.querySelector(".chat-owner")
@@ -29,7 +29,7 @@ const updateLiveChatList = () => {
             return response.json(); // Parse JSON data
         })
         .then(data => {
-            data.forEach((room) => {
+            data.forEach((room: any) => {
                 // @ts-ignore
                 liveChatsList.append(_new_liveChatElement(room))
             })

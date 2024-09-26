@@ -1,4 +1,3 @@
-/* VARIABLES */
 /* STANDARD FONTS */
 @font-face {
   font-family: "Gontserrat";
@@ -16,6 +15,7 @@
   font-family: "Veloped";
   src: url("../_resources/font/Veloped.ttf") format("truetype");
 }
+/* VARIABLES */
 /* GLOBAL STYLES */
 * {
   font-family: "Gontserrat", sans-serif;
