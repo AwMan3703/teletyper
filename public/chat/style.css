@@ -1,0 +1,56 @@
+/* STANDARD FONTS */
+@font-face {
+  font-family: "Gontserrat";
+  src: url("../_resources/font/Gontserrat-Regular.ttf") format("truetype"), url("../_resources/font/Gontserrat-Italic.ttf") format("truetype"), url("../_resources/font/Gontserrat-Light.ttf") format("truetype"), url("../_resources/font/Gontserrat-LightItalic.ttf") format("truetype"), url("../_resources/font/Gontserrat-Medium.ttf") format("truetype"), url("../_resources/font/Gontserrat-MediumItalic.ttf") format("truetype"), url("../_resources/font/Gontserrat-Bold.ttf") format("truetype"), url("../_resources/font/Gontserrat-BoldItalic.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Nexa";
+  src: url("../_resources/font/Nexa-ExtraLight.ttf") format("truetype"), url("../_resources/font/Nexa-Heavy.ttf") format("truetype");
+}
+@font-face {
+  font-family: "ND Logos";
+  src: url("../_resources/font/ND-LOGOS-REGULAR.ttf") format("truetype"), url("../_resources/font/ND-LOGOS-REGULAR-ITALIC.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Veloped";
+  src: url("../_resources/font/Veloped.ttf") format("truetype");
+}
+/* VARIABLES */
+/* GLOBAL STYLES */
+* {
+  font-family: "Gontserrat", sans-serif;
+}
+.logo-font {
+  font-family: "ND Logos", "Arial Black", arial, sans-serif;
+  font-style: italic;
+}
+.flex-v {
+  display: flex;
+  flex-direction: column;
+}
+.flex-h {
+  display: flex;
+  flex-direction: row;
+}
+.material-block {
+  background-color: rgba(127, 127, 127, 0.1);
+  border-radius: 10px;
+  padding: 10px;
+  background-image: linear-gradient(0deg, rgba(127, 127, 127, 0.25), transparent);
+}
+.material-shadow {
+  box-shadow: -4px -4px 20px 0 rgba(255, 255, 255, 0.3), 4px 4px 20px 0 rgba(0, 0, 0, 0.3);
+}
+.material-shadow-inset {
+  box-shadow: inset 0 -5px 20px 0 rgba(0, 0, 0, 0.2);
+}
+.secondary-text,
+#chat-info {
+  color: rgba(127, 127, 127, 0.75);
+}
+#chat-owner,
+#chat-participant-counter,
+#chat-creation-date {
+  color: initial;
+}
+/*# sourceMappingURL=style.css.map */
