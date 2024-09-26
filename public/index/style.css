@@ -22,6 +22,7 @@
 }
 .logo-font {
   font-family: "ND Logos", "Arial Black", arial, sans-serif;
+  font-style: italic;
 }
 .flex-v,
 #live-chats-list {
