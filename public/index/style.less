@@ -4,6 +4,7 @@
 
 #live-chats-list {
 	&:extend(.flex-v);
+	&:extend(.material-shadow-inset);
 	gap: @gap-medium;
 	padding: @gap-min;
 	width: calc(min(100vw, 100vh) - calc(2 * @gap-min));
@@ -13,7 +14,6 @@
 	overflow-y: scroll;
 	border-radius: @gap-min;
 	background-color: @color-layer-10;
-	background-image: linear-gradient(0deg, @color-layer-25, transparent 25%);
 }
 #live-chats-list:empty::before {
 	content: "No chats found :(";
@@ -32,9 +32,7 @@
 	min-height: 100%;
 	min-width: 50px;
 	border-radius: @gap-micro;
-	background: center center no-repeat;
-	background-image: url("../_resources/img/logo18.png");
-	background-color: white;
+	background: white url("../_resources/img/logo18.png") no-repeat center center;
 }
 
 .live-chats-list-item .chat-title {
