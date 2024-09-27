@@ -30,6 +30,7 @@ fetch(`/room-data/${roomID}`)
 })
     .then(room => {
     console.log("Chatroom Data:", room);
+    document.title = `${room.name} — TeleTyper`;
     updateRoomData(room);
 })
     .catch(error => console.error('Error fetching chatroom data:', error));
