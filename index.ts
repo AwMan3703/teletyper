@@ -1,5 +1,5 @@
 import express from 'express';
-import open_endpoints from "./endpoints_server";
+import open_endpoints from "./endpoint_server";
 import open_public_pages from "./static_server";
 
 const app = express();
