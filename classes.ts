@@ -2,7 +2,7 @@ import {getID, getChatroomID} from "./utility";
 
 // User (client)
 export class User {
-    username: string;
+    public readonly username: string;
 
     constructor(username: string) {
         this.username = username;
@@ -12,14 +12,14 @@ export class User {
 // A room for live texting
 export class Room {
     // User-chosen room name
-    name: string;
+    public readonly name: string;
     // Server-generated room id
-    id: string;
-    owner: User;
-    participants: User[];
-    max_participants: number;
-    creation: Date;
-    invite_only: boolean;
+    public readonly id: string;
+    public readonly owner: User;
+    public readonly participants: User[];
+    public readonly max_participants: number;
+    public readonly creation: Date;
+    public readonly invite_only: boolean;
 
     constructor(name: string, owner: User, max_participants: number = 5, invite_only: boolean = false) {
         this.name = name;
