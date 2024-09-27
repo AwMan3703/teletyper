@@ -4,10 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const endpoint_server_1 = __importDefault(require("./endpoint_server"));
 const static_server_1 = __importDefault(require("./static_server"));
+const endpoint_server_1 = __importDefault(require("./endpoint_server"));
+const websocket_server_1 = __importDefault(require("./websocket_server"));
 const app = (0, express_1.default)();
 const port = 3000;
+const websocket_port = 8080;
+// WEBSOCKET SERVER
+// Connects chatters through websockets
+(0, websocket_server_1.default)(websocket_port);
 // DATA SERVER
 // Serves JSON data
 (0, endpoint_server_1.default)(app);
