@@ -1,4 +1,4 @@
-import {getID, getChatroomID} from "./utility";
+import {getChatroomID} from "./utility";
 
 // User (client)
 export class User {
