@@ -31,4 +31,25 @@ export class Room {
         this.participants = [owner];
         this.creation = new Date();
     }
+
+    public user_join(user: User) {
+
+    }
+
+    public user_disconnect(user: User) {
+
+    }
+
+    public message(sender: User) {
+
+    }
+}
+
+// Message classes
+export class RoomWebSocketMessage { // Base class
+    public readonly type: "JOIN" | "MESSAGE";
+
+    constructor(type: "JOIN" | "MESSAGE") {
+        this.type = type
+    }
 }

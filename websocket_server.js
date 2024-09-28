@@ -17,16 +17,19 @@ function open_websocket_server(websocket_port) {
         client_socket.on('message', (data) => {
             try {
                 const message = JSON.parse(data.toString());
-                switch (message.type) {
-                    case 'join_chat':
-                    // Setup, assign username and room to client, broadcast join event to peers
-                    case 'typing_update':
-                    // Send typing updates to peers
-                }
+                handle_message(message);
             }
             catch (error) {
                 console.log(`Error parsing websocket message: ${error}`);
             }
         });
     });
+}
+function handle_message(message) {
+    switch (message.type) {
+        case 'JOIN':
+        // Setup, assign username and room to client, broadcast join event to peers
+        case 'MESSAGE':
+        // Send typing updates to peers
+    }
 }
