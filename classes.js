@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Room = exports.User = void 0;
+exports.RoomWebSocketMessage = exports.Room = exports.User = void 0;
 const utility_1 = require("./utility");
 // User (client)
 class User {
@@ -22,3 +22,11 @@ class Room {
     }
 }
 exports.Room = Room;
+// Message class
+class RoomWebSocketMessage {
+    constructor(type, body) {
+        this.type = type;
+        this.body = body;
+    }
+}
+exports.RoomWebSocketMessage = RoomWebSocketMessage;

@@ -32,3 +32,14 @@ export class Room {
         this.creation = new Date();
     }
 }
+
+// Message class
+export class RoomWebSocketMessage {
+    public readonly type: "JOIN" | "MESSAGE" | "LEAVE";
+    public readonly body: string;
+
+    constructor(type: "JOIN" | "MESSAGE" | "LEAVE", body: string) {
+        this.type = type
+        this.body = body
+    }
+}
