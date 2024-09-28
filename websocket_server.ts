@@ -1,6 +1,5 @@
 import WebSocket from "ws";
 import {RoomWebSocketMessage} from "./classes";
-import assert from "node:assert";
 
 
 export default function open_websocket_server(websocket_port: number) {
