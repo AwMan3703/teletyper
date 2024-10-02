@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.liveRooms = void 0;
+exports.liveUsers = exports.liveRooms = void 0;
+exports.isUsernameAvailable = isUsernameAvailable;
 const classes_1 = require("./classes");
 // Keep track of currently open rooms
 exports.liveRooms = [
@@ -14,3 +15,9 @@ exports.liveRooms = [
     new classes_1.Room('test-room-8', new classes_1.User('test-user-8')),
     new classes_1.Room('test-room-9', new classes_1.User('test-user-9'), undefined, true)
 ];
+// Keep track of connected users
+exports.liveUsers = [];
+// UTILITY
+function isUsernameAvailable(username) {
+    return !exports.liveUsers.find(user => user.username === username);
+}

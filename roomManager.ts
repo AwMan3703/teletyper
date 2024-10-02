@@ -13,3 +13,13 @@ export const liveRooms: Room[] = [
     new Room('test-room-8', new User('test-user-8')),
     new Room('test-room-9', new User('test-user-9'), undefined, true)
 ]
+
+// Keep track of connected users
+export const liveUsers: User[] = []
+
+
+// UTILITY
+
+export function isUsernameAvailable(username: string) {
+    return !liveUsers.find(user => user.username === username);
+}

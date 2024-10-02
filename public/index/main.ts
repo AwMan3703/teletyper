@@ -19,7 +19,7 @@ function _new_liveChatElement(room: any) {
 
     join_button.onclick = function () {
         const params = new URLSearchParams();
-        params.set('roomid', room.id);
+        params.set('room-id', room.id);
         window.location.href = `chat.html?${params.toString()}`
     }
 
