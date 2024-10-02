@@ -1,3 +1,10 @@
+import * as crypto from "crypto";
+
+
+export function getUUID() {
+    return crypto.randomUUID()
+}
+
 export function getID(length: number) {
     let result = [];
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
