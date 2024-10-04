@@ -4,7 +4,7 @@
 let SESSION_TOKEN: string = ''
 const WEBSOCKET_PORT = 8080
 
-const debounceTimeout = 500
+const debounceTimeout = 500 // Timeout for live typing updates (in ms)
 let lastDebounceTimestamp = Date.now()
 
 const URLparameters = new URLSearchParams(window.location.search);
@@ -28,16 +28,17 @@ const typerInput = document.getElementById('chat-input')
 // FUNCTIONS
 
 const liveTyperID = (user_uuid: string) => `liveTyper_${user_uuid}`
+const getLiveTyperOutput = (user_uuid: string) => document.getElementById(`liveTyper_${user_uuid}`)
 
 function _new_liveTyperElement(user: {uuid: string, username: string}) {
     // @ts-ignore
     const node = liveTyperTemplate.content.cloneNode(true)
-    node.id = liveTyperID(user.uuid)
 
     const username = node.querySelector(".live-typer-username")
     const content = node.querySelector(".live-typer-content")
 
     username.innerText = `@${user.username}`
+    content.id = liveTyperID(user.uuid)
 
     return node
 }
@@ -122,24 +123,26 @@ console.log(`Room WebSocket address is ${websocketAddress}`)
 const websocket = new WebSocket(websocketAddress)
 
 // Shorthand because I'm lazy
-const sendWebSocketMessage = (type: string, body: any) => {
+const sendWebSocketMessage = (type: string, body: any = {}) => {
     websocket.send(JSON.stringify({token: SESSION_TOKEN, type: type, body: body}))
 }
 
 // Wait for the websocket to open
 websocket.onopen = (e) => {
     // Send an empty message to get registered
-    sendWebSocketMessage('confirm_registration', {})
+    sendWebSocketMessage('confirm_registration')
 
-    // TODO: Connect text input with server here
     // @ts-ignore
-    typerInput.onchange = e => {
+    typerInput.oninput = e => {
         // @ts-ignore
         let new_content = typerInput.value
         // Debounce — if updates are too frequent, queue the data for the next ones
         if ((Date.now() - lastDebounceTimestamp) <= debounceTimeout) { return }
+        console.log('Sending live-typer updates')
         // Send the new text
         sendWebSocketMessage('room_message', {text: new_content})
+        // Reset the debounce counter
+        lastDebounceTimestamp = Date.now()
     }
 }
 
@@ -151,26 +154,29 @@ websocket.onmessage = (e) => {
 
     // User has joined the room
     handleWebSocketMessage('room-event_user-join', message, (body) => {
-        if (!body.user) { return }
-        if (!body.user.uuid) { throw new Error('Malformed data: WebSocket message user has no UUID')}
-        if (!body.user.username) { throw new Error('Malformed data: WebSocket message user has no username')}
+        if (!body.user) { console.error('Malformed data: WebSocket message has no user'); return }
+        if (!body.user.uuid) { console.error('Malformed data: WebSocket message user has no UUID'); return }
+        if (!body.user.username) { console.error('Malformed data: WebSocket message user has no username'); return }
         alert(`@${body.user.username} joined the room!`)
         // @ts-ignore
         liveTypersList.appendChild(_new_liveTyperElement(body.user))
     })
     // User has left the room
     handleWebSocketMessage('room-event_user-leave', message, (body) => {
-        if (!body.user) { return }
-        if (!body.user.uuid) { throw new Error('Malformed data: WebSocket message user has no UUID')}
-        if (!body.user.username) { throw new Error('Malformed data: WebSocket message user has no username')}
+        if (!body.user) { console.error('Malformed data: WebSocket message has no user'); return }
+        if (!body.user.uuid) { console.error('Malformed data: WebSocket message user has no UUID'); return }
+        if (!body.user.username) { console.error('Malformed data: WebSocket message user has no username'); return }
         alert(`@${body.user.username} left the room!`)
         // @ts-ignore
         liveTypersList.querySelector(`#${liveTyperID(user.uuid)}`).remove()
     })
     handleWebSocketMessage('room_message', message, (body) => {
-        if (!body.sender) { return }
-        if (!body.user.uuid) { throw new Error('WebSocket message user has no UUID')}
-
+        if (!body.sender) { console.error('Malformed data: WebSocket message has no sender'); return }
+        if (!body.sender.uuid) { console.error('WebSocket message user has no UUID'); return }
+        if (!body.text) { console.error("Malformed data: WebSocket message user has no text"); return }
+        console.log(`Updating @${body.sender.username}'s live-typer (${liveTyperID(body.sender.uuid)})`)
+        // @ts-ignore
+        getLiveTyperOutput(body.sender.uuid).innerText = body.text
     })
 }
 
