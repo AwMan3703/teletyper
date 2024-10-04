@@ -37,11 +37,11 @@ export default function open_websocket_server(websocket_port: number, handler: (
 
                 // Debounce messages if they are too frequent
                 const sender_debounceTimestamp = debounceTimestamps.get(sender)
-                if (!sender_debounceTimestamp || (Date.now() - sender_debounceTimestamp) <= debounceTimeout)
-                { debounceTimestamps.set(sender, Date.now()); return }
+                if (sender_debounceTimestamp && (Date.now() - sender_debounceTimestamp) <= debounceTimeout) { return }
+                else { debounceTimestamps.set(sender, Date.now()) }
 
                 // Pass the message to the provided handler
-                handler(message, sender, client_socket)
+                handler(data, sender, client_socket)
             }
             catch (error) {
                 console.log(`Error parsing websocket message: ${error}`);

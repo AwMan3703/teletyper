@@ -9,23 +9,14 @@ const data_1 = require("./data");
 function handle_room_message(message, sender, client_socket) {
     switch (message.type) {
         case 'room_message':
-            // Check that message has a room id
-            if (!message.body.room_id) {
-                console.error(`Room message has no target room id`);
-                return;
-            }
-            // Check that target room exists
-            const target_room = data_1.liveRooms.find(room => room.id === message.body.room_id);
+            // Check that a target room exists
+            const target_room = data_1.liveRooms.find(room => room.get_participants.includes(sender));
             if (!target_room) {
                 console.error(`Room with id=${message.body.room_id} does not exist`);
                 return;
             }
-            // Check that user is a participant
-            if (!target_room.get_participants.includes(sender)) {
-                console.error(`@${sender} sent a message to room ${message.body.room_id} without being a participant`);
-                return;
-            }
             // Send typing updates to peers
+            console.log(`Message from @${sender.username} to room ${message.body.room_id}!`);
             target_room.message(sender, message);
     }
 }
