@@ -2,6 +2,8 @@
 const room_id_input = document.getElementById('room-ID');
 const room_password_input = document.getElementById('room-password');
 const join_button = document.getElementById('join-button');
+// TODO: check if the room id and password (if needed) are being passed as a parameter.
+//  If so, redirect to chat.html automatically
 // @ts-ignore
 join_button.onclick = function () {
     console.log('pressed');
