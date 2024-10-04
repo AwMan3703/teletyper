@@ -1,4 +1,6 @@
 import * as crypto from "crypto";
+import {User} from "./classes";
+import {liveRooms, liveUsers, userTokens} from "./data";
 
 
 export function getUUID() {
@@ -15,4 +17,23 @@ export function getID(length: number) {
     return result.join('');
 }
 
-export const getChatroomID = () => { return getID(8) }
+export function isUsernameAvailable(username: string) {
+    return !liveUsers.find(user => user.username === username);
+}
+
+export function createUser(username: string): [User, string] {
+    const user = new User(username)
+    const token = getUUID()
+
+    liveUsers.push(user)
+    userTokens.set(user, token)
+
+    return [user, token]
+}
+
+export function deleteUser(user: User): void {
+    const room = liveRooms.find(room => room.get_participants.includes(user))
+    if (room) { room.user_disconnect(user) }
+
+    liveUsers.splice(liveUsers.indexOf(user), 1)
+}

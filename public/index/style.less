@@ -20,13 +20,13 @@
 	display: block;
 }
 
-.live-chats-list-item {
+.live-chat {
 	&:extend(.flex-h);
 	&:extend(.material-block);
 	justify-content: space-between;
 	gap: @gap-medium;
 }
-.live-chats-list-item::before {
+.live-chat::before {
 	content: "";
 	display: block;
 	min-height: 100%;
@@ -35,9 +35,9 @@
 	background: white url("../_resources/img/logo18.png") no-repeat center center;
 }
 
-.live-chats-list-item .chat-title {
+.live-chat .chat-title {
 	text-transform: uppercase;
 }
-.live-chats-list-item .chat-creation-label {
+.live-chat .chat-creation-label {
 	&:extend(.secondary-text);
 }

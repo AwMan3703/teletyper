@@ -1,6 +1,6 @@
 "use strict";
 const liveChatsList = document.getElementById("live-chats-list");
-const liveChatElementTemplate = document.getElementById("live-chats-list-item-template");
+const liveChatElementTemplate = document.getElementById("live-chat-template");
 function _new_liveChatElement(room) {
     // @ts-ignore
     const node = liveChatElementTemplate.content.cloneNode(true);

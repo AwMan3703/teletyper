@@ -5,8 +5,8 @@ import open_websocket_server from "./websocket_server";
 import { handle_room_message } from "./websocket_handler"
 
 const app = express();
-const port = 3000;
-const websocket_port = 8080
+export const port = 3000;
+export const websocket_port = 8080
 
 // WEBSOCKET SERVER
 // Connects chatters through websockets

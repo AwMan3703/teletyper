@@ -1,6 +1,11 @@
 import WebSocket from "ws";
 import {User, WebSocketMessage} from "./classes";
-import {liveRooms, liveUsers} from "./roomManager";
+import {liveUsers, userTokens} from "./data";
+import {deleteUser} from "./utility";
+
+
+const debounceTimeout = 500;
+const debounceTimestamps = new Map<User, number>()
 
 
 export default function open_websocket_server(websocket_port: number, handler: (message: WebSocketMessage, sender: User, client_socket: WebSocket) => void) {
@@ -22,13 +27,18 @@ export default function open_websocket_server(websocket_port: number, handler: (
 
                 // If not already done, map this websocket to its user:
                 // Check that the user exists, if not error
-                const sender = liveUsers.find(user => user.private_uuid === data.private_uuid)
-                if (!sender) { console.error(`User with private_uuid=${data.private_uuid} does not exist!`); return }
+                const sender = liveUsers.find(user => userTokens.get(user) === data.token)
+                if (!sender) { console.error(`User for websocket key "${data.token}" does not exist!`); return }
                 // Check that the user has no associated websocket, if so, bind it to this one
                 else if (!sender.websocket) {
-                    console.log(`Registering websocket for user ${sender.username}`)
+                    console.log(`Registering websocket for user @${sender.username}`)
                     sender.websocket = client_socket
                 }
+
+                // Debounce messages if they are too frequent
+                const sender_debounceTimestamp = debounceTimestamps.get(sender)
+                if (!sender_debounceTimestamp || (Date.now() - sender_debounceTimestamp) <= debounceTimeout)
+                { debounceTimestamps.set(sender, Date.now()); return }
 
                 // Pass the message to the provided handler
                 handler(message, sender, client_socket)
@@ -40,16 +50,17 @@ export default function open_websocket_server(websocket_port: number, handler: (
 
         // Handle socket close
         client_socket.on('close', () => {
-            console.log('Websocket disconnected — unregistering user')
+            console.log(`Websocket disconnected`)
 
             const user = liveUsers.find(user => user.websocket === client_socket)
-            if (!user) { return }
+            if (!user) {
+                console.warn('A WebSocket disconnected, but no user was associated with it')
+                return
+            }
 
-            const room = liveRooms.find(room => room.participants.includes(user))
-            if (!room) { return }
+            console.log(`Unregistering user @${user.username}`)
 
-            room.user_disconnect(user)
-            liveUsers.splice(liveUsers.indexOf(user), 1)
+            deleteUser(user)
         })
     })
 }

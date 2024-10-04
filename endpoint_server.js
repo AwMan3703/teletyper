@@ -5,15 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = open_endpoints;
 const express_1 = __importDefault(require("express"));
-const roomManager_1 = require("./roomManager");
-const classes_1 = require("./classes");
+const data_1 = require("./data");
+const utility_1 = require("./utility");
 function open_endpoints(app) {
     app.use(express_1.default.urlencoded());
     // Live chat rooms list
     // returns a list of currently open and public rooms
     /* No parameters */
     app.get("/live-rooms", (req, res) => {
-        const publicRooms = roomManager_1.liveRooms.filter(room => !room.invite_only);
+        const publicRooms = data_1.liveRooms.filter(room => !room.invite_only);
         // 200 OK
         res.status(200).send(publicRooms);
     });
@@ -24,7 +24,7 @@ function open_endpoints(app) {
     * - password (in the body - only if room is private): the room's password
     */
     app.get("/rooms/data/:roomid", (req, res) => {
-        const room = roomManager_1.liveRooms.find(room => room.id === req.params.roomid);
+        const room = data_1.liveRooms.find(room => room.id === req.params.roomid);
         if (!room) { // 404 Not Found
             res.status(404).send({ error: 'Chatroom does not exist' });
             return;
@@ -44,7 +44,7 @@ function open_endpoints(app) {
     * - username (in the body): the username to connect under
     */
     app.post("/rooms/join/:roomid", (req, res) => {
-        const room = roomManager_1.liveRooms.find(room => room.id === req.params.roomid);
+        const room = data_1.liveRooms.find(room => room.id === req.params.roomid);
         if (!room) { // 404 Not Found
             res.status(404).send({ error: 'Chatroom does not exist' });
             return;
@@ -52,7 +52,7 @@ function open_endpoints(app) {
         if (!req.body.username) { // 400 Bad request
             res.status(400).send({ error: 'Username is required' });
         }
-        if (!(0, roomManager_1.isUsernameAvailable)(req.body.username)) { // 409 Conflict
+        if (!(0, utility_1.isUsernameAvailable)(req.body.username)) { // 409 Conflict
             res.status(409).send({ error: 'Username is currently taken' });
             return;
         }
@@ -60,10 +60,20 @@ function open_endpoints(app) {
             res.status(401).send({ error: 'Room is invite-only, no password was provided or the password was wrong' });
             return;
         }
-        const new_user = new classes_1.User(req.body.username);
-        const new_user_index = roomManager_1.liveUsers.push(new_user);
-        room.user_join(roomManager_1.liveUsers[new_user_index]);
+        const [new_user, new_user_token] = (0, utility_1.createUser)(req.body.username);
+        room.user_join(new_user);
         // 202 Accepted
-        res.status(202).send({ private_uuid: new_user.private_uuid });
+        res.status(202).send({ session_token: new_user_token });
+        // Delete the user if it is not bound to a websocket within X seconds
+        const confirmationTimeout = 10;
+        setTimeout(() => {
+            // If the user was bound to a websocket, ignore
+            if (new_user.websocket) {
+                return;
+            }
+            // If not, delete the user object (client may have crashed, we don't want to lock the username forever)
+            console.warn(`User @${new_user.username} was not bound to a WebSocket within ${confirmationTimeout} seconds, so it's being unregistered`);
+            (0, utility_1.deleteUser)(new_user);
+        }, confirmationTimeout * 1000);
     });
 }

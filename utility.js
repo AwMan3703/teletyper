@@ -23,10 +23,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getChatroomID = void 0;
 exports.getUUID = getUUID;
 exports.getID = getID;
+exports.isUsernameAvailable = isUsernameAvailable;
+exports.createUser = createUser;
+exports.deleteUser = deleteUser;
 const crypto = __importStar(require("crypto"));
+const classes_1 = require("./classes");
+const data_1 = require("./data");
 function getUUID() {
     return crypto.randomUUID();
 }
@@ -39,5 +43,20 @@ function getID(length) {
     }
     return result.join('');
 }
-const getChatroomID = () => { return getID(8); };
-exports.getChatroomID = getChatroomID;
+function isUsernameAvailable(username) {
+    return !data_1.liveUsers.find(user => user.username === username);
+}
+function createUser(username) {
+    const user = new classes_1.User(username);
+    const token = getUUID();
+    data_1.liveUsers.push(user);
+    data_1.userTokens.set(user, token);
+    return [user, token];
+}
+function deleteUser(user) {
+    const room = data_1.liveRooms.find(room => room.get_participants.includes(user));
+    if (room) {
+        room.user_disconnect(user);
+    }
+    data_1.liveUsers.splice(data_1.liveUsers.indexOf(user), 1);
+}

@@ -1,11 +1,12 @@
 
 const liveChatsList = document.getElementById("live-chats-list");
-const liveChatElementTemplate = document.getElementById("live-chats-list-item-template");
+const liveChatElementTemplate = document.getElementById("live-chat-template");
 
 
 function _new_liveChatElement(room: any) {
     // @ts-ignore
     const node = liveChatElementTemplate.content.cloneNode(true)
+
     const owner = node.querySelector(".chat-owner")
     const title = node.querySelector(".chat-title")
     const participants_counter = node.querySelector(".chat-participants-counter")

@@ -21,6 +21,8 @@
 	</h4>
 
 	<section id="live-typers-section">
+		<ul id="live-typers-list">
+		</ul>
 		<!--Show live chats here-->
 	</section>
 
@@ -32,6 +34,14 @@
 			style="font-size: 1.5rem"
 		></textarea>
 	</section>
+
+
+	<template id="live-typer-template">
+		<li class="live-typer">
+			<h2 class="live-typer-username"></h2>
+			<p class="live-typer-content"></p>
+		</li>
+	</template>
 
 
 	<script src="chat/main.js"></script>

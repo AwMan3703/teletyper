@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handle_room_message = handle_room_message;
-const roomManager_1 = require("./roomManager");
+const data_1 = require("./data");
 /*
 * SEND MESSAGES VIA WEBSOCKET - Parameters that are always required (see websocket_server.ts)
 * - private_uuid: the user's private uuid
@@ -15,14 +15,17 @@ function handle_room_message(message, sender, client_socket) {
                 return;
             }
             // Check that target room exists
-            const target_room = roomManager_1.liveRooms.find(room => room.id === message.body.room_id);
+            const target_room = data_1.liveRooms.find(room => room.id === message.body.room_id);
             if (!target_room) {
                 console.error(`Room with id=${message.body.room_id} does not exist`);
                 return;
             }
             // Check that user is a participant
-            if (!target_room.participants.includes(sender))
-                // Send typing updates to peers
-                console.log(`Got room message from ${sender}`);
+            if (!target_room.get_participants.includes(sender)) {
+                console.error(`@${sender} sent a message to room ${message.body.room_id} without being a participant`);
+                return;
+            }
+            // Send typing updates to peers
+            target_room.message(sender, message);
     }
 }

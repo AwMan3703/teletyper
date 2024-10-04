@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import {User, WebSocketMessage} from "./classes";
-import {liveRooms} from "./roomManager";
+import {liveRooms} from "./data";
 
 
 /*
@@ -18,9 +18,9 @@ export function handle_room_message(message: WebSocketMessage, sender: User, cli
             const target_room = liveRooms.find(room => room.id === message.body.room_id)
             if (!target_room) { console.error(`Room with id=${message.body.room_id} does not exist`); return }
             // Check that user is a participant
-            if (!target_room.participants.includes(sender))
+            if (!target_room.get_participants.includes(sender)) { console.error(`@${sender} sent a message to room ${message.body.room_id} without being a participant`); return }
 
-                // Send typing updates to peers
-                console.log(`Got room message from ${sender}`)
+            // Send typing updates to peers
+            target_room.message(sender, message)
     }
 }

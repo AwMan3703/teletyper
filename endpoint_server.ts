@@ -1,6 +1,6 @@
 import express from 'express';
-import {isUsernameAvailable, liveRooms, liveUsers} from './roomManager';
-import {User} from "./classes";
+import {liveRooms, liveUsers} from './data';
+import {createUser, deleteUser, isUsernameAvailable} from "./utility";
 
 
 export default function open_endpoints(app: express.Express) {
@@ -62,11 +62,20 @@ export default function open_endpoints(app: express.Express) {
             return
         }
 
-        const new_user = new User(req.body.username);
-        const new_user_index = liveUsers.push(new_user)
-        room.user_join(liveUsers[new_user_index])
+        const [new_user, new_user_token] = createUser(req.body.username);
+        room.user_join(new_user)
 
         // 202 Accepted
-        res.status(202).send({private_uuid: new_user.private_uuid});
+        res.status(202).send({session_token: new_user_token});
+
+        // Delete the user if it is not bound to a websocket within X seconds
+        const confirmationTimeout = 10
+        setTimeout(() => {
+            // If the user was bound to a websocket, ignore
+            if (new_user.websocket) { return }
+            // If not, delete the user object (client may have crashed, we don't want to lock the username forever)
+            console.warn(`User @${new_user.username} was not bound to a WebSocket within ${confirmationTimeout} seconds, so it's being unregistered`)
+            deleteUser(new_user)
+        }, confirmationTimeout * 1000);
     })
 }
