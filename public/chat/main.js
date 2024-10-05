@@ -25,14 +25,14 @@ const liveTyperTemplate = document.getElementById('live-typer-template');
 const typerInput = document.getElementById('chat-input');
 // FUNCTIONS
 const liveTyperID = (user_uuid) => `liveTyper_${user_uuid}`;
-const getLiveTyperOutput = (user_uuid) => document.getElementById(`liveTyper_${user_uuid}`);
+const getLiveTyperOutput = (user_uuid) => { var _a; return (_a = document.getElementById(`liveTyper_${user_uuid}`)) === null || _a === void 0 ? void 0 : _a.querySelector('.live-typer-content'); };
 function _new_liveTyperElement(user) {
     // @ts-ignore
     const node = liveTyperTemplate.content.cloneNode(true);
+    node.firstElementChild.id = liveTyperID(user.uuid);
     const username = node.querySelector(".live-typer-username");
     const content = node.querySelector(".live-typer-content");
     username.innerText = `@${user.username}`;
-    content.id = liveTyperID(user.uuid);
     return node;
 }
 function fetchRoomData() {
@@ -175,7 +175,7 @@ websocket.onmessage = (e) => {
         }
         alert(`@${body.user.username} left the room!`);
         // @ts-ignore
-        liveTypersList.querySelector(`#${liveTyperID(user.uuid)}`).remove();
+        liveTypersList.querySelector(`#${liveTyperID(body.user.uuid)}`).remove();
     });
     handleWebSocketMessage('room_message', message, (body) => {
         if (!body.sender) {

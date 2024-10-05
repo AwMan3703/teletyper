@@ -28,17 +28,17 @@ const typerInput = document.getElementById('chat-input')
 // FUNCTIONS
 
 const liveTyperID = (user_uuid: string) => `liveTyper_${user_uuid}`
-const getLiveTyperOutput = (user_uuid: string) => document.getElementById(`liveTyper_${user_uuid}`)
+const getLiveTyperOutput = (user_uuid: string) => document.getElementById(`liveTyper_${user_uuid}`)?.querySelector('.live-typer-content')
 
 function _new_liveTyperElement(user: {uuid: string, username: string}) {
     // @ts-ignore
     const node = liveTyperTemplate.content.cloneNode(true)
+    node.firstElementChild.id = liveTyperID(user.uuid)
 
     const username = node.querySelector(".live-typer-username")
     const content = node.querySelector(".live-typer-content")
 
     username.innerText = `@${user.username}`
-    content.id = liveTyperID(user.uuid)
 
     return node
 }
@@ -168,7 +168,7 @@ websocket.onmessage = (e) => {
         if (!body.user.username) { console.error('Malformed data: WebSocket message user has no username'); return }
         alert(`@${body.user.username} left the room!`)
         // @ts-ignore
-        liveTypersList.querySelector(`#${liveTyperID(user.uuid)}`).remove()
+        liveTypersList.querySelector(`#${liveTyperID(body.user.uuid)}`).remove()
     })
     handleWebSocketMessage('room_message', message, (body) => {
         if (!body.sender) { console.error('Malformed data: WebSocket message has no sender'); return }
