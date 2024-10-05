@@ -3,5 +3,6 @@
 		"public/*",
 		"LICENSE.txt",
 		"README.md"
-	]
+	],
+	"delay": 5000
 }
