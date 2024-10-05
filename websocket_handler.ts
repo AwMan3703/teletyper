@@ -5,7 +5,7 @@ import {liveRooms} from "./data";
 
 /*
 * SEND MESSAGES VIA WEBSOCKET - Parameters that are always required (see websocket_server.ts)
-* - private_uuid: the user's private uuid
+* - token: the user's session token
 */
 
 

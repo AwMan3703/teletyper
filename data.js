@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userTokens = exports.liveUsers = exports.liveRooms = void 0;
+exports.liveUsers = exports.liveRooms = void 0;
 const classes_1 = require("./classes");
 // Keep track of currently open rooms
 exports.liveRooms = [
@@ -16,5 +16,3 @@ exports.liveRooms = [
 ];
 // Keep track of connected users
 exports.liveUsers = [];
-// Keys that users can use to send messages
-exports.userTokens = new Map();

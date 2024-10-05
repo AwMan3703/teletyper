@@ -16,6 +16,3 @@ export const liveRooms: Room[] = [
 
 // Keep track of connected users
 export const liveUsers: User[] = []
-
-// Keys that users can use to send messages
-export const userTokens = new Map<User, string>();

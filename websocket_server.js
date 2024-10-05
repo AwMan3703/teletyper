@@ -24,9 +24,9 @@ function open_websocket_server(websocket_port, handler) {
                 const data = JSON.parse(message.toString());
                 // If not already done, map this websocket to its user:
                 // Check that the user exists, if not error
-                const sender = data_1.liveUsers.find(user => data_1.userTokens.get(user) === data.token);
+                const sender = data_1.liveUsers.find(user => user.sessionToken === data.token);
                 if (!sender) {
-                    console.error(`User for websocket key "${data.token}" does not exist!`);
+                    console.warn(`User with session token "${data.token}" does not exist! Was the server rebooted?`);
                     return;
                 }
                 // Check that the user has no associated websocket, if so, bind it to this one

@@ -7,7 +7,14 @@ class User {
     constructor(username) {
         this.username = username;
         this.websocket = undefined;
-        this.uuid = (0, utility_1.getUUID)();
+        this.uuid = (0, utility_1.getID)(20);
+        this.sessionToken = (0, utility_1.getUUID)();
+    }
+    toJSON() {
+        return {
+            username: this.username,
+            uuid: this.uuid,
+        };
     }
 }
 exports.User = User;
@@ -25,6 +32,16 @@ class Room {
         this.creation = new Date();
         this.userText = new Map();
     }
+    toJSON() {
+        return {
+            name: this.name,
+            id: this.id,
+            owner: this.owner,
+            participants: this.get_participants,
+            max_participants: this.max_participants,
+            creation: this.creation,
+            invite_only: this.invite_only
+        };
     }
     broadcast(message) {
         // For each participant
@@ -37,6 +54,7 @@ class Room {
         });
     }
     user_join(user) {
+        // Add the user
         this.participants.push(user);
         this.participants = this.participants.filter(user => user);
         // Add user content
@@ -48,6 +66,7 @@ class Room {
         });
     }
     user_disconnect(user) {
+        // Remove the user
         this.participants.splice(this.participants.indexOf(user), 1);
         this.participants = this.participants.filter(user => user);
         // Remove user content
@@ -59,6 +78,7 @@ class Room {
         });
     }
     message(sender, message) {
+        // Copy the message
         const copy = Object.assign({}, message);
         copy.body.sender = sender; // Add sender parameter
         // Set the user text

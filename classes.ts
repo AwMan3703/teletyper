@@ -6,12 +6,22 @@ export class User {
     public readonly username: string;
     public readonly uuid: string;
     public websocket: WebSocket | undefined;
+    // DO NOT LEAK THIS
+    public readonly sessionToken: string; // Used to validate WebSocket messages
 
     constructor(username: string) {
         this.username = username;
         this.websocket = undefined;
 
-        this.uuid = getUUID();
+        this.uuid = getID(20);
+        this.sessionToken = getUUID();
+    }
+
+    toJSON() {
+        return {
+            username: this.username,
+            uuid: this.uuid,
+        }
     }
 }
 
@@ -23,7 +33,7 @@ export class Room {
     public readonly id: string;
     public readonly owner: User;
     private participants: User[];
-    public get get_participants() { return [...this.participants]; }
+    public get get_participants(): User[] { return [...this.participants]; }
     public readonly max_participants: number;
     public readonly creation: Date;
     public readonly invite_only: boolean;
@@ -45,6 +55,18 @@ export class Room {
         this.userText = new Map<User, string>()
     }
 
+    toJSON() {
+        return {
+            name: this.name,
+            id: this.id,
+            owner: this.owner,
+            participants: this.get_participants,
+            max_participants: this.max_participants,
+            creation: this.creation,
+            invite_only: this.invite_only
+        }
+    }
+
     private broadcast(message: any) {
         // For each participant
         this.participants.forEach(participant => {
@@ -55,6 +77,7 @@ export class Room {
     }
 
     public user_join(user: User) {
+        // Add the user
         this.participants.push(user);
         this.participants = this.participants.filter(user => user)
 
@@ -69,6 +92,7 @@ export class Room {
     }
 
     public user_disconnect(user: User) {
+        // Remove the user
         this.participants.splice(this.participants.indexOf(user), 1);
         this.participants = this.participants.filter(user => user)
 
@@ -83,6 +107,7 @@ export class Room {
     }
 
     public message(sender: User, message: WebSocketMessage) {
+        // Copy the message
         const copy = {...message}
         copy.body.sender = sender // Add sender parameter
 

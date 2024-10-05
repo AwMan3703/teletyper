@@ -4,7 +4,7 @@ exports.handle_room_message = handle_room_message;
 const data_1 = require("./data");
 /*
 * SEND MESSAGES VIA WEBSOCKET - Parameters that are always required (see websocket_server.ts)
-* - private_uuid: the user's private uuid
+* - token: the user's session token
 */
 function handle_room_message(message, sender, client_socket) {
     // Check that a target room (one in which the user is participating) exists

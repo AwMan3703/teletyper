@@ -1,34 +1,41 @@
 import * as crypto from "crypto";
 import {User} from "./classes";
-import {liveRooms, liveUsers, userTokens} from "./data";
+import {liveRooms, liveUsers} from "./data";
 
 
 export function getUUID() {
     return crypto.randomUUID()
 }
 
+const IDs: string[] = []
 export function getID(length: number) {
-    let result = [];
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result: string | string[] = [];
+    const characters = '' +
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+        'abcdefghijklmnopqrstuvwxyz' +
+        '0123456789';
     const charactersLength= characters.length;
     for (let i = 0; i < length; i++) {
         result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
     }
-    return result.join('');
+    result = result.join('');
+
+    // If the ID was already generated, get a new one
+    if (IDs.includes(result)) { return getID(length) }
+    // If the ID is unique, return it
+    else { return result }
 }
 
 export function isUsernameAvailable(username: string) {
     return !liveUsers.find(user => user.username === username);
 }
 
-export function createUser(username: string): [User, string] {
+export function createUser(username: string): User {
     const user = new User(username)
-    const token = getUUID()
 
     liveUsers.push(user)
-    userTokens.set(user, token)
 
-    return [user, token]
+    return user
 }
 
 export function deleteUser(user: User): void {

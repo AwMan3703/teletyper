@@ -34,24 +34,34 @@ const data_1 = require("./data");
 function getUUID() {
     return crypto.randomUUID();
 }
+const IDs = [];
 function getID(length) {
     let result = [];
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters = '' +
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+        'abcdefghijklmnopqrstuvwxyz' +
+        '0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
         result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
     }
-    return result.join('');
+    result = result.join('');
+    // If the ID was already generated, get a new one
+    if (IDs.includes(result)) {
+        return getID(length);
+    }
+    // If the ID is unique, return it
+    else {
+        return result;
+    }
 }
 function isUsernameAvailable(username) {
     return !data_1.liveUsers.find(user => user.username === username);
 }
 function createUser(username) {
     const user = new classes_1.User(username);
-    const token = getUUID();
     data_1.liveUsers.push(user);
-    data_1.userTokens.set(user, token);
-    return [user, token];
+    return user;
 }
 function deleteUser(user) {
     const room = data_1.liveRooms.find(room => room.get_participants.includes(user));

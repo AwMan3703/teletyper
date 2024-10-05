@@ -1,6 +1,6 @@
 import WebSocket from "ws";
 import {User, WebSocketMessage} from "./classes";
-import {liveUsers, userTokens} from "./data";
+import {liveUsers} from "./data";
 import {deleteUser} from "./utility";
 
 
@@ -27,8 +27,8 @@ export default function open_websocket_server(websocket_port: number, handler: (
 
                 // If not already done, map this websocket to its user:
                 // Check that the user exists, if not error
-                const sender = liveUsers.find(user => userTokens.get(user) === data.token)
-                if (!sender) { console.error(`User for websocket key "${data.token}" does not exist!`); return }
+                const sender = liveUsers.find(user => user.sessionToken === data.token)
+                if (!sender) { console.warn(`User with session token "${data.token}" does not exist! Was the server rebooted?`); return }
                 // Check that the user has no associated websocket, if so, bind it to this one
                 else if (!sender.websocket) {
                     console.log(`Registering websocket for user @${sender.username}`)
