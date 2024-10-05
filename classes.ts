@@ -29,6 +29,9 @@ export class Room {
     public readonly invite_only: boolean;
     public readonly password: string;
 
+    // Store users' live-typer contents
+    public readonly userText: Map<User, string>;
+
     constructor(name: string, owner: User, max_participants: number = 5, invite_only: boolean = false, password: string = "") {
         this.name = name;
         this.owner = owner;
@@ -39,23 +42,26 @@ export class Room {
         this.id = getID(8);
         this.participants = [owner];
         this.creation = new Date();
+        this.userText = new Map<User, string>()
     }
 
-    private broadcast(message: {type: string, body: any}) {
-        this.participants.forEach(user => {
-            if (!user) { return }
-            if (!user.websocket) { return }
-            user.websocket.send(JSON.stringify({
-                private_uuid: `server-room-${this.id}`,
-                type: message.type,
-                body: message.body
-            }))
+    private broadcast(message: any) {
+        // For each participant
+        this.participants.forEach(participant => {
+            if (!participant.websocket) { return }
+            // Send the message
+            participant.websocket.send(JSON.stringify(message))
         })
     }
 
     public user_join(user: User) {
         this.participants.push(user);
         this.participants = this.participants.filter(user => user)
+
+        // Add user content
+        this.userText.set(user, '')
+
+        // Broadcast join event
         this.broadcast({
             type: "room-event_user-join",
             body: {user: user}
@@ -65,6 +71,11 @@ export class Room {
     public user_disconnect(user: User) {
         this.participants.splice(this.participants.indexOf(user), 1);
         this.participants = this.participants.filter(user => user)
+
+        // Remove user content
+        this.userText.delete(user)
+
+        // Broadcast disconnect event
         this.broadcast({
             type: "room-event_user-leave",
             body: {user: user}
@@ -74,7 +85,12 @@ export class Room {
     public message(sender: User, message: WebSocketMessage) {
         const copy = {...message}
         copy.body.sender = sender // Add sender parameter
-        this.broadcast(copy)
+
+        // Set the user text
+        this.userText.set(sender, message.body.text)
+
+        // Broadcast the message
+        this.broadcast(message)
     }
 }
 

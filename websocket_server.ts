@@ -20,7 +20,7 @@ export default function open_websocket_server(websocket_port: number, handler: (
         })
 
         // Handle message data
-        client_socket.on('message', (message: WebSocketMessage) => {
+        client_socket.on('message', (message: any) => {
             try {
                 // Parse into JSON
                 const data: WebSocketMessage = JSON.parse(message.toString())

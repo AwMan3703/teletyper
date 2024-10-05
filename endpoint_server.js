@@ -8,7 +8,7 @@ const express_1 = __importDefault(require("express"));
 const data_1 = require("./data");
 const utility_1 = require("./utility");
 function open_endpoints(app) {
-    app.use(express_1.default.urlencoded());
+    app.use(express_1.default.urlencoded({ extended: false }));
     // Live chat rooms list
     // returns a list of currently open and public rooms
     /* No parameters */
@@ -60,10 +60,10 @@ function open_endpoints(app) {
             res.status(401).send({ error: 'Room is invite-only, no password was provided or the password was wrong' });
             return;
         }
-        const [new_user, new_user_token] = (0, utility_1.createUser)(req.body.username);
+        const new_user = (0, utility_1.createUser)(req.body.username);
         room.user_join(new_user);
         // 202 Accepted
-        res.status(202).send({ session_token: new_user_token });
+        res.status(202).send({ session_token: new_user.sessionToken });
         // Delete the user if it is not bound to a websocket within X seconds
         const confirmationTimeout = 10;
         setTimeout(() => {
