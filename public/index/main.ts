@@ -19,7 +19,7 @@ function _new_liveChatElement(room: any) {
     creation_date.innerText = new Date(room.creation).toLocaleTimeString()
 
     join_button.onclick = function () {
-        // TODO: redirect to join-chatroom.html instead, passing the room id as a parameter
+        // TODO: redirect to join.html instead, passing the room id as a parameter
         const params = new URLSearchParams();
         params.set('room-id', room.id);
         window.location.href = `chat.html?${params.toString()}`
