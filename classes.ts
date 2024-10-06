@@ -49,7 +49,7 @@ export class Room {
         this.invite_only = invite_only;
         this.password = password;
 
-        this.id = getID(8);
+        this.id = getID(6);
         this.participants = [owner];
         this.creation = new Date();
         this.userText = new Map<User, string>()

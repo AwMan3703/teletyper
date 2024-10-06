@@ -27,7 +27,7 @@ class Room {
         this.max_participants = max_participants;
         this.invite_only = invite_only;
         this.password = password;
-        this.id = (0, utility_1.getID)(8);
+        this.id = (0, utility_1.getID)(6);
         this.participants = [owner];
         this.creation = new Date();
         this.userText = new Map();
