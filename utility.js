@@ -35,7 +35,11 @@ function getUUID() {
     return crypto.randomUUID();
 }
 const IDs = [];
-function getID(length) {
+function getID(length, iteration = 0) {
+    const max_iterations = 500;
+    if (iteration > max_iterations) {
+        throw new Error(`Could not generate a unique ID in ${max_iterations} iterations`);
+    }
     let result = [];
     const characters = '' +
         'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
@@ -48,7 +52,7 @@ function getID(length) {
     result = result.join('');
     // If the ID was already generated, get a new one
     if (IDs.includes(result)) {
-        return getID(length);
+        return getID(length, iteration + 1);
     }
     // If the ID is unique, return it
     else {

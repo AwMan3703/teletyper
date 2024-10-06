@@ -8,7 +8,10 @@ export function getUUID() {
 }
 
 const IDs: string[] = []
-export function getID(length: number) {
+export function getID(length: number, iteration: number = 0) {
+    const max_iterations = 500
+    if (iteration > max_iterations) { throw new Error(`Could not generate a unique ID in ${max_iterations} iterations`) }
+
     let result: string | string[] = [];
     const characters = '' +
         'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
@@ -21,7 +24,7 @@ export function getID(length: number) {
     result = result.join('');
 
     // If the ID was already generated, get a new one
-    if (IDs.includes(result)) { return getID(length) }
+    if (IDs.includes(result)) { return getID(length, iteration + 1) }
     // If the ID is unique, return it
     else { return result }
 }
