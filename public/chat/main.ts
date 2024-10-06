@@ -7,10 +7,10 @@ const WEBSOCKET_PORT = 8080
 const debounceTimeout = 500 // Timeout for live typing updates (in ms)
 let lastDebounceTimestamp = Date.now()
 
-const URLparameters = new URLSearchParams(window.location.search);
+const URLParameters = new URLSearchParams(window.location.search);
 
-const roomID = URLparameters.get('room-id')
-const roomPassword = URLparameters.get('room-password')
+const roomID = URLParameters.get('room-id')
+const roomPassword = URLParameters.get('room-password')
 
 const chatroomTitle = document.getElementById('chat-title')
 const chatroomOwner = document.getElementById('chat-owner')
