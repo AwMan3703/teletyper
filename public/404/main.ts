@@ -2,6 +2,7 @@
 const originalUrlElement = document.getElementById('original-url')
 const suggestedUrlElement = document.getElementById('suggested-url-link')
 
+// @ts-ignore
 const URLParameters = new URLSearchParams(window.location.search)
 
 const notFoundUrl = URLParameters.get('url')

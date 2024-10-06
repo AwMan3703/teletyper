@@ -7,6 +7,7 @@ const WEBSOCKET_PORT = 8080
 const debounceTimeout = 500 // Timeout for live typing updates (in ms)
 let lastDebounceTimestamp = Date.now()
 
+// @ts-ignore
 const URLParameters = new URLSearchParams(window.location.search);
 
 const roomID = URLParameters.get('room-id')
