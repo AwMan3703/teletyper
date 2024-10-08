@@ -94,7 +94,7 @@ function returnToJoinForm(message) {
     alert(message);
     const params = new URLSearchParams();
     if (roomID)
-        params.set('room_id', roomID);
+        params.set('room-id', roomID);
     window.location.href = `join.html?${params.toString()}`;
     throw new Error(message);
 }
