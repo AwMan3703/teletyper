@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 let IS_PASSWORD_REQUIRED = false;
 let IS_USERNAME_AVAILABLE = true;
-const TAKEN_USERNAMES = [];
 // @ts-ignore
 const URLParameters = new URLSearchParams(window.location.search);
 const url_roomID = URLParameters.get('room-id');

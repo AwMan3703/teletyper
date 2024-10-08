@@ -4,7 +4,6 @@
 let IS_PASSWORD_REQUIRED = false
 let IS_USERNAME_AVAILABLE = true
 
-const TAKEN_USERNAMES: string[] = []
 
 // @ts-ignore
 const URLParameters = new URLSearchParams(window.location.search)
