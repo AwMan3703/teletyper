@@ -27,15 +27,15 @@
 	font-family: "Degular Demo", "Gontserrat", sans-serif;
 }
 
-input {
+input, textarea {
 	padding: @gap-micro;
 	border: solid 2px transparent;
 	border-radius: @gap-min;
 	background-color: rgba(0,0,0, 0.1);
 }
-input::placeholder { color: rgba(0,0,0, 0.25); }
-input.valid { border-color: limegreen; }
-input.invalid { border-color: red; }
+input::placeholder, textarea::placeholder { color: rgba(0,0,0, 0.25); }
+input.valid, textarea.valid { border-color: limegreen; }
+input.invalid, textarea.invalid { border-color: red; }
 
 button {
 	&:extend(.material-shadow);

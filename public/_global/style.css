@@ -24,19 +24,23 @@
 * {
   font-family: "Degular Demo", "Gontserrat", sans-serif;
 }
-input {
+input,
+textarea {
   padding: 5px;
   border: solid 2px transparent;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.1);
 }
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: rgba(0, 0, 0, 0.25);
 }
-input.valid {
+input.valid,
+textarea.valid {
   border-color: limegreen;
 }
-input.invalid {
+input.invalid,
+textarea.invalid {
   border-color: red;
 }
 button {
