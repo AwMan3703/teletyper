@@ -67,7 +67,7 @@ function username_validator(value) {
             return false;
         }
         // GET the endpoint
-        const response = yield fetch(`/check-username/${value}`);
+        const response = yield fetch(`/check/username/${value}`);
         // Return true if the status is in the 200 range
         return 199 < response.status && response.status < 300;
     });

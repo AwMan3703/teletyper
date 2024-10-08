@@ -11,7 +11,7 @@ export default function open_endpoints(app: express.Express) {
     /* Parameters:
     * - username (in the URL): the username to check
     */
-    app.get("/check-username/:username", (req: express.Request, res: express.Response) => {
+    app.get("/check/username/:username", (req: express.Request, res: express.Response) => {
         if (!req.params.username) { // 400 Bad request
             res.status(400).send({error: 'Malformed request'});
             return

@@ -14,7 +14,7 @@ function open_endpoints(app) {
     /* Parameters:
     * - username (in the URL): the username to check
     */
-    app.get("/check-username/:username", (req, res) => {
+    app.get("/check/username/:username", (req, res) => {
         if (!req.params.username) { // 400 Bad request
             res.status(400).send({ error: 'Malformed request' });
             return;

@@ -56,7 +56,7 @@ async function username_validator(value: string) {
     if (value.length < 1 || value.length > 20) { return false }
 
     // GET the endpoint
-    const response = await fetch(`/check-username/${value}`)
+    const response = await fetch(`/check/username/${value}`)
 
     // Return true if the status is in the 200 range
     return 199 < response.status && response.status < 300
