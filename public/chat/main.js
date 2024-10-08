@@ -90,16 +90,27 @@ function updateLiveTypers(room) {
         liveTypersList.appendChild(_new_liveTyperElement(participant));
     });
 }
-// SCRIPT
-// If no session token is found, bounce back to join form
-if (!SESSION_TOKEN || SESSION_TOKEN === '') {
-    alert('NO SESSION TOKEN');
+function returnToJoinForm(message) {
+    alert(message);
     const params = new URLSearchParams();
     if (roomID)
         params.set('room_id', roomID);
     window.location.href = `join.html?${params.toString()}`;
-    throw new Error('NO SESSION TOKEN FOUND');
+    throw new Error(message);
 }
+// SCRIPT
+// If no session token is found, bounce back to join form
+if (!SESSION_TOKEN || SESSION_TOKEN === '')
+    returnToJoinForm('NO SESSION TOKEN FOUND');
+// If a session token is found, GET /check/session-token/:sessiontoken to verify that is still valid
+// Otherwise bounce back to join form
+fetch(`/check/session-token/${SESSION_TOKEN}`)
+    .then(response => {
+    if (response.ok) {
+        return;
+    }
+    returnToJoinForm('SESSION TOKEN IS NOT VALID');
+});
 // --- WebSockets --- //
 // Open a websocket for communication
 const websocketAddress = `ws://${window.location.hostname}:${WEBSOCKET_PORT}`;

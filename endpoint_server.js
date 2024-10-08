@@ -29,6 +29,22 @@ function open_endpoints(app) {
         }
         res.status(200).send();
     });
+    // Session token validation
+    // checks whether a session token is registered and can be used to send WebSocket messages
+    /* Parameters:
+    * - sessiontoken (in the URL): the session token to check
+    */
+    app.get("/check/session-token/:sessiontoken", (req, res) => {
+        if (!req.params.sessiontoken) { // 400 Bad request
+            res.status(400).send({ error: 'Malformed request' });
+            return;
+        }
+        if (!data_1.liveUsers.find(user => user.sessionToken === req.params.sessiontoken)) { // 404 Not found — perhaps 410 Gone?
+            res.status(404).send({ error: 'Session token is not valid' });
+            return;
+        }
+        res.status(200).send();
+    });
     // Live chat rooms list
     // returns a list of currently open and public rooms
     /* No parameters */
