@@ -1,5 +1,5 @@
 import express from 'express';
-import {liveRooms} from './data';
+import {liveRooms, liveUsers} from './data';
 import {createUser, deleteUser, isUsernameAvailable, isUsernameValid} from "./utility";
 
 
@@ -22,6 +22,24 @@ export default function open_endpoints(app: express.Express) {
         }
         if (!isUsernameAvailable(req.params.username)) { // 409 Conflict
             res.status(409).send({error: 'Username is currently taken'});
+            return
+        }
+
+        res.status(200).send()
+    })
+
+    // Session token validation
+    // checks whether a session token is registered and can be used to send WebSocket messages
+    /* Parameters:
+    * - sessiontoken (in the URL): the session token to check
+    */
+    app.get("/check/session-token/:sessiontoken", (req: express.Request, res: express.Response) => {
+        if (!req.params.sessiontoken) { // 400 Bad request
+            res.status(400).send({error: 'Malformed request'});
+            return
+        }
+        if (!liveUsers.find(user => user.sessionToken === req.params.sessiontoken)) { // 404 Not found — perhaps 410 Gone?
+            res.status(404).send({error: 'Session token is not valid'});
             return
         }
 

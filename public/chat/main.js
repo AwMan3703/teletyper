@@ -100,6 +100,9 @@ if (!SESSION_TOKEN || SESSION_TOKEN === '') {
     window.location.href = `join.html?${params.toString()}`;
     throw new Error('NO SESSION TOKEN FOUND');
 }
+// TODO: implement the following
+//  If a session token is found, GET /check/session-token/:sessiontoken to verify that is still valid
+//  Otherwise bounce back to join form
 // --- WebSockets --- //
 // Open a websocket for communication
 const websocketAddress = `ws://${window.location.hostname}:${WEBSOCKET_PORT}`;

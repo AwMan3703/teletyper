@@ -108,6 +108,10 @@ if (!SESSION_TOKEN || SESSION_TOKEN === '') {
     throw new Error('NO SESSION TOKEN FOUND')
 }
 
+// TODO: implement the following
+//  If a session token is found, GET /check/session-token/:sessiontoken to verify that is still valid
+//  Otherwise bounce back to join form
+
 // --- WebSockets --- //
 
 // Open a websocket for communication
