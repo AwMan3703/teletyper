@@ -1,6 +1,6 @@
 import express from 'express';
 import {liveRooms} from './data';
-import {createUser, deleteUser, isUsernameAvailable} from "./utility";
+import {createUser, deleteUser, isUsernameAvailable, isUsernameValid} from "./utility";
 
 
 export default function open_endpoints(app: express.Express) {
@@ -23,6 +23,10 @@ export default function open_endpoints(app: express.Express) {
     * - password (in the body - only if room is private): the room's password
     */
     app.get("/rooms/data/:roomid", (req: express.Request, res: express.Response) => {
+        if (!req.params.roomid) { // 400 Bad request
+            res.status(400).send({error: 'Malformed request'});
+            return
+        }
         const room = liveRooms.find(room => room.id === req.params.roomid)
         if (!room) { // 404 Not Found
             res.status(404).send({error: 'Chatroom does not exist'});
@@ -45,13 +49,18 @@ export default function open_endpoints(app: express.Express) {
     * - username (in the body): the username to connect under
     */
     app.post("/rooms/join/:roomid", (req: express.Request, res: express.Response) => {
+        if (!req.params.roomid || !req.body.username) { // 400 Bad request
+            res.status(400).send({error: 'Malformed request'});
+            return
+        }
         const room = liveRooms.find(room => room.id === req.params.roomid)
         if (!room) { // 404 Not Found
             res.status(404).send({error: 'Chatroom does not exist'});
             return
         }
-        if (!req.body.username) { // 400 Bad request
-            res.status(400).send({error: 'Username is required'});
+        if (!isUsernameValid(req.body.username)) { // 406 Not acceptable
+            res.status(406).send({error: `Username "${req.body.username}" is not valid`})
+            return
         }
         if (!isUsernameAvailable(req.body.username)) { // 409 Conflict
             res.status(409).send({error: 'Username is currently taken'});
