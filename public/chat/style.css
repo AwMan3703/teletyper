@@ -20,6 +20,10 @@
 * {
   font-family: "Gontserrat", sans-serif;
 }
+input {
+  border: none;
+  background-color: rgba(0, 0, 0, 0.1);
+}
 .logo-font {
   font-family: "ND Logos", "Arial Black", arial, sans-serif;
   font-style: italic;

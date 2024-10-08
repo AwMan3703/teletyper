@@ -1,0 +1,7 @@
+input.valid {
+  border: solid 2px limegreen;
+}
+input.invalid {
+  border: solid 2px red;
+}
+/*# sourceMappingURL=style.css.map */
