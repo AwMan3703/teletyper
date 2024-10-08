@@ -13,13 +13,24 @@
 </head>
 <body>
 	<label for="room-ID">Room code:</label>
-	<input type="text" name="room-ID" id="room-ID" placeholder="required">
+	<input
+		type="text" name="room-ID" id="room-ID" class="invalid"
+		placeholder="required" minlength="6" maxlength="6">
+
 	<label for="room-password">Room password:</label>
-	<input type="text" name="room-password" id="room-password" placeholder="optional">
+	<input
+		type="text" name="room-password" id="room-password"
+		placeholder="optional">
+
+	<label for="username">Username:</label>
+	<input
+		type="text" name="username" id="username"
+		placeholder="required">
 
 	<button id="join-button">Join</button>
 
 
+	<script src="_global/utility.js"></script>
 	<script src="join/main.js"></script>
 </body>
 </html>
