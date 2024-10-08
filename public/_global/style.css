@@ -58,13 +58,17 @@ button {
   display: flex;
   flex-direction: row;
 }
+.standard-shadow {
+  box-shadow: rgba(127, 127, 127, 0.5) 0 0 10px 0;
+}
 .material-block {
   background-color: rgba(127, 127, 127, 0.1);
   border-radius: 10px;
   padding: 10px;
   background-image: linear-gradient(0deg, rgba(127, 127, 127, 0.3), transparent);
 }
-.material-shadow {
+.material-shadow,
+button {
   box-shadow: -4px -4px 20px 0 rgba(255, 255, 255, 0.3), 4px 4px 20px 0 rgba(0, 0, 0, 0.3);
 }
 .material-shadow-inset {
