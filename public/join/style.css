@@ -1,0 +1,92 @@
+/* STANDARD FONTS */
+@font-face {
+  font-family: "Degular Demo";
+  src: url("../_resources/font/DegularDemo-Regular.otf") format("opentype"), url("../_resources/font/DegularDemo-Italic.otf") format("opentype"), url("../_resources/font/DegularDemo-Thin.otf") format("opentype"), url("../_resources/font/DegularDemo-ThinItalic.otf") format("opentype"), url("../_resources/font/DegularDemo-Light.otf") format("opentype"), url("../_resources/font/DegularDemo-LightItalic.otf") format("opentype"), url("../_resources/font/DegularDemo-Medium.otf") format("opentype"), url("../_resources/font/DegularDemo-MediumItalic.otf") format("opentype"), url("../_resources/font/DegularDemo-Semibold.otf") format("opentype"), url("../_resources/font/DegularDemo-SemiboldItalic.otf") format("opentype"), url("../_resources/font/DegularDemo-Bold.otf") format("opentype"), url("../_resources/font/DegularDemo-BoldItalic.otf") format("opentype"), url("../_resources/font/DegularDemo-Black.otf") format("opentype"), url("../_resources/font/DegularDemo-BlackItalic.otf") format("opentype");
+}
+@font-face {
+  font-family: "Gontserrat";
+  src: url("../_resources/font/Gontserrat-Regular.ttf") format("truetype"), url("../_resources/font/Gontserrat-Italic.ttf") format("truetype"), url("../_resources/font/Gontserrat-Light.ttf") format("truetype"), url("../_resources/font/Gontserrat-LightItalic.ttf") format("truetype"), url("../_resources/font/Gontserrat-Medium.ttf") format("truetype"), url("../_resources/font/Gontserrat-MediumItalic.ttf") format("truetype"), url("../_resources/font/Gontserrat-Bold.ttf") format("truetype"), url("../_resources/font/Gontserrat-BoldItalic.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Nexa";
+  src: url("../_resources/font/Nexa-ExtraLight.ttf") format("truetype"), url("../_resources/font/Nexa-Heavy.ttf") format("truetype");
+}
+@font-face {
+  font-family: "ND Logos";
+  src: url("../_resources/font/ND-LOGOS-REGULAR.ttf") format("truetype"), url("../_resources/font/ND-LOGOS-REGULAR-ITALIC.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Veloped";
+  src: url("../_resources/font/Veloped.ttf") format("truetype");
+}
+/* VARIABLES */
+/* GLOBAL STYLES */
+* {
+  font-family: "Degular Demo", "Gontserrat", sans-serif;
+}
+input {
+  padding: 5px;
+  border: solid 2px transparent;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+input::placeholder {
+  color: rgba(0, 0, 0, 0.25);
+}
+input.valid {
+  border-color: limegreen;
+}
+input.invalid {
+  border-color: red;
+}
+button {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  border: none;
+  border-radius: 10px;
+}
+.logo-font {
+  font-family: "ND Logos", "Arial Black", arial, sans-serif;
+  font-style: italic;
+}
+.flex-v,
+#join-form {
+  display: flex;
+  flex-direction: column;
+}
+.flex-h {
+  display: flex;
+  flex-direction: row;
+}
+.material-block {
+  background-color: rgba(127, 127, 127, 0.1);
+  border-radius: 10px;
+  padding: 10px;
+  background-image: linear-gradient(0deg, rgba(127, 127, 127, 0.3), transparent);
+}
+.material-shadow {
+  box-shadow: -4px -4px 20px 0 rgba(255, 255, 255, 0.3), 4px 4px 20px 0 rgba(0, 0, 0, 0.3);
+}
+.material-shadow-inset {
+  box-shadow: inset 0 -5px 20px 0 rgba(0, 0, 0, 0.2);
+}
+.secondary-text {
+  color: rgba(127, 127, 127, 0.7);
+}
+body {
+  background-color: rgba(127, 127, 127, 0.7);
+}
+#join-form {
+  width: calc(min(70vw, 70vh) - calc(2 * 10px));
+  min-width: max-content;
+  margin-block-start: 80px;
+  margin-inline: auto;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: whitesmoke;
+}
+#join-button {
+  margin-inline: auto;
+}
+/*# sourceMappingURL=style.css.map */

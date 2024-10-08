@@ -1,0 +1,23 @@
+@import "../_global/style";
+
+body {
+	background-color: @color-darker-70;
+}
+
+#join-form {
+	&:extend(.flex-v);
+
+	width: calc(min(70vw, 70vh) - calc(2 * @gap-min));
+	min-width: max-content;
+
+	margin-block-start: @gap-macro;
+	margin-inline: auto;
+	padding: @gap-min;
+
+	border-radius: @gap-medium;
+	background-color: whitesmoke;
+}
+
+#join-button {
+	margin-inline: auto;
+}
