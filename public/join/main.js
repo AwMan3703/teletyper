@@ -129,15 +129,27 @@ if (url_roomID && url_roomPassword && url_username) {
     joinChat(url_roomID, url_roomPassword, url_username);
 }
 else {
-    // @ts-ignore
-    room_id_input.value = url_roomID ? url_roomID : '';
-    // @ts-ignore
-    if (url_roomID)
-        room_id_input_validator(url_roomID).then(is_valid => { setValidityClass(room_id_input, is_valid); });
-    // @ts-ignore
-    room_password_input.value = url_roomPassword ? url_roomPassword : '';
-    // @ts-ignore
-    username_input.value = url_username ? url_username : '';
+    if (url_roomID) {
+        // @ts-ignore
+        room_id_input.value = url_roomID;
+        // @ts-ignore
+        if (url_roomID)
+            room_id_input_validator(url_roomID).then(is_valid => { setValidityClass(room_id_input, is_valid); });
+    }
+    if (url_roomPassword) {
+        // @ts-ignore
+        room_password_input.value = url_roomPassword ? url_roomPassword : '';
+        // @ts-ignore
+        if (url_roomPassword)
+            room_password_validator(url_roomPassword).then(is_valid => { setValidityClass(room_password_input, is_valid); });
+    }
+    if (url_username) {
+        // @ts-ignore
+        username_input.value = url_username ? url_username : '';
+        // @ts-ignore
+        if (url_username)
+            username_validator(url_username).then(is_valid => { setValidityClass(username_input, is_valid); });
+    }
 }
 // @ts-ignore
 validateInput(room_id_input, ['focusout'], room_id_input_validator);
