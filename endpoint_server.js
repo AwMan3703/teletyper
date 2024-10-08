@@ -9,6 +9,26 @@ const data_1 = require("./data");
 const utility_1 = require("./utility");
 function open_endpoints(app) {
     app.use(express_1.default.json());
+    // Username validation
+    // checks whether a username is valid and available
+    /* Parameters:
+    * - username (in the URL): the username to check
+    */
+    app.get("/check-username/:username", (req, res) => {
+        if (!req.params.username) { // 400 Bad request
+            res.status(400).send({ error: 'Malformed request' });
+            return;
+        }
+        if (!(0, utility_1.isUsernameValid)(req.params.username)) { // 406 Not acceptable
+            res.status(406).send({ error: `Username "${req.params.username}" is not valid` });
+            return;
+        }
+        if (!(0, utility_1.isUsernameAvailable)(req.params.username)) { // 409 Conflict
+            res.status(409).send({ error: 'Username is currently taken' });
+            return;
+        }
+        res.status(200).send();
+    });
     // Live chat rooms list
     // returns a list of currently open and public rooms
     /* No parameters */
