@@ -17,6 +17,8 @@ let lastDebounceTimestamp = Date.now();
 // @ts-ignore
 const URLParameters = new URLSearchParams(window.location.search);
 const roomID = URLParameters.get('room-id');
+const roomPassword = URLParameters.get('room-password');
+const username = URLParameters.get('username');
 const chatroomTitle = document.getElementById('chat-title');
 const chatroomOwner = document.getElementById('chat-owner');
 const chatroomParticipantsCounter = document.getElementById('chat-participant-counter');
@@ -37,15 +39,18 @@ function _new_liveTyperElement(user) {
     return node;
 }
 // @ts-ignore
-function fetchRoomData(room_id) {
+function fetchRoomData(room_id, room_password) {
     return __awaiter(this, void 0, void 0, function* () {
         if (room_id.length !== 6) {
             console.error(`Invalid Room ID "${room_id}"`);
             return;
         }
         try {
+            const params = new URLSearchParams();
+            if (room_password)
+                params.set('password', room_password);
             // Fetch and display room data
-            const response = yield fetch(`/rooms/data/${roomID}`);
+            const response = yield fetch(`/rooms/data/${roomID}?${params.toString()}`);
             // Check if the response is OK (status code in the range 200-299)
             if (response.status === 404) {
                 // @ts-ignore
@@ -93,6 +98,8 @@ function updateLiveTypers(room) {
 function returnToJoinForm(message) {
     alert(message);
     const params = new URLSearchParams();
+    if (roomID)
+        params.set('room-id', roomID);
     if (roomID)
         params.set('room-id', roomID);
     window.location.href = `join.html?${params.toString()}`;
@@ -146,7 +153,7 @@ const handleWebSocketMessage = (type, message, handler) => { if (type === messag
 websocket.onmessage = (e) => {
     const message = JSON.parse(e.data);
     if (message.type.includes('room-event')) {
-        fetchRoomData(roomID || '').then(roomData => updateRoomData(roomData));
+        fetchRoomData(roomID || '', roomPassword).then(roomData => updateRoomData(roomData));
     }
     // User has joined the room
     handleWebSocketMessage('room-event_user-join', message, (body) => {
@@ -202,7 +209,7 @@ websocket.onmessage = (e) => {
         getLiveTyperOutput(body.sender.uuid).innerText = body.text;
     });
 };
-fetchRoomData(roomID || '')
+fetchRoomData(roomID || '', roomPassword)
     .then(roomData => {
     updateRoomData(roomData);
     updateLiveTypers(roomData);

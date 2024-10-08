@@ -60,7 +60,7 @@ export default function open_endpoints(app: express.Express) {
     // returns data about a selected chatroom
     /* Parameters:
     * - roomid (in the URL): the id of the room to get data about
-    * - password (in the body - only if room is private): the room's password
+    * - password (in the query - only if room is private): the room's password
     */
     app.get("/rooms/data/:roomid", (req: express.Request, res: express.Response) => {
         if (!req.params.roomid) { // 400 Bad request
@@ -72,7 +72,7 @@ export default function open_endpoints(app: express.Express) {
             res.status(404).send({error: 'Chatroom does not exist'});
             return
         }
-        if (room.invite_only && req.body.password !== room.password) { // 401 Access denied
+        if (room.invite_only && req.query.password !== room.password) { // 401 Access denied
             res.status(401).send({error: 'Room is invite-only, no password was provided or the password was wrong'});
             return
         }
@@ -85,11 +85,11 @@ export default function open_endpoints(app: express.Express) {
     // allows the client to join a room
     /* Parameters:
     * - roomid (in the URL): the id of the room to join
-    * - password (in the body - only if the room is private): the room's password
-    * - username (in the body): the username to connect under
+    * - password (in the query - only if the room is private): the room's password
+    * - username (in the query): the username to connect under
     */
-    app.post("/rooms/join/:roomid", (req: express.Request, res: express.Response) => {
-        if (!req.params.roomid || !req.body.username) { // 400 Bad request
+    app.get("/rooms/join/:roomid", (req: express.Request, res: express.Response) => {
+        if (!req.params.roomid || !req.query.username) { // 400 Bad request
             res.status(400).send({error: 'Malformed request'});
             return
         }
@@ -98,24 +98,25 @@ export default function open_endpoints(app: express.Express) {
             res.status(404).send({error: 'Chatroom does not exist'});
             return
         }
-        if (!isUsernameValid(req.body.username)) { // 406 Not acceptable
-            res.status(406).send({error: `Username "${req.body.username}" is not valid`})
+        if (!isUsernameValid(req.query.username.toString())) { // 406 Not acceptable
+            res.status(406).send({error: `Username "${req.query.username}" is not valid`})
             return
         }
-        if (!isUsernameAvailable(req.body.username)) { // 409 Conflict
+        if (!isUsernameAvailable(req.query.username.toString())) { // 409 Conflict
             res.status(409).send({error: 'Username is currently taken'});
             return
         }
-        if (room.invite_only && req.body.password !== room.password) { // 401 Access denied
+        if (room.invite_only && req.query.password !== room.password) { // 401 Access denied
             res.status(401).send({error: 'Room is invite-only, no password was provided or the password was wrong'});
             return
         }
 
-        const new_user = createUser(req.body.username);
+        const new_user = createUser(req.query.username.toString());
         room.user_join(new_user)
 
         // 202 Accepted
         res.status(202).send({session_token: new_user.sessionToken});
+        console.log('done')
 
         // Delete the user if it is not bound to a websocket within X seconds
         const confirmationTimeout = 10

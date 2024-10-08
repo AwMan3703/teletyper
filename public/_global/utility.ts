@@ -12,10 +12,13 @@ function validateInput(input: HTMLInputElement, events: string[], validator: (va
 }
 
 // @ts-ignore
-async function fetchRoomData(room_id: string, password: string | null) {
+async function fetchRoomData(room_id: string, room_password: string | null) {
     if (room_id.length !== 6) { throw new Error('Room ID is invalid') }
 
-    const response = await fetch(`rooms/data/${room_id}${password ? `?password=${password}` : ''}`)
+    const params = new URLSearchParams()
+    if (room_password) params.set('password', room_password)
+
+    const response = await fetch(`rooms/data/${room_id}?${params.toString()}`)
     if (!response) { throw new Error(`No response`)}
     if (!response.ok) { console.error(`HTTP error! status: ${response.status}`) }
 

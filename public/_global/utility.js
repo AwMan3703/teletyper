@@ -25,12 +25,15 @@ function validateInput(input, events, validator) {
     });
 }
 // @ts-ignore
-function fetchRoomData(room_id, password) {
+function fetchRoomData(room_id, room_password) {
     return __awaiter(this, void 0, void 0, function* () {
         if (room_id.length !== 6) {
             throw new Error('Room ID is invalid');
         }
-        const response = yield fetch(`rooms/data/${room_id}${password ? `?password=${password}` : ''}`);
+        const params = new URLSearchParams();
+        if (room_password)
+            params.set('password', room_password);
+        const response = yield fetch(`rooms/data/${room_id}?${params.toString()}`);
         if (!response) {
             throw new Error(`No response`);
         }
