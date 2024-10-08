@@ -4,7 +4,7 @@ import {createUser, deleteUser, isUsernameAvailable} from "./utility";
 
 
 export default function open_endpoints(app: express.Express) {
-    app.use(express.urlencoded({ extended: false }));
+    app.use(express.json());
 
     // Live chat rooms list
     // returns a list of currently open and public rooms
@@ -19,7 +19,7 @@ export default function open_endpoints(app: express.Express) {
     // Chat room data (:roomid is the room id passed by the client, just found out you can do that and i love it)
     // returns data about a selected chatroom
     /* Parameters:
-    * - roomid (in the url): the id of the room to get data about
+    * - roomid (in the URL): the id of the room to get data about
     * - password (in the body - only if room is private): the room's password
     */
     app.get("/rooms/data/:roomid", (req: express.Request, res: express.Response) => {
@@ -40,7 +40,7 @@ export default function open_endpoints(app: express.Express) {
     // Chat room connection
     // allows the client to join a room
     /* Parameters:
-    * - roomid (in the url): the id of the room to join
+    * - roomid (in the URL): the id of the room to join
     * - password (in the body - only if the room is private): the room's password
     * - username (in the body): the username to connect under
     */
