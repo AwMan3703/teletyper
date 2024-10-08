@@ -104,7 +104,6 @@ function returnToJoinForm(message: string) {
 }
 
 
-
 // SCRIPT
 
 // If no session token is found, bounce back to join form
