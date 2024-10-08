@@ -124,47 +124,6 @@ function joinChat(room_id, room_password, username) {
         window.location.href = `chat.html?${params.toString()}`;
     });
     // ######################### //
-    /* REQUEST USER REGISTRATION //
-    const xhr = new XMLHttpRequest()
-    xhr.open('POST', `/rooms/join/${room_id}`)
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-
-    xhr.onreadystatechange = function () {
-        if (this.readyState !== XMLHttpRequest.DONE) { return }
-        if ([200, 202].includes(this.status)) { // May return 200 or 202
-
-            // Parse the response
-            const data = JSON.parse(this.responseText)
-            // Get the session token
-            const token = data.session_token
-            console.log(`Obtained session token (${token})`)
-
-            // Save the session token
-            localStorage.setItem('session-token', token)
-            // Create url parameters
-            const params = new URLSearchParams()
-            params.set('room-id', room_id)
-            // Redirect to chat page
-            window.location.href = `chat.html?${params.toString()}`
-
-        } else if (this.status === 404) { // The room code is wrong
-            // @ts-ignore
-            setValidityClass(room_password_input)
-        } else if ([406, 409].includes(this.status)) { // Someone stole the username before we connected
-            // @ts-ignore
-            setValidityClass(username_input, false)
-        } else if (this.status === 401) { // The password is wrong I guess?
-            // @ts-ignore
-            setValidityClass(room_password_input, false)
-        } else if (!this.response.ok) { throw new Error(`HTTP error! status: ${this.response}`); }
-    }
-
-    const body = new URLSearchParams()
-    body.set('password', room_password || '')
-    body.set('username', username)
-
-    xhr.send(body)
-    // ######################### */
 }
 // SCRIPT
 if (url_roomID && url_roomPassword && url_username) {
