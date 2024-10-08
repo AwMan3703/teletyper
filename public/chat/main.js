@@ -1,5 +1,5 @@
 "use strict";
-// CONSTANTS
+// VARIABLES
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -9,14 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-let SESSION_TOKEN = '';
+// @ts-ignore
+let SESSION_TOKEN = localStorage.getItem('session-token');
 const WEBSOCKET_PORT = 8080;
 const debounceTimeout = 500; // Timeout for live typing updates (in ms)
 let lastDebounceTimestamp = Date.now();
 // @ts-ignore
 const URLParameters = new URLSearchParams(window.location.search);
 const roomID = URLParameters.get('room-id');
-const roomPassword = URLParameters.get('room-password');
 const chatroomTitle = document.getElementById('chat-title');
 const chatroomOwner = document.getElementById('chat-owner');
 const chatroomParticipantsCounter = document.getElementById('chat-participant-counter');
@@ -36,8 +36,13 @@ function _new_liveTyperElement(user) {
     username.innerText = `@${user.username}`;
     return node;
 }
-function fetchRoomData() {
+// @ts-ignore
+function fetchRoomData(room_id) {
     return __awaiter(this, void 0, void 0, function* () {
+        if (room_id.length !== 6) {
+            console.error(`Invalid Room ID "${room_id}"`);
+            return;
+        }
         try {
             // Fetch and display room data
             const response = yield fetch(`/rooms/data/${roomID}`);
@@ -86,25 +91,15 @@ function updateLiveTypers(room) {
     });
 }
 // SCRIPT
-// Register the user to this room
-const xhr = new XMLHttpRequest();
-xhr.open('POST', `/rooms/join/${roomID}`);
-xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-xhr.onreadystatechange = function () {
-    if (this.readyState === XMLHttpRequest.DONE) {
-        if (199 < this.status && this.status < 300) { // May return 200 or 202
-            const data = JSON.parse(this.responseText);
-            SESSION_TOKEN = data.session_token;
-        }
-        else if (!this.response.ok) {
-            throw new Error(`HTTP error! status: ${this.response}`);
-        }
-    }
-};
-const body = new URLSearchParams();
-body.set('password', roomPassword ? roomPassword : '');
-body.set('username', prompt('Username?') || '[nobody]'); // TODO: actually let the user choose the username
-xhr.send(body);
+// If no session token is found, bounce back to join form
+if (!SESSION_TOKEN || SESSION_TOKEN === '') {
+    alert('NO SESSION TOKEN');
+    const params = new URLSearchParams();
+    if (roomID)
+        params.set('room_id', roomID);
+    window.location.href = `join.html?${params.toString()}`;
+    throw new Error('NO SESSION TOKEN FOUND');
+}
 // --- WebSockets --- //
 // Open a websocket for communication
 const websocketAddress = `ws://${window.location.hostname}:${WEBSOCKET_PORT}`;
@@ -140,7 +135,7 @@ const handleWebSocketMessage = (type, message, handler) => { if (type === messag
 websocket.onmessage = (e) => {
     const message = JSON.parse(e.data);
     if (message.type.includes('room-event')) {
-        fetchRoomData().then(roomData => updateRoomData(roomData));
+        fetchRoomData(roomID || '').then(roomData => updateRoomData(roomData));
     }
     // User has joined the room
     handleWebSocketMessage('room-event_user-join', message, (body) => {
@@ -196,7 +191,7 @@ websocket.onmessage = (e) => {
         getLiveTyperOutput(body.sender.uuid).innerText = body.text;
     });
 };
-fetchRoomData()
+fetchRoomData(roomID || '')
     .then(roomData => {
     updateRoomData(roomData);
     updateLiveTypers(roomData);

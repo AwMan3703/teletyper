@@ -22,7 +22,7 @@ function _new_liveChatElement(room: any) {
         // TODO: redirect to join.html instead, passing the room id as a parameter
         const params = new URLSearchParams();
         params.set('room-id', room.id);
-        window.location.href = `chat.html?${params.toString()}`
+        window.location.href = `join.html?${params.toString()}`
     }
 
     return node
@@ -32,9 +32,7 @@ const updateLiveChatList = () => {
     fetch('/live-rooms')
         .then(response => {
             // Check if the response is OK (status code in the range 200-299)
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
             return response.json(); // Parse JSON data
         })
         .then(data => {

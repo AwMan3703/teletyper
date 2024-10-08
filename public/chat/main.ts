@@ -1,7 +1,8 @@
 
-// CONSTANTS
+// VARIABLES
 
-let SESSION_TOKEN: string = ''
+// @ts-ignore
+let SESSION_TOKEN: string = localStorage.getItem('session-token')
 const WEBSOCKET_PORT = 8080
 
 const debounceTimeout = 500 // Timeout for live typing updates (in ms)
@@ -9,9 +10,7 @@ let lastDebounceTimestamp = Date.now()
 
 // @ts-ignore
 const URLParameters = new URLSearchParams(window.location.search);
-
 const roomID = URLParameters.get('room-id')
-const roomPassword = URLParameters.get('room-password')
 
 const chatroomTitle = document.getElementById('chat-title')
 const chatroomOwner = document.getElementById('chat-owner')
@@ -22,7 +21,6 @@ const liveTypersList = document.getElementById('live-typers-list')
 const liveTyperTemplate = document.getElementById('live-typer-template')
 
 const typerInput = document.getElementById('chat-input')
-
 
 
 
@@ -44,7 +42,10 @@ function _new_liveTyperElement(user: {uuid: string, username: string}) {
     return node
 }
 
-async function fetchRoomData() {
+// @ts-ignore
+async function fetchRoomData(room_id: string) {
+    if (room_id.length !== 6) { console.error(`Invalid Room ID "${room_id}"`); return }
+
     try {
         // Fetch and display room data
         const response = await fetch(`/rooms/data/${roomID}`)
@@ -96,25 +97,16 @@ function updateLiveTypers(room: any) {
 
 // SCRIPT
 
-// Register the user to this room
-const xhr = new XMLHttpRequest()
-xhr.open('POST', `/rooms/join/${roomID}`)
-xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-xhr.onreadystatechange = function () {
-    if (this.readyState === XMLHttpRequest.DONE) {
-        if (199 < this.status && this.status < 300) { // May return 200 or 202
-            const data = JSON.parse(this.responseText)
-            SESSION_TOKEN = data.session_token
-        } else if (!this.response.ok) {
-            throw new Error(`HTTP error! status: ${this.response}`);
-        }
-    }
-}
-const body = new URLSearchParams()
-body.set('password', roomPassword ? roomPassword : '')
-body.set('username', prompt('Username?') || '[nobody]') // TODO: actually let the user choose the username
-xhr.send(body)
+// If no session token is found, bounce back to join form
+if (!SESSION_TOKEN || SESSION_TOKEN === '') {
+    alert('NO SESSION TOKEN')
 
+    const params = new URLSearchParams()
+    if (roomID) params.set('room_id', roomID)
+
+    window.location.href = `join.html?${params.toString()}`
+    throw new Error('NO SESSION TOKEN FOUND')
+}
 
 // --- WebSockets --- //
 
@@ -151,7 +143,7 @@ websocket.onopen = (e) => {
 const handleWebSocketMessage = (type: string, message: {type: string, body: any}, handler: (body: any) => void) => { if (type===message.type) {handler(message.body)} }
 websocket.onmessage = (e) => {
     const message = JSON.parse(e.data)
-    if (message.type.includes('room-event')) { fetchRoomData().then(roomData => updateRoomData(roomData)) }
+    if (message.type.includes('room-event')) { fetchRoomData(roomID || '').then(roomData => updateRoomData(roomData)) }
 
     // User has joined the room
     handleWebSocketMessage('room-event_user-join', message, (body) => {
@@ -181,7 +173,7 @@ websocket.onmessage = (e) => {
     })
 }
 
-fetchRoomData()
+fetchRoomData(roomID || '')
     .then(roomData => {
         updateRoomData(roomData)
         updateLiveTypers(roomData)
