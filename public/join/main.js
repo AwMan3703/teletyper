@@ -21,6 +21,8 @@ const room_password_input = document.getElementById('room-password');
 const username_input = document.getElementById('username');
 const join_button = document.getElementById('join-button');
 // FUNCTIONS
+// FIXME: room id and password inputs do not revalidate correctly
+// TODO: optimize room_id_input_validator and room_password_input_validator
 function room_id_input_validator(value) {
     return __awaiter(this, void 0, void 0, function* () {
         // Easy conditions to avoid making too many requests

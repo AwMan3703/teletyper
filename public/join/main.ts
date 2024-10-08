@@ -20,6 +20,10 @@ const join_button = document.getElementById('join-button');
 
 // FUNCTIONS
 
+// FIXME: room id and password inputs do not revalidate correctly
+
+// TODO: optimize room_id_input_validator and room_password_input_validator
+
 async function room_id_input_validator(value: string) {
     // Easy conditions to avoid making too many requests
     if (value.length !== 6) { return false }
