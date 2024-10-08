@@ -9,17 +9,22 @@
 @gap-max: 40px;
 @gap-macro: 80px;
 
-@color-layer-10: rgba(127, 127, 127, 0.1);
-@color-layer-30: rgba(127, 127, 127, 0.3);
-@color-layer-50: rgba(127, 127, 127, 0.5);
-@color-layer-70: rgba(127, 127, 127, 0.7);
-@color-layer-90: rgba(127, 127, 127, 0.9);
+@color-darker-10: rgba(127, 127, 127, 0.1);
+@color-darker-30: rgba(127, 127, 127, 0.3);
+@color-darker-50: rgba(127, 127, 127, 0.5);
+@color-darker-70: rgba(127, 127, 127, 0.7);
+@color-darker-90: rgba(127, 127, 127, 0.9);
 
+@color-lighter-10: rgba(255, 255, 255, 0.1);
+@color-lighter-30: rgba(255, 255, 255, 0.3);
+@color-lighter-50: rgba(255, 255, 255, 0.5);
+@color-lighter-70: rgba(255, 255, 255, 0.7);
+@color-lighter-90: rgba(255, 255, 255, 0.9);
 
 /* GLOBAL STYLES */
 
 * {
-	font-family: "Gontserrat", sans-serif;
+	font-family: "Degular Demo", "Gontserrat", sans-serif;
 }
 
 input {
@@ -31,6 +36,14 @@ input {
 input::placeholder { color: rgba(0,0,0, 0.25); }
 input.valid { border-color: limegreen; }
 input.invalid { border-color: red; }
+
+button {
+	cursor: pointer;
+	background-color: @color-lighter-50;
+	padding: @gap-medium;
+	border: none;
+	border-radius: @gap-min;
+}
 
 .logo-font {
 	font-family: "ND Logos", "Arial Black", arial, sans-serif;
@@ -47,10 +60,10 @@ input.invalid { border-color: red; }
 }
 
 .material-block {
-	background-color: @color-layer-10;
+	background-color: @color-darker-10;
 	border-radius: @gap-min;
 	padding: @gap-min;
-	background-image: linear-gradient(0deg, @color-layer-30, transparent);
+	background-image: linear-gradient(0deg, @color-darker-30, transparent);
 }
 
 .material-shadow {
@@ -65,5 +78,5 @@ input.invalid { border-color: red; }
 }
 
 .secondary-text {
-	color: @color-layer-70;
+	color: @color-darker-70;
 }
