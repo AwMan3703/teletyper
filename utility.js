@@ -25,6 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUUID = getUUID;
 exports.getID = getID;
+exports.isUsernameValid = isUsernameValid;
 exports.isUsernameAvailable = isUsernameAvailable;
 exports.createUser = createUser;
 exports.deleteUser = deleteUser;
@@ -58,6 +59,9 @@ function getID(length, iteration = 0) {
     else {
         return result;
     }
+}
+function isUsernameValid(username) {
+    return username.length > 0 && username.length < 21;
 }
 function isUsernameAvailable(username) {
     return !data_1.liveUsers.find(user => user.username === username);

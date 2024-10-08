@@ -29,6 +29,10 @@ export function getID(length: number, iteration: number = 0) {
     else { return result }
 }
 
+export function isUsernameValid(username: string) {
+    return username.length > 0 && username.length < 21;
+}
+
 export function isUsernameAvailable(username: string) {
     return !liveUsers.find(user => user.username === username);
 }
