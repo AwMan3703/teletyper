@@ -128,9 +128,12 @@ const sendWebSocketMessage = (type, body = {}) => {
     websocket.send(JSON.stringify({ token: SESSION_TOKEN, type: type, body: body }));
 };
 // Wait for the websocket to open
-websocket.onopen = (e) => {
+websocket.onopen = _ => {
     // Send an empty message to get registered
     sendWebSocketMessage('confirm_registration');
+    // Visually confirm that the WebSocket is open
+    // @ts-ignore
+    setValidityClass(typerInput, true);
     // @ts-ignore
     typerInput.oninput = e => {
         // @ts-ignore
@@ -145,6 +148,11 @@ websocket.onopen = (e) => {
         // Reset the debounce counter
         lastDebounceTimestamp = Date.now();
     };
+};
+websocket.onclose = _ => {
+    // Visually alert that the WebSocket is closed
+    // @ts-ignore
+    setValidityClass(typerInput, false);
 };
 // Handle incoming messages
 const handleWebSocketMessage = (type, message, handler) => { if (type === message.type) {
