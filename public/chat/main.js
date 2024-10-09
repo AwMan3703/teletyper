@@ -34,7 +34,6 @@ function _new_liveTyperElement(user) {
     const node = liveTyperTemplate.content.cloneNode(true);
     node.firstElementChild.id = liveTyperID(user.uuid);
     const username = node.querySelector(".live-typer-username");
-    const content = node.querySelector(".live-typer-content");
     username.innerText = `@${user.username}`;
     return node;
 }
@@ -135,7 +134,7 @@ websocket.onopen = _ => {
     // @ts-ignore
     setValidityClass(typerInput, true);
     // @ts-ignore
-    typerInput.oninput = e => {
+    typerInput.oninput = _ => {
         // @ts-ignore
         let new_content = typerInput.value;
         // Debounce — if updates are too frequent, queue the data for the next ones
