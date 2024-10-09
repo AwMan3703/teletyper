@@ -59,6 +59,15 @@ button {
   padding-inline: 20px;
   border: none;
   border-radius: 10px;
+  transition: transform 0.1s;
+}
+button:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: scale(1.05);
+}
+button:active {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(0.95);
 }
 .logo-font {
   font-family: "ND Logos", "Arial Black", arial, sans-serif;

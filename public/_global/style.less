@@ -50,6 +50,15 @@ button {
 	padding-inline: @gap-medium;
 	border: none;
 	border-radius: @gap-min;
+	transition: transform 0.1s;
+}
+button:hover {
+	background-color: @color-lighter-70;
+	transform: scale(1.05);
+}
+button:active {
+	background-color: @color-lighter-10;
+	transform: scale(.95);
 }
 
 .logo-font {
