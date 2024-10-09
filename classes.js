@@ -64,6 +64,18 @@ class Room {
             type: "room-event_user-join",
             body: { user: user }
         });
+        // FIXME: user does not receive old text because its websocket is undefined at this time
+        // Catch the new user up
+        this.participants.forEach(participant => {
+            // @ts-ignore
+            user.websocket.send(JSON.stringify({
+                type: "room_message",
+                body: {
+                    sender: participant.uuid,
+                    text: this.userText.get(participant)
+                }
+            }));
+        });
     }
     user_disconnect(user) {
         // Remove the user
