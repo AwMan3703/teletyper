@@ -27,6 +27,13 @@
 	font-family: "Degular Demo", "Gontserrat", sans-serif;
 }
 
+h1, h2, h3 {
+	font-weight: 500;
+}
+h4, h5, h6 {
+	font-weight: bold;
+}
+
 input, textarea {
 	padding: @gap-micro;
 	border: solid 2px transparent;
@@ -44,6 +51,7 @@ input[type="password"] {
 
 button {
 	&:extend(.material-shadow);
+	font-size: 1.1rem;
 	cursor: pointer;
 	background-color: @color-lighter-50;
 	padding-block: @gap-min;
