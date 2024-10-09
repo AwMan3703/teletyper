@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 let IS_PASSWORD_REQUIRED = false;
-let IS_USERNAME_AVAILABLE = true;
 // @ts-ignore
 const URLParameters = new URLSearchParams(window.location.search);
 const url_roomID = URLParameters.get('room-id');
@@ -45,7 +44,7 @@ function room_credentials_validator(room_id, room_password) {
         }
         // If the response code is 401, we know the password is required
         else if (response.status === 401) {
-            IS_PASSWORD_REQUIRED = true;
+            setPasswordRequired(true);
             RESULT.ID_VALID = true;
             RESULT.PASSWORD_VALID = false;
         }
@@ -142,6 +141,11 @@ function joinChat(room_id, room_password, username) {
     });
     // ######################### //
 }
+const setPasswordRequired = (is_required) => {
+    IS_PASSWORD_REQUIRED = is_required;
+    // @ts-ignore
+    room_password_input.toggleAttribute('required');
+};
 // SCRIPT
 if (url_roomID && url_roomPassword && url_username) {
     joinChat(url_roomID, url_roomPassword, url_username);
@@ -201,3 +205,5 @@ join_button.onclick = function () {
     }
     joinChat(room_id, room_password, username);
 };
+// For now
+setPasswordRequired(false);

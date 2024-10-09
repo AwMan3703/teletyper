@@ -2,8 +2,6 @@
 // VARIABLES
 
 let IS_PASSWORD_REQUIRED = false
-let IS_USERNAME_AVAILABLE = true
-
 
 // @ts-ignore
 const URLParameters = new URLSearchParams(window.location.search)
@@ -47,7 +45,7 @@ async function room_credentials_validator(room_id: string, room_password: string
     }
     // If the response code is 401, we know the password is required
     else if (response.status === 401) {
-        IS_PASSWORD_REQUIRED = true
+        setPasswordRequired(true)
         RESULT.ID_VALID = true
         RESULT.PASSWORD_VALID = false
     }
@@ -137,6 +135,13 @@ function joinChat(room_id: string, room_password: string | null, username: strin
     // ######################### //
 }
 
+const setPasswordRequired = (is_required: boolean) => {
+    IS_PASSWORD_REQUIRED = is_required
+    // @ts-ignore
+    room_password_input.toggleAttribute('required')
+}
+
+
 
 // SCRIPT
 
@@ -191,3 +196,6 @@ join_button.onclick = function () {
 
     joinChat(room_id, room_password, username)
 }
+
+// For now
+setPasswordRequired(false)
