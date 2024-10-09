@@ -20,10 +20,6 @@ const join_button = document.getElementById('join-button');
 
 // FUNCTIONS
 
-// FIXME: room id and password inputs do not revalidate correctly
-
-// TODO: optimize room_id_input_validator and room_password_input_validator
-
 async function room_credentials_validator(room_id: string, room_password: string) {
     const RESULT = {
         // @ts-ignore
@@ -38,37 +34,25 @@ async function room_credentials_validator(room_id: string, room_password: string
         RESULT.PASSWORD_VALID = false
         return RESULT
     }
-    if (!IS_PASSWORD_REQUIRED && room_password === '') {
-        RESULT.PASSWORD_VALID = true
-        return RESULT
-    }
-    else if (!IS_PASSWORD_REQUIRED && room_password !== '') {
-        RESULT.PASSWORD_VALID = false
-        return RESULT
-    }
-    else if (IS_PASSWORD_REQUIRED && room_password === '') {
-        RESULT.PASSWORD_VALID = false
-        return RESULT
-    }
 
 
     // GET the endpoint
     const response = await fetchRoomData(room_id, room_password)
+    console.log(response)
 
     // If the response is 200-299, both credentials are valid
     if (response.ok) {
         RESULT.ID_VALID = true
-        RESULT.PASSWORD_VALID = false
+        RESULT.PASSWORD_VALID = true
     }
-
     // If the response code is 401, we know the password is required
-    if (response.status === 401) {
+    else if (response.status === 401) {
         IS_PASSWORD_REQUIRED = true
         RESULT.ID_VALID = true
-        if (room_password !== '') { RESULT.PASSWORD_VALID = false }
+        RESULT.PASSWORD_VALID = false
     }
-    // If the response code is 400-599, neither are correct
-    else if (!response.ok) {
+    // If the response code is otherwise not ok, neither are correct
+    else {
         RESULT.ID_VALID = false
         RESULT.PASSWORD_VALID = false
     }
@@ -82,28 +66,22 @@ async function room_id_input_validator(value: string) {
 
     const result = await room_credentials_validator(value, room_password)
 
-    // Return true if the status is in the 200 range
+    // @ts-ignore
+    setValidityClass(room_password_input, result.PASSWORD_VALID)
+    console.log(result)
     return result.ID_VALID
 }
 
 async function room_password_input_validator(value: string) {
     // @ts-ignore
-    if (!room_id_input.classList.contains('valid')) { return false }
-    // @ts-ignore
     const room_id = room_id_input.value
 
-    // GET the endpoint
-    const response = await fetchRoomData(room_id, value)
+    const result = await room_credentials_validator(room_id, value)
 
-    // If the response code is 401, we know the password is required
-    if (response.status === 401) { IS_PASSWORD_REQUIRED = true }
-
-    // Also update the id field
     // @ts-ignore
-    room_id_input_validator(room_id).then(is_valid => setValidityClass(room_id_input, is_valid))
-
-    // Return true if the status is in the 200 range
-    return response.ok
+    setValidityClass(room_id_input, result.ID_VALID)
+    console.log(result)
+    return result.PASSWORD_VALID
 }
 
 async function username_input_validator(value: string) {
