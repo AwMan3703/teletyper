@@ -64,7 +64,7 @@ function isUsernameValid(username) {
     return username.length > 0 && username.length < 21;
 }
 function isUsernameAvailable(username) {
-    return !data_1.liveUsers.find(user => user.username === username);
+    return !data_1.liveUsers.find(user => user.username.toLowerCase() === username.toLowerCase());
 }
 function createUser(username) {
     const user = new classes_1.User(username);

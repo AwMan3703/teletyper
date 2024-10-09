@@ -34,7 +34,7 @@ export function isUsernameValid(username: string) {
 }
 
 export function isUsernameAvailable(username: string) {
-    return !liveUsers.find(user => user.username === username);
+    return !liveUsers.find(user => user.username.toLowerCase() === username.toLowerCase());
 }
 
 export function createUser(username: string): User {
