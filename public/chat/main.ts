@@ -23,7 +23,7 @@ const liveTypersList = document.getElementById('live-typers-list')
 const liveTyperTemplate = document.getElementById('live-typer-template')
 
 const typerInput = document.getElementById('chat-input')
-
+const clearButton = document.getElementById('clear-button')
 
 
 // FUNCTIONS
@@ -197,6 +197,15 @@ websocket.onmessage = (e) => {
     })
 }
 
+// Set clear button callback
+// @ts-ignore
+clearButton.onclick = _ => {
+    // @ts-ignore
+    typerInput.value = ''
+    sendWebSocketMessage('room_message', {text: ''})
+}
+
+// Initial data fetch
 fetchRoomData(roomID || '', roomPassword)
     .then(roomData => {
         updateRoomData(roomData)
