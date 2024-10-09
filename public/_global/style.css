@@ -48,6 +48,7 @@ textarea.invalid {
   border-color: red;
 }
 input[type="password"] {
+  color: #5a5a5a;
   font-family: 'password', sans-serif;
   letter-spacing: 0.15em;
 }

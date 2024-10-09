@@ -23,39 +23,66 @@ const join_button = document.getElementById('join-button');
 // FUNCTIONS
 // FIXME: room id and password inputs do not revalidate correctly
 // TODO: optimize room_id_input_validator and room_password_input_validator
-function room_id_input_validator(value) {
+function room_credentials_validator(room_id, room_password) {
     return __awaiter(this, void 0, void 0, function* () {
+        const RESULT = {
+            // @ts-ignore
+            ID_VALID: room_id_input.classList.contains('valid'),
+            // @ts-ignore
+            PASSWORD_VALID: room_password_input.classList.contains('valid')
+        };
         // Easy conditions to avoid making too many requests
-        if (value.length !== 6) {
-            return false;
+        if (room_id.length !== 6) {
+            RESULT.ID_VALID = false;
+            RESULT.PASSWORD_VALID = false;
+            return RESULT;
         }
-        // @ts-ignore
-        const room_password = room_password_input.value;
+        if (!IS_PASSWORD_REQUIRED && room_password === '') {
+            RESULT.PASSWORD_VALID = true;
+            return RESULT;
+        }
+        else if (!IS_PASSWORD_REQUIRED && room_password !== '') {
+            RESULT.PASSWORD_VALID = false;
+            return RESULT;
+        }
+        else if (IS_PASSWORD_REQUIRED && room_password === '') {
+            RESULT.PASSWORD_VALID = false;
+            return RESULT;
+        }
         // GET the endpoint
-        const response = yield fetchRoomData(value, room_password);
+        const response = yield fetchRoomData(room_id, room_password);
+        // If the response is 200-299, both credentials are valid
+        if (response.ok) {
+            RESULT.ID_VALID = true;
+            RESULT.PASSWORD_VALID = false;
+        }
         // If the response code is 401, we know the password is required
         if (response.status === 401) {
             IS_PASSWORD_REQUIRED = true;
+            RESULT.ID_VALID = true;
+            if (room_password !== '') {
+                RESULT.PASSWORD_VALID = false;
+            }
         }
-        // Also update the password field
+        // If the response code is 400-599, neither are correct
+        else if (!response.ok) {
+            RESULT.ID_VALID = false;
+            RESULT.PASSWORD_VALID = false;
+        }
+        return RESULT;
+    });
+}
+function room_id_input_validator(value) {
+    return __awaiter(this, void 0, void 0, function* () {
         // @ts-ignore
-        room_password_input_validator(room_password).then(is_valid => setValidityClass(room_password_input, is_valid));
+        const room_password = room_password_input.value;
+        const result = yield room_credentials_validator(value, room_password);
         // Return true if the status is in the 200 range
-        return response.ok;
+        return result.ID_VALID;
     });
 }
 function room_password_input_validator(value) {
     return __awaiter(this, void 0, void 0, function* () {
-        // Easy conditions to avoid making too many requests
-        if (!IS_PASSWORD_REQUIRED && value === '') {
-            return true;
-        }
-        else if (!IS_PASSWORD_REQUIRED && value !== '') {
-            return false;
-        }
-        else if (IS_PASSWORD_REQUIRED && value === '') {
-            return false;
-        }
         // @ts-ignore
         if (!room_id_input.classList.contains('valid')) {
             return false;
