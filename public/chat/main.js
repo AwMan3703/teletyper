@@ -169,9 +169,9 @@ websocket.onmessage = (e) => {
             console.error('Malformed data: WebSocket message user has no username');
             return;
         }
-        alert(`@${body.user.username} joined the room!`);
         // @ts-ignore
         liveTypersList.appendChild(_new_liveTyperElement(body.user));
+        alert(`@${body.user.username} joined the room!`);
     });
     // User has left the room
     handleWebSocketMessage('room-event_user-leave', message, (body) => {
@@ -187,9 +187,9 @@ websocket.onmessage = (e) => {
             console.error('Malformed data: WebSocket message user has no username');
             return;
         }
-        alert(`@${body.user.username} left the room!`);
         // @ts-ignore
         liveTypersList.querySelector(`#${liveTyperID(body.user.uuid)}`).remove();
+        alert(`@${body.user.username} left the room!`);
     });
     handleWebSocketMessage('room_message', message, (body) => {
         if (!body.sender) {
@@ -200,7 +200,7 @@ websocket.onmessage = (e) => {
             console.error('WebSocket message user has no UUID');
             return;
         }
-        if (!body.text) {
+        if (!body.text && body.text !== '') {
             console.error("Malformed data: WebSocket message user has no text");
             return;
         }

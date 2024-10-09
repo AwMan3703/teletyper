@@ -166,23 +166,23 @@ websocket.onmessage = (e) => {
         if (!body.user) { console.error('Malformed data: WebSocket message has no user'); return }
         if (!body.user.uuid) { console.error('Malformed data: WebSocket message user has no UUID'); return }
         if (!body.user.username) { console.error('Malformed data: WebSocket message user has no username'); return }
-        alert(`@${body.user.username} joined the room!`)
         // @ts-ignore
         liveTypersList.appendChild(_new_liveTyperElement(body.user))
+        alert(`@${body.user.username} joined the room!`)
     })
     // User has left the room
     handleWebSocketMessage('room-event_user-leave', message, (body) => {
         if (!body.user) { console.error('Malformed data: WebSocket message has no user'); return }
         if (!body.user.uuid) { console.error('Malformed data: WebSocket message user has no UUID'); return }
         if (!body.user.username) { console.error('Malformed data: WebSocket message user has no username'); return }
-        alert(`@${body.user.username} left the room!`)
         // @ts-ignore
         liveTypersList.querySelector(`#${liveTyperID(body.user.uuid)}`).remove()
+        alert(`@${body.user.username} left the room!`)
     })
     handleWebSocketMessage('room_message', message, (body) => {
         if (!body.sender) { console.error('Malformed data: WebSocket message has no sender'); return }
         if (!body.sender.uuid) { console.error('WebSocket message user has no UUID'); return }
-        if (!body.text) { console.error("Malformed data: WebSocket message user has no text"); return }
+        if (!body.text && body.text !== '') { console.error("Malformed data: WebSocket message user has no text"); return }
         console.log(`Updating @${body.sender.username}'s live-typer (${liveTyperID(body.sender.uuid)})`)
         // @ts-ignore
         getLiveTyperOutput(body.sender.uuid).innerText = body.text
