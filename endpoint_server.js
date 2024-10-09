@@ -109,7 +109,6 @@ function open_endpoints(app) {
         room.user_join(new_user);
         // 202 Accepted
         res.status(202).send({ session_token: new_user.sessionToken });
-        console.log('done');
         // Delete the user if it is not bound to a websocket within X seconds
         const confirmationTimeout = 10;
         setTimeout(() => {
