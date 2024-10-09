@@ -15,6 +15,7 @@ const url_username = URLParameters.get('username')
 const room_id_input = document.getElementById('room-ID')
 const room_password_input = document.getElementById('room-password')
 const username_input = document.getElementById('username')
+const back_button = document.getElementById('back-button');
 const join_button = document.getElementById('join-button');
 
 
@@ -171,6 +172,11 @@ validateInput(room_id_input, ['focusout'], room_id_input_validator)
 validateInput(room_password_input, ['focusout'], room_password_input_validator)
 // @ts-ignore
 validateInput(username_input, ['focusout'], username_input_validator)
+
+// @ts-ignore
+back_button.onclick = function () {
+    window.history.back()
+}
 
 // @ts-ignore
 join_button.onclick = function () {
