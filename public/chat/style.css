@@ -247,4 +247,7 @@ button {
 #chat-creation-date {
   color: initial;
 }
+#chat-input {
+  display: block;
+}
 /*# sourceMappingURL=style.css.map */
