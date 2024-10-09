@@ -39,7 +39,6 @@ async function room_credentials_validator(room_id: string, room_password: string
 
     // GET the endpoint
     const response = await fetchRoomData(room_id, room_password)
-    console.log(response)
 
     // If the response is 200-299, both credentials are valid
     if (response.ok) {
@@ -69,7 +68,6 @@ async function room_id_input_validator(value: string) {
 
     // @ts-ignore
     setValidityClass(room_password_input, result.PASSWORD_VALID)
-    console.log(result)
     return result.ID_VALID
 }
 
@@ -81,7 +79,6 @@ async function room_password_input_validator(value: string) {
 
     // @ts-ignore
     setValidityClass(room_id_input, result.ID_VALID)
-    console.log(result)
     return result.PASSWORD_VALID
 }
 

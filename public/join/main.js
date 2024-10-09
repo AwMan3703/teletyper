@@ -38,7 +38,6 @@ function room_credentials_validator(room_id, room_password) {
         }
         // GET the endpoint
         const response = yield fetchRoomData(room_id, room_password);
-        console.log(response);
         // If the response is 200-299, both credentials are valid
         if (response.ok) {
             RESULT.ID_VALID = true;
@@ -65,7 +64,6 @@ function room_id_input_validator(value) {
         const result = yield room_credentials_validator(value, room_password);
         // @ts-ignore
         setValidityClass(room_password_input, result.PASSWORD_VALID);
-        console.log(result);
         return result.ID_VALID;
     });
 }
@@ -76,7 +74,6 @@ function room_password_input_validator(value) {
         const result = yield room_credentials_validator(room_id, value);
         // @ts-ignore
         setValidityClass(room_id_input, result.ID_VALID);
-        console.log(result);
         return result.PASSWORD_VALID;
     });
 }
