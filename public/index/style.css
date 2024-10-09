@@ -133,19 +133,6 @@
   font-style: italic;
   src: url("../_resources/font/Gontserrat-BoldItalic.ttf") format("truetype");
 }
-/* NEXA */
-@font-face {
-  font-family: "Nexa";
-  font-weight: 100;
-  font-style: normal;
-  src: url("../_resources/font/Nexa-ExtraLight.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Nexa";
-  font-weight: 900;
-  font-style: normal;
-  src: url("../_resources/font/Nexa-Heavy.ttf") format("truetype");
-}
 /* ND LOGOS */
 @font-face {
   font-family: "ND Logos";
@@ -158,13 +145,6 @@
   font-weight: normal;
   font-style: italic;
   src: url("../_resources/font/ND-LOGOS-REGULAR-ITALIC.ttf") format("truetype");
-}
-/* VELOPED */
-@font-face {
-  font-family: "Veloped";
-  font-weight: normal;
-  font-style: normal;
-  src: url("../_resources/font/Veloped.ttf") format("truetype");
 }
 /* Password dots */
 @font-face {
