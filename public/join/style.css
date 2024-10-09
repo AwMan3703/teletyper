@@ -55,7 +55,8 @@ input[type="password"] {
 button {
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.5);
-  padding: 20px;
+  padding-block: 10px;
+  padding-inline: 20px;
   border: none;
   border-radius: 10px;
 }
@@ -104,7 +105,18 @@ body {
   border-radius: 20px;
   background-color: whitesmoke;
 }
-#join-button {
-  margin-inline: auto;
+/* Hide the password field if no password is needed */
+#room-password:placeholder-shown.valid,
+label[for="room-password"]:has(+ #room-password:placeholder-shown.valid) {
+  display: none;
+}
+#buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-block-start: 40px;
+}
+#buttons button {
+  font-size: 1rem;
 }
 /*# sourceMappingURL=style.css.map */

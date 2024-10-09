@@ -19,6 +19,18 @@ body {
 	background-color: whitesmoke;
 }
 
-#join-button {
-	margin-inline: auto;
+/* Hide the password field if no password is needed */
+#room-password:placeholder-shown.valid,
+label[for="room-password"]:has(+ #room-password:placeholder-shown.valid) {
+	display: none;
+}
+
+#buttons {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	margin-block-start: @gap-max;
+}
+#buttons button {
+	font-size: 1rem;
 }
