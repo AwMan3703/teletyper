@@ -5,6 +5,7 @@ import * as stringSimilarity from 'string-similarity';
 
 
 const public_directory = './public'
+const excluded_files = ['.DS_Store', '404.html']
 
 export default function open_public_pages(app: express.Express) {
 // Serve static files from the public directory
@@ -15,8 +16,16 @@ export default function open_public_pages(app: express.Express) {
         // Get the original URL
         const requestedURL = req.originalUrl
 
-        // Find best matching page in the public directory                    get all public contents          filter for file names, not directories
-        const bestMatch = stringSimilarity.findBestMatch(requestedURL, fs.readdirSync(public_directory).filter(name => name.includes('.'))).bestMatch.target
+        // Find best matching page in the public directory
+        const bestMatch = stringSimilarity.findBestMatch(requestedURL,
+            // Get all public content
+            fs.readdirSync(public_directory)
+                // Filter for file names, not directories
+                .filter(name => name.includes('.'))
+                // Filter excluded content
+                .filter(name => !excluded_files.includes(name)))
+            // Get the best match
+            .bestMatch.target
 
         // Log to help debug
         console.log(`404 error for "${requestedURL}". Redirecting to 404 page, suggesting "./${bestMatch}".`);

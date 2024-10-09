@@ -32,6 +32,7 @@ const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const stringSimilarity = __importStar(require("string-similarity"));
 const public_directory = './public';
+const excluded_files = ['.DS_Store', '404.html'];
 function open_public_pages(app) {
     // Serve static files from the public directory
     app.use(express_1.default.static(path_1.default.join(__dirname, public_directory)));
@@ -39,8 +40,16 @@ function open_public_pages(app) {
     app.use((req, res) => {
         // Get the original URL
         const requestedURL = req.originalUrl;
-        // Find best matching page in the public directory                    get all public contents          filter for file names, not directories
-        const bestMatch = stringSimilarity.findBestMatch(requestedURL, fs_1.default.readdirSync(public_directory).filter(name => name.includes('.'))).bestMatch.target;
+        // Find best matching page in the public directory
+        const bestMatch = stringSimilarity.findBestMatch(requestedURL, 
+        // Get all public content
+        fs_1.default.readdirSync(public_directory)
+            // Filter for file names, not directories
+            .filter(name => name.includes('.'))
+            // Filter excluded content
+            .filter(name => !excluded_files.includes(name)))
+            // Get the best match
+            .bestMatch.target;
         // Log to help debug
         console.log(`404 error for "${requestedURL}". Redirecting to 404 page, suggesting "./${bestMatch}".`);
         // Pass URL parameters to dynamically update the page
