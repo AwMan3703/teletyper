@@ -19,6 +19,10 @@
   font-family: "Veloped";
   src: url("../_resources/font/Veloped.ttf") format("truetype");
 }
+@font-face {
+  font-family: "password";
+  src: url("../_resources/font/password-cover.eot") format("embedded-opentype"), url("../_resources/font/password-cover.woff") format("woff");
+}
 /* VARIABLES */
 /* GLOBAL STYLES */
 * {
@@ -42,6 +46,10 @@ textarea.valid {
 input.invalid,
 textarea.invalid {
   border-color: red;
+}
+input[type="password"] {
+  font-family: 'password', sans-serif;
+  letter-spacing: 0.15em;
 }
 button {
   cursor: pointer;

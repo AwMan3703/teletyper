@@ -36,6 +36,10 @@ input, textarea {
 input::placeholder, textarea::placeholder { color: rgba(0,0,0, 0.25); }
 input.valid, textarea.valid { border-color: limegreen; }
 input.invalid, textarea.invalid { border-color: red; }
+input[type="password"] {
+	font-family: 'password', sans-serif;
+	letter-spacing: .15em;
+}
 
 button {
 	&:extend(.material-shadow);
