@@ -4,8 +4,8 @@ import {liveUsers} from "./data";
 import {deleteUser} from "./utility";
 
 
-const debounceTimeout = 500;
-const debounceTimestamps = new Map<User, number>()
+//const debounceTimeout = 500;
+//const debounceTimestamps = new Map<User, number>()
 
 
 export default function open_websocket_server(websocket_port: number, handler: (message: WebSocketMessage, sender: User, client_socket: WebSocket) => void) {
@@ -36,9 +36,9 @@ export default function open_websocket_server(websocket_port: number, handler: (
                 }
 
                 // Debounce messages if they are too frequent
-                const sender_debounceTimestamp = debounceTimestamps.get(sender)
+                /*const sender_debounceTimestamp = debounceTimestamps.get(sender)
                 if (sender_debounceTimestamp && (Date.now() - sender_debounceTimestamp) <= debounceTimeout) { return }
-                else { debounceTimestamps.set(sender, Date.now()) }
+                else { debounceTimestamps.set(sender, Date.now()) }*/
 
                 // Pass the message to the provided handler
                 handler(data, sender, client_socket)

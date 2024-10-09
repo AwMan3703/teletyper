@@ -12,8 +12,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 // @ts-ignore
 let SESSION_TOKEN = localStorage.getItem('session-token');
 const WEBSOCKET_PORT = 8080;
-const debounceTimeout = 500; // Timeout for live typing updates (in ms)
-let lastDebounceTimestamp = Date.now();
+//const debounceTimeout = 500 // Timeout for live typing updates (in ms)
+//let lastDebounceTimestamp = Date.now()
 // @ts-ignore
 const URLParameters = new URLSearchParams(window.location.search);
 const roomID = URLParameters.get('room-id');
@@ -138,14 +138,12 @@ websocket.onopen = _ => {
         // @ts-ignore
         let new_content = typerInput.value;
         // Debounce — if updates are too frequent, queue the data for the next ones
-        if ((Date.now() - lastDebounceTimestamp) <= debounceTimeout) {
-            return;
-        }
-        console.log('Sending live-typer updates');
+        /*if ((Date.now() - lastDebounceTimestamp) <= debounceTimeout) { return }
+        console.log('Sending live-typer updates')*/
         // Send the new text
         sendWebSocketMessage('room_message', { text: new_content });
         // Reset the debounce counter
-        lastDebounceTimestamp = Date.now();
+        //lastDebounceTimestamp = Date.now()
     };
 };
 websocket.onclose = _ => {

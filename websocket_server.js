@@ -7,8 +7,8 @@ exports.default = open_websocket_server;
 const ws_1 = __importDefault(require("ws"));
 const data_1 = require("./data");
 const utility_1 = require("./utility");
-const debounceTimeout = 500;
-const debounceTimestamps = new Map();
+//const debounceTimeout = 500;
+//const debounceTimestamps = new Map<User, number>()
 function open_websocket_server(websocket_port, handler) {
     const server = new ws_1.default.Server({ port: websocket_port });
     server.on('connection', (client_socket) => {
@@ -35,13 +35,9 @@ function open_websocket_server(websocket_port, handler) {
                     sender.websocket = client_socket;
                 }
                 // Debounce messages if they are too frequent
-                const sender_debounceTimestamp = debounceTimestamps.get(sender);
-                if (sender_debounceTimestamp && (Date.now() - sender_debounceTimestamp) <= debounceTimeout) {
-                    return;
-                }
-                else {
-                    debounceTimestamps.set(sender, Date.now());
-                }
+                /*const sender_debounceTimestamp = debounceTimestamps.get(sender)
+                if (sender_debounceTimestamp && (Date.now() - sender_debounceTimestamp) <= debounceTimeout) { return }
+                else { debounceTimestamps.set(sender, Date.now()) }*/
                 // Pass the message to the provided handler
                 handler(data, sender, client_socket);
             }
