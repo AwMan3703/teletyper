@@ -81,7 +81,8 @@ button {
   background-image: linear-gradient(0deg, rgba(127, 127, 127, 0.3), transparent);
 }
 .material-shadow,
-button {
+button,
+#join-form {
   box-shadow: -4px -4px 20px 0 rgba(255, 255, 255, 0.3), 4px 4px 20px 0 rgba(0, 0, 0, 0.3);
 }
 .material-shadow-inset {
