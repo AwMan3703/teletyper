@@ -12,15 +12,18 @@
 	<link rel="stylesheet" href="404/style.css">
 </head>
 <body>
-	<h1>404</h1>
-	<h2>Page not found</h2>
-	<p id="description">
-		No such thing as "<strong id="original-url"></strong>"!
-		Did you mean "<a id="suggested-url-link"></a>"?
-	</p>
-	<p class="secondary-text">
-		Not what you're looking for? You might want to <a href="index.html">go back home</a>.
-	</p>
+	<main>
+		<h1 id="status" class="material-block">404</h1>
+		<h2 id="title">Page not found :(</h2>
+		<h3>
+			<span id="error-message">No such thing as "<strong id="original-url"></strong>"!</span>
+			<span id="url-suggestion">Did you mean "<a id="suggested-url-link"></a>"?</span>
+		</h3>
+		<p class="secondary-text">
+			<a href="index.html">Go back home</a>.
+		</p>
+	</main>
+
 
 	<script src="404/main.js"></script>
 </body>

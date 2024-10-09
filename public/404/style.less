@@ -1,4 +1,21 @@
 
-#description:has(a#suggested-url-link[href=""]) {
+@import "../_global/style";
+
+main {
+	margin-block-start: @gap-medium;
+	margin-inline: @gap-min;
+}
+
+#status {
+	font-weight: normal;
+}
+#title {
+	margin-block: @gap-medium;
+}
+
+#error-message:has(#original-url:empty) {
+	display: none; /* Hide text if no original URL is available */
+}
+#url-suggestion:has(#suggested-url-link[href=""]) {
 	display: none; /* Hide text if no suggested URL is available */
 }
