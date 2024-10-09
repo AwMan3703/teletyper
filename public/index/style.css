@@ -113,6 +113,7 @@ button {
   min-width: min-content;
   height: max-content;
   max-height: 50vh;
+  scroll-behavior: smooth;
   overflow-y: scroll;
   border-radius: 10px;
   background-color: rgba(127, 127, 127, 0.1);
