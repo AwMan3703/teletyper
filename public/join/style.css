@@ -115,8 +115,8 @@ body {
   background-color: whitesmoke;
 }
 /* Hide the password field if no password is needed */
-#room-password:placeholder-shown:not(.required),
-label[for="room-password"]:has( + #room-password:placeholder-shown:not(.required)) {
+#room-password:placeholder-shown[required],
+label[for="room-password"]:has(+ #room-password:placeholder-shown[required]) {
   display: none;
 }
 #buttons {
