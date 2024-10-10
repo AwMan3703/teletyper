@@ -1,12 +1,27 @@
 "use strict";
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _User_websocket;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Room = exports.User = void 0;
 const utility_1 = require("./utility");
 // User (client)
 class User {
+    get websocket() { return __classPrivateFieldGet(this, _User_websocket, "f"); }
+    set websocket(ws) { __classPrivateFieldSet(this, _User_websocket, ws, "f"); this.onWebSocketChange(ws); }
     constructor(username) {
+        _User_websocket.set(this, undefined);
+        this.onWebSocketChange = _ => { }; // Callback for when the websocket is set
         this.username = username;
-        this.websocket = undefined;
         this.uuid = (0, utility_1.getID)(20);
         this.sessionToken = (0, utility_1.getUUID)();
     }
@@ -18,6 +33,7 @@ class User {
     }
 }
 exports.User = User;
+_User_websocket = new WeakMap();
 // A room for live texting
 class Room {
     get get_participants() { return [...this.participants]; }
@@ -64,18 +80,19 @@ class Room {
             type: "room-event_user-join",
             body: { user: user }
         });
-        // FIXME: user does not receive old text because its websocket is undefined at this time
-        // Catch the new user up
-        /*this.participants.forEach(participant => {
-            // @ts-ignore
-            user.websocket.send(JSON.stringify({
-                type: "room_message",
-                body: {
-                    sender: participant.uuid,
-                    text: this.userText.get(participant)
-                }
-            }))
-        })*/
+        // When the user gets assigned a websocket, catch them up
+        user.onWebSocketChange = ws => {
+            this.participants.forEach(participant => {
+                // @ts-ignore
+                user.websocket.send(JSON.stringify({
+                    type: "room_message",
+                    body: {
+                        sender: participant,
+                        text: this.userText.get(participant)
+                    }
+                }));
+            });
+        };
     }
     user_disconnect(user) {
         // Remove the user

@@ -5,13 +5,15 @@ import {getID, getUUID} from "./utility";
 export class User {
     public readonly username: string;
     public readonly uuid: string;
-    public websocket: WebSocket | undefined;
+    #websocket: WebSocket | undefined = undefined;
+    public get websocket(): WebSocket | undefined { return this.#websocket }
+    public set websocket(ws: WebSocket) { this.#websocket = ws; this.onWebSocketChange(ws) }
+    public onWebSocketChange: (ws: WebSocket) => void = _ => {}; // Callback for when the websocket is set
     // DO NOT LEAK THIS
     public readonly sessionToken: string; // Used to validate WebSocket messages
 
     constructor(username: string) {
         this.username = username;
-        this.websocket = undefined;
 
         this.uuid = getID(20);
         this.sessionToken = getUUID();
@@ -90,18 +92,19 @@ export class Room {
             body: {user: user}
         })
 
-        // FIXME: user does not receive old text because its websocket is undefined at this time
-        // Catch the new user up
-        /*this.participants.forEach(participant => {
-            // @ts-ignore
-            user.websocket.send(JSON.stringify({
-                type: "room_message",
-                body: {
-                    sender: participant.uuid,
-                    text: this.userText.get(participant)
-                }
-            }))
-        })*/
+        // When the user gets assigned a websocket, catch them up
+        user.onWebSocketChange = ws => {
+            this.participants.forEach(participant => {
+                // @ts-ignore
+                user.websocket.send(JSON.stringify({
+                    type: "room_message",
+                    body: {
+                        sender: participant,
+                        text: this.userText.get(participant)
+                    }
+                }))
+            })
+        }
     }
 
     public user_disconnect(user: User) {
