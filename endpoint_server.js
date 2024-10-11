@@ -53,7 +53,7 @@ function open_endpoints(app) {
         // 200 OK
         res.status(200).send(publicRooms);
     });
-    // Chat room data (:roomid is the room id passed by the client, just found out you can do that and i love it)
+    // Chat room data (:roomid is the room id passed by the client, just found out you can do that and I love it)
     // returns data about a selected chatroom
     /* Parameters:
     * - roomid (in the URL): the id of the room to get data about
