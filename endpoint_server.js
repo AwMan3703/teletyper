@@ -76,6 +76,15 @@ function open_endpoints(app) {
         // 200 OK
         res.status(200).send(room);
     });
+    // TODO: room/create endpoint
+    // Chat room creation
+    // allows for the creation of a new room
+    /* Parameters:
+    * - name (in the query): the room's name
+    * - maxparticipants (in the query): the room's participant limit
+    * - password (in the query - only if the room is private): the room's password
+    *    \_ if a password is not provided or is an empty string, the room will be created as public
+    */
     // Chat room connection
     // allows the client to join a room
     /* Parameters:
