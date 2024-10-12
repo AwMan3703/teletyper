@@ -37,16 +37,17 @@ _User_websocket = new WeakMap();
 // A room for live texting
 class Room {
     get get_participants() { return [...this.participants]; }
-    constructor(name, owner, max_participants = 5, invite_only = false, password = "") {
+    constructor(name, owner, max_participants, invite_only, password) {
+        this.participants = [];
+        // Store users' live-typer contents
+        this.userText = new Map();
         this.name = name;
         this.owner = owner;
-        this.max_participants = max_participants;
-        this.invite_only = invite_only;
-        this.password = password;
+        this.max_participants = (0, utility_1.clamp)(max_participants || 5, 1, 10);
+        this.invite_only = invite_only || false;
+        this.password = password || '';
         this.id = (0, utility_1.getID)(6);
-        this.participants = [owner];
         this.creation = new Date();
-        this.userText = new Map();
     }
     toJSON() {
         return {

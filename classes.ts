@@ -1,5 +1,5 @@
 import WebSocket from 'ws';
-import {getID, getUUID} from "./utility";
+import {clamp, getID, getUUID} from "./utility";
 
 // User (client)
 export class User {
@@ -34,7 +34,7 @@ export class Room {
     // Server-generated room id
     public readonly id: string;
     public readonly owner: User;
-    private participants: User[];
+    private participants: User[] = [];
     public get get_participants(): User[] { return [...this.participants]; }
     public readonly max_participants: number;
     public readonly creation: Date;
@@ -42,19 +42,17 @@ export class Room {
     public readonly password: string;
 
     // Store users' live-typer contents
-    public readonly userText: Map<User, string>;
+    public readonly userText: Map<User, string>  = new Map<User, string>();
 
-    constructor(name: string, owner: User, max_participants: number = 5, invite_only: boolean = false, password: string = "") {
+    constructor(name: string, owner: User, max_participants?: number, invite_only?: boolean, password?: string) {
         this.name = name;
         this.owner = owner;
-        this.max_participants = max_participants;
-        this.invite_only = invite_only;
-        this.password = password;
+        this.max_participants = clamp(max_participants || 5, 1, 10);
+        this.invite_only = invite_only || false;
+        this.password = password || '';
 
         this.id = getID(6);
-        this.participants = [owner];
         this.creation = new Date();
-        this.userText = new Map<User, string>()
     }
 
     toJSON() {
