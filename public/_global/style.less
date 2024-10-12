@@ -48,6 +48,16 @@ input[type="password"] {
 	font-family: 'password', sans-serif;
 	letter-spacing: .15em;
 }
+input[disabled] {
+	--color-1: rgba(0,0,0, 0.05) !important;
+	--color-2: transparent !important;
+	&:extend(.stripes-background);
+	color: rgba(0,0,0, 0.1);
+	background-color: transparent;
+}
+label:has(+ input[disabled]) {
+	opacity: .2;
+}
 
 button {
 	&:extend(.material-shadow);
@@ -103,6 +113,14 @@ button:active {
 .material-shadow-inset {
 	box-shadow:
 		inset 0 -5px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.stripes-background {
+	--color-1: black;
+	--color-2: white;
+	background-image: linear-gradient(40deg, var(--color-1) 0%, var(--color-1) 24%, var(--color-2) 26%, var(--color-2) 49%, var(--color-1) 51%, var(--color-1) 74%, var(--color-2) 76%);
+	background-size: 40px 120%;
+	background-position: center;
 }
 
 .secondary-text {
