@@ -219,7 +219,7 @@ websocket.onmessage = (e) => {
         getLiveTyperOutput(body.sender.uuid).innerText = body.text;
     });
 };
-// Set clear button callback
+// Set buttons callback
 // @ts-ignore
 clearButton.onclick = _ => {
     // @ts-ignore

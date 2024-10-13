@@ -199,14 +199,13 @@ websocket.onmessage = (e) => {
     })
 }
 
-// Set clear button callback
+// Set buttons callback
 // @ts-ignore
 clearButton.onclick = _ => {
     // @ts-ignore
     typerInput.value = ''
     sendWebSocketMessage('room_message', {text: ''})
 }
-
 // @ts-ignore
 backButton.onclick = _ => {
     window.location.href = 'index.html'
