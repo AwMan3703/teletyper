@@ -109,10 +109,12 @@ export default function open_endpoints(app: express.Express) {
             res.status(409).send({error: 'Room name is currently taken', fault: 'room-name'}); return }
         if (!isUsernameAvailable(req.query.username.toString())) { // 409 Conflict
             res.status(409).send({error: 'Username is currently taken', fault: 'username'}); return }
+        const max_participants = parseInt(req.query.maxparticipants.toString());
+        const invite_only: boolean = Boolean(req.query.password);
 
         const owner = createUser(req.query.username.toString())
 
-        const new_room = createRoom(req.params.name, owner)
+        const new_room = createRoom(req.params.name, owner, max_participants, invite_only, (req.query.password || '').toString())
         new_room.user_join(owner)
 
         // 201 Created

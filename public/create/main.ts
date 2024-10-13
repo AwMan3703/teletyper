@@ -75,7 +75,6 @@ function createChat(room_name: string, max_participants: number, username: strin
             } else if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
         })
         .then(data => {
-            console.log(data)
             // Get the session token
             const token = data.session_token
             console.log(`Obtained session token (${token})`)

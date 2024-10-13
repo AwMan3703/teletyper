@@ -96,7 +96,6 @@ function createChat(room_name, max_participants, username, room_password) {
         }
     }))
         .then(data => {
-        console.log(data);
         // Get the session token
         const token = data.session_token;
         console.log(`Obtained session token (${token})`);
