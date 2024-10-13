@@ -59,6 +59,21 @@ label:has(+ input[disabled]) {
 	opacity: .2;
 }
 
+// Add the .pseudo-element-state-display to a checkbox, then:
+/* - when it is not checked, the ::before will be visible
+*  - when it is checked, the ::after will be visible
+*/
+input[type=checkbox].pseudo-element-state-display:not(:checked)::before,
+input[type=checkbox].pseudo-element-state-display:checked::after {
+	visibility: visible;
+}
+input[type=checkbox].pseudo-element-state-display:not(:checked)::after,
+input[type=checkbox].pseudo-element-state-display:checked::before {
+	visibility: hidden;
+}
+
+
+
 button {
 	&:extend(.material-shadow);
 	font-size: 1.1rem;
