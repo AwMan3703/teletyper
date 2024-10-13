@@ -8,12 +8,7 @@ exports.liveRooms = [
     new classes_1.Room('test-room-1', server_user),
     new classes_1.Room('test-room-2', server_user),
     new classes_1.Room('test-room-3', server_user, undefined, true, 'pass123'),
-    new classes_1.Room('test-room-4', server_user),
-    new classes_1.Room('test-room-5', server_user),
-    new classes_1.Room('test-room-6', server_user, undefined, true, 'ciaoABC'),
-    new classes_1.Room('test-room-7', server_user),
-    new classes_1.Room('test-room-8', server_user),
-    new classes_1.Room('test-room-9', server_user, undefined, true, '0000')
+    new classes_1.Room('test-room-4', server_user, 10, true, 'ciaoABC'),
 ];
 // Keep track of connected users
 exports.liveUsers = [];
