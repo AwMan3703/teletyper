@@ -11,8 +11,11 @@ const url_roomPassword = URLParameters.get('room-password')
 const url_username = URLParameters.get('username')
 
 const room_id_input = document.getElementById('room-ID')
+// @ts-ignore
 const room_password_input = document.getElementById('room-password')
+// @ts-ignore
 const username_input = document.getElementById('username')
+// @ts-ignore
 const back_button = document.getElementById('back-button');
 const join_button = document.getElementById('join-button');
 
