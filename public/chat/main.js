@@ -96,12 +96,15 @@ function updateLiveTypers(room) {
     });
 }
 function returnToJoinForm(message) {
-    alert(message);
     const params = new URLSearchParams();
     if (roomID)
         params.set('room-id', roomID);
-    if (roomID)
-        params.set('room-id', roomID);
+    if (roomPassword)
+        params.set('room-password', roomPassword);
+    if (username)
+        params.set('username', username);
+    if (!(roomID && roomPassword && username))
+        alert(message);
     window.location.href = `join.html?${params.toString()}`;
     throw new Error(message);
 }
