@@ -1,0 +1,45 @@
+@import "../_global/style";
+
+body {
+	background-color: @color-darker-70;
+}
+
+#create-form {
+	&:extend(.flex-v);
+	&:extend(.material-shadow);
+
+	width: calc(min(70vw, 70vh) - calc(2 * @gap-min));
+	min-width: max-content;
+
+	margin-block-start: @gap-macro;
+	margin-inline: auto;
+	padding: @gap-min;
+
+	border-radius: @gap-medium;
+	background-color: whitesmoke;
+}
+
+#create-form #invite-only::before,
+#create-form #invite-only::after {
+	display: block;
+	position: absolute;
+	min-width: max-content;
+	text-wrap: nowrap;
+	translate: 0 75%;
+}
+#create-form #invite-only::before {
+	content: "Anyone can join";
+}
+#create-form #invite-only::after {
+	content: "Password is required";
+}
+
+#buttons {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	margin-block-start: @gap-max;
+}
+#buttons button {
+	font-size: 1rem;
+}

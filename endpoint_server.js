@@ -29,6 +29,26 @@ function open_endpoints(app) {
         }
         res.status(200).send();
     });
+    // Room name validation
+    // checks whether a room name is valid and available
+    /* Parameters:
+    * - roomname (in the URL): the room name to check
+    */
+    app.get("/check/room-name/:roomname", (req, res) => {
+        if (!req.params.roomname) { // 400 Bad request
+            res.status(400).send({ error: 'Malformed request' });
+            return;
+        }
+        if (!(0, utility_1.isRoomNameValid)(req.params.roomname)) { // 406 Not acceptable
+            res.status(406).send({ error: `Room name "${req.params.roomname}" is not valid` });
+            return;
+        }
+        if (!(0, utility_1.isRoomNameAvailable)(req.params.roomname)) { // 409 Conflict
+            res.status(409).send({ error: 'Room name is currently taken' });
+            return;
+        }
+        res.status(200).send();
+    });
     // Session token validation
     // checks whether a session token is registered and can be used to send WebSocket messages
     /* Parameters:
@@ -76,15 +96,42 @@ function open_endpoints(app) {
         // 200 OK
         res.status(200).send(room);
     });
-    // TODO: room/create endpoint
     // Chat room creation
-    // allows for the creation of a new room
+    // allows for the creation of a new room, then returns it as a JSON object
     /* Parameters:
-    * - name (in the query): the room's name
+    * - name (in the URL): the room's name
+    * - username (in the query): the name for the user that created the room
     * - maxparticipants (in the query): the room's participant limit
     * - password (in the query - only if the room is private): the room's password
     *    \_ if a password is not provided or is an empty string, the room will be created as public
     */
+    app.get("/rooms/create/:name", (req, res) => {
+        if (!req.params.name || !req.query.username || !req.query.maxparticipants || !parseInt(req.query.maxparticipants.toString())) { // 400 Bad request
+            res.status(400).send({ error: 'Malformed request' });
+            return;
+        }
+        if (!(0, utility_1.isRoomNameValid)(req.params.name)) { // 406 Not acceptable
+            res.status(406).send({ error: `Room name "${req.params.name}" is not valid`, fault: 'room-name' });
+            return;
+        }
+        if (!(0, utility_1.isUsernameValid)(req.query.username.toString())) { // 406 Not acceptable
+            res.status(406).send({ error: `Username "${req.query.username.toString()}" is not valid`, fault: 'username' });
+            return;
+        }
+        if (!(0, utility_1.isRoomNameAvailable)(req.params.name)) { // 409 Conflict
+            res.status(409).send({ error: 'Room name is currently taken', fault: 'room-name' });
+            return;
+        }
+        if (!(0, utility_1.isUsernameAvailable)(req.query.username.toString())) { // 409 Conflict
+            res.status(409).send({ error: 'Username is currently taken', fault: 'username' });
+            return;
+        }
+        const owner = (0, utility_1.createUser)(req.query.username.toString());
+        const new_room = (0, utility_1.createRoom)(req.params.name, owner);
+        new_room.user_join(owner);
+        // 201 Created
+        res.status(201).send({ session_token: owner.sessionToken, room_id: new_room.id });
+    });
     // Chat room connection
     // allows the client to join a room
     /* Parameters:
