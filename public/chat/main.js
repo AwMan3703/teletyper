@@ -122,6 +122,8 @@ fetch(`/check/session-token/${SESSION_TOKEN}`)
     }
     returnToJoinForm('SESSION TOKEN IS NOT VALID');
 });
+if (!(roomID && roomPassword && username))
+    returnToJoinForm('ROOM DATA IS MISSING');
 // --- WebSockets --- //
 // Open a websocket for communication
 const websocketAddress = `ws://${window.location.hostname}:${WEBSOCKET_PORT}`;
