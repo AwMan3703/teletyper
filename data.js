@@ -17,5 +17,6 @@ exports.liveRooms = [
 ];
 // Keep track of connected users
 exports.liveUsers = [];
+exports.liveUsers.push(server_user);
 const tpr = exports.liveRooms[2]; // Expose a private room for testing
 console.log("Testing private room:", tpr.id, tpr.password);

@@ -18,6 +18,7 @@ export const liveRooms: Room[] = [
 
 // Keep track of connected users
 export const liveUsers: User[] = []
+liveUsers.push(server_user)
 
 const tpr = liveRooms[2] // Expose a private room for testing
 console.log("Testing private room:", tpr.id, tpr.password)
