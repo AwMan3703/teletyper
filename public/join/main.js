@@ -14,6 +14,7 @@ let IS_PASSWORD_REQUIRED = false;
 const URLParameters = new URLSearchParams(window.location.search);
 const url_roomID = URLParameters.get('room-id');
 const url_roomPassword = URLParameters.get('room-password');
+// @ts-ignore
 const url_username = URLParameters.get('username');
 const room_id_input = document.getElementById('room-ID');
 // @ts-ignore
