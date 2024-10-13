@@ -159,22 +159,19 @@ else {
         // @ts-ignore
         room_id_input.value = url_roomID;
         // @ts-ignore
-        if (url_roomID)
-            room_id_input_validator(url_roomID).then(is_valid => { setValidityClass(room_id_input, is_valid); });
+        room_id_input_validator(url_roomID).then(is_valid => { setValidityClass(room_id_input, is_valid); });
     }
     if (url_roomPassword) {
         // @ts-ignore
         room_password_input.value = url_roomPassword ? url_roomPassword : '';
         // @ts-ignore
-        if (url_roomPassword)
-            room_password_input_validator(url_roomPassword).then(is_valid => { setValidityClass(room_password_input, is_valid); });
+        room_password_input_validator(url_roomPassword).then(is_valid => { setValidityClass(room_password_input, is_valid); });
     }
     if (url_username) {
         // @ts-ignore
         username_input.value = url_username ? url_username : '';
         // @ts-ignore
-        if (url_username)
-            username_input_validator(url_username).then(is_valid => { setValidityClass(username_input, is_valid); });
+        username_input_validator(url_username).then(is_valid => { setValidityClass(username_input, is_valid); });
     }
 }
 // @ts-ignore
