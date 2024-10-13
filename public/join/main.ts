@@ -83,6 +83,7 @@ async function room_password_input_validator(value: string) {
     return result.PASSWORD_VALID
 }
 
+// @ts-ignore
 async function username_input_validator(value: string) {
     // Easy conditions to avoid making too many requests
     if (value.length < 1 || value.length > 20) { return false }

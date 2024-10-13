@@ -79,6 +79,7 @@ function room_password_input_validator(value) {
         return result.PASSWORD_VALID;
     });
 }
+// @ts-ignore
 function username_input_validator(value) {
     return __awaiter(this, void 0, void 0, function* () {
         // Easy conditions to avoid making too many requests
