@@ -69,9 +69,10 @@ function open_endpoints(app) {
     // returns a list of currently open and public rooms
     /* No parameters */
     app.get("/live-rooms", (req, res) => {
-        const publicRooms = data_1.liveRooms.filter(room => !room.invite_only);
+        // Filter for public & non-full rooms
+        const validRooms = data_1.liveRooms.filter(room => !room.invite_only && (room.get_participants.length < room.max_participants));
         // 200 OK
-        res.status(200).send(publicRooms);
+        res.status(200).send(validRooms);
     });
     // Chat room data (:roomid is the room id passed by the client, just found out you can do that and I love it)
     // returns data about a selected chatroom
@@ -149,6 +150,10 @@ function open_endpoints(app) {
         const room = data_1.liveRooms.find(room => room.id === req.params.roomid);
         if (!room) { // 404 Not Found
             res.status(404).send({ error: 'Chatroom does not exist' });
+            return;
+        }
+        if (room.get_participants.length >= room.max_participants) { // 410 Gone (the possibility of joining I guess)
+            res.status(410).send({ error: `Room is at capacity (${room.get_participants.length}/${room.max_participants} participants)` });
             return;
         }
         if (!(0, utility_1.isUsernameValid)(req.query.username.toString())) { // 406 Not acceptable

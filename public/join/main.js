@@ -113,6 +113,9 @@ function joinChat(room_id, room_password, username) {
             // Return
             return response.json();
         }
+        else if (response.status === 410) { // The room is at capacity
+            alert('The room is full, it cannot accept any more participants.');
+        }
         else if (response.status === 404) { // The room code is wrong
             // @ts-ignore
             setValidityClass(room_password_input, false);

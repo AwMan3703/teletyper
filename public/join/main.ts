@@ -110,6 +110,8 @@ function joinChat(room_id: string, room_password: string | null, username: strin
             if ([200, 202].includes(response.status)) { // May return 200 or 202
                 // Return
                 return response.json()
+            } else if (response.status === 410) { // The room is at capacity
+                alert('The room is full, it cannot accept any more participants.')
             } else if (response.status === 404) { // The room code is wrong
                 // @ts-ignore
                 setValidityClass(room_password_input, false)

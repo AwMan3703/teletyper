@@ -64,10 +64,10 @@ export default function open_endpoints(app: express.Express) {
     // returns a list of currently open and public rooms
     /* No parameters */
     app.get("/live-rooms", (req: express.Request, res: express.Response) => {
-        const publicRooms = liveRooms.filter(room => !room.invite_only)
-
+        // Filter for public & non-full rooms
+        const validRooms = liveRooms.filter(room => !room.invite_only && (room.get_participants.length < room.max_participants))
         // 200 OK
-        res.status(200).send(publicRooms);
+        res.status(200).send(validRooms);
     })
 
     // Chat room data (:roomid is the room id passed by the client, just found out you can do that and I love it)
@@ -134,6 +134,8 @@ export default function open_endpoints(app: express.Express) {
         const room = liveRooms.find(room => room.id === req.params.roomid)
         if (!room) { // 404 Not Found
             res.status(404).send({error: 'Chatroom does not exist'}); return }
+        if (room.get_participants.length >= room.max_participants) { // 410 Gone (the possibility of joining I guess)
+            res.status(410).send({error: `Room is at capacity (${room.get_participants.length}/${room.max_participants} participants)`}); return }
         if (!isUsernameValid(req.query.username.toString())) { // 406 Not acceptable
             res.status(406).send({error: `Username "${req.query.username}" is not valid`}); return }
         if (!isUsernameAvailable(req.query.username.toString())) { // 409 Conflict
