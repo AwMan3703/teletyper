@@ -24,6 +24,7 @@ const liveTyperTemplate = document.getElementById('live-typer-template')
 
 const typerInput = document.getElementById('chat-input')
 const clearButton = document.getElementById('clear-button')
+const backButton = document.getElementById('back-button')
 
 
 // FUNCTIONS
@@ -204,6 +205,11 @@ clearButton.onclick = _ => {
     // @ts-ignore
     typerInput.value = ''
     sendWebSocketMessage('room_message', {text: ''})
+}
+
+// @ts-ignore
+backButton.onclick = _ => {
+    window.location.href = 'index.html'
 }
 
 // Initial data fetch
