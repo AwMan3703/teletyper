@@ -237,8 +237,7 @@ backButton.onclick = _ => {
 copyButton.onclick = _ => {
     try {
         // @ts-ignore
-        yield navigator.clipboard.writeText(roomID);
-        alert('Copied to clipboard!');
+        navigator.clipboard.writeText(roomID).then(_ => alert('Copied to clipboard!'));
     }
     catch (err) {
         alert(`Could not copy to clipboard: ${err}`);
