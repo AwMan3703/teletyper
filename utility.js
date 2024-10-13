@@ -25,10 +25,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUUID = getUUID;
 exports.getID = getID;
+exports.clamp = clamp;
 exports.isUsernameValid = isUsernameValid;
 exports.isUsernameAvailable = isUsernameAvailable;
 exports.createUser = createUser;
 exports.deleteUser = deleteUser;
+exports.isRoomNameValid = isRoomNameValid;
+exports.isRoomNameAvailable = isRoomNameAvailable;
+exports.createRoom = createRoom;
+exports.deleteRoom = deleteRoom;
 const crypto = __importStar(require("crypto"));
 const classes_1 = require("./classes");
 const data_1 = require("./data");
@@ -60,6 +65,9 @@ function getID(length, iteration = 0) {
         return result;
     }
 }
+function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+}
 function isUsernameValid(username) {
     return username.length > 0 && username.length < 21;
 }
@@ -77,4 +85,24 @@ function deleteUser(user) {
         room.user_disconnect(user);
     }
     data_1.liveUsers.splice(data_1.liveUsers.indexOf(user), 1);
+}
+function isRoomNameValid(room_name) {
+    return room_name.length > 0 && room_name.length < 21;
+}
+function isRoomNameAvailable(room_name) {
+    return !data_1.liveRooms.find(room => room.name === room_name);
+}
+function createRoom(name, owner, max_participants, invite_only, password) {
+    if (!name) {
+        name = `${owner.username}'s room #${getID(4)}`;
+    }
+    const room = new classes_1.Room(name, owner, max_participants, invite_only || false, password || "");
+    data_1.liveRooms.push(room);
+    return room;
+}
+function deleteRoom(room) {
+    room.get_participants.forEach(participant => {
+        deleteUser(participant);
+    });
+    data_1.liveRooms.splice(data_1.liveRooms.indexOf(room), 1);
 }

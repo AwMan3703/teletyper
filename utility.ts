@@ -1,5 +1,5 @@
 import * as crypto from "crypto";
-import {User} from "./classes";
+import {Room, User} from "./classes";
 import {liveRooms, liveUsers} from "./data";
 
 
@@ -29,6 +29,10 @@ export function getID(length: number, iteration: number = 0) {
     else { return result }
 }
 
+export function clamp(value: number, min: number, max: number): number {
+    return Math.min(Math.max(value, min), max);
+}
+
 export function isUsernameValid(username: string) {
     return username.length > 0 && username.length < 21;
 }
@@ -50,4 +54,29 @@ export function deleteUser(user: User): void {
     if (room) { room.user_disconnect(user) }
 
     liveUsers.splice(liveUsers.indexOf(user), 1)
+}
+
+export function isRoomNameValid(room_name: string) {
+    return room_name.length > 0 && room_name.length < 21;
+}
+
+export function isRoomNameAvailable(room_name: string) {
+    return !liveRooms.find(room => room.name === room_name)
+}
+
+export function createRoom(name: string | null, owner: User, max_participants?: number, invite_only?: boolean, password?: string): Room {
+    if (!name) { name = `${owner.username}'s room #${getID(4)}` }
+    const room = new Room(name, owner, max_participants, invite_only || false, password || "")
+
+    liveRooms.push(room)
+
+    return room
+}
+
+export function deleteRoom(room: Room) {
+    room.get_participants.forEach(participant => {
+        deleteUser(participant)
+    })
+
+    liveRooms.splice(liveRooms.indexOf(room), 1)
 }
