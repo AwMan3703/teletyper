@@ -292,10 +292,10 @@ body {
   translate: 0 75%;
 }
 #create-form #invite-only::before {
-  content: "Anyone can join";
+  content: "Anyone can join, room is visible in public list";
 }
 #create-form #invite-only::after {
-  content: "Password is required";
+  content: "Password is required, room is not visible in public list";
 }
 #buttons {
   width: 100%;
