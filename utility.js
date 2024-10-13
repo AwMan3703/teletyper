@@ -98,6 +98,7 @@ function createRoom(name, owner, max_participants, invite_only, password) {
     }
     const room = new classes_1.Room(name, owner, max_participants, invite_only || false, password || "");
     data_1.liveRooms.push(room);
+    room.user_join(owner);
     return room;
 }
 function deleteRoom(room) {

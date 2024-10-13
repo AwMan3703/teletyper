@@ -131,7 +131,6 @@ function open_endpoints(app) {
         const invite_only = Boolean(req.query.password);
         const owner = (0, utility_1.createUser)(req.query.username.toString());
         const new_room = (0, utility_1.createRoom)(req.params.name, owner, max_participants, invite_only, (req.query.password || '').toString());
-        new_room.user_join(owner);
         // 201 Created
         res.status(201).send({ session_token: owner.sessionToken, room_id: new_room.id });
     });

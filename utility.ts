@@ -70,6 +70,8 @@ export function createRoom(name: string | null, owner: User, max_participants?: 
 
     liveRooms.push(room)
 
+    room.user_join(owner)
+
     return room
 }
 

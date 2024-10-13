@@ -115,7 +115,6 @@ export default function open_endpoints(app: express.Express) {
         const owner = createUser(req.query.username.toString())
 
         const new_room = createRoom(req.params.name, owner, max_participants, invite_only, (req.query.password || '').toString())
-        new_room.user_join(owner)
 
         // 201 Created
         res.status(201).send({session_token: owner.sessionToken, room_id: new_room.id})
