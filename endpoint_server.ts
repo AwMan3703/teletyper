@@ -1,6 +1,14 @@
 import express from 'express';
 import {liveRooms, liveUsers} from './data';
-import {createUser, deleteUser, isUsernameAvailable, isUsernameValid} from "./utility";
+import {
+    createRoom,
+    createUser,
+    deleteUser,
+    isRoomNameAvailable,
+    isRoomNameValid,
+    isUsernameAvailable,
+    isUsernameValid
+} from "./utility";
 
 
 export default function open_endpoints(app: express.Express) {
@@ -13,17 +21,15 @@ export default function open_endpoints(app: express.Express) {
     */
     app.get("/check/username/:username", (req: express.Request, res: express.Response) => {
         if (!req.params.username) { // 400 Bad request
-            res.status(400).send({error: 'Malformed request'});
-            return
-        }
+            res.status(400).send({error: 'Malformed request'}); return }
         if (!isUsernameValid(req.params.username)) { // 406 Not acceptable
-            res.status(406).send({error: `Username "${req.params.username}" is not valid`})
-            return
-        }
+            res.status(406).send({error: `Username "${req.params.username}" is not valid`}); return }
         if (!isUsernameAvailable(req.params.username)) { // 409 Conflict
-            res.status(409).send({error: 'Username is currently taken'});
-            return
-        }
+            res.status(409).send({error: 'Username is currently taken'}); return }
+
+        res.status(200).send()
+    })
+
 
         res.status(200).send()
     })
@@ -35,13 +41,9 @@ export default function open_endpoints(app: express.Express) {
     */
     app.get("/check/session-token/:sessiontoken", (req: express.Request, res: express.Response) => {
         if (!req.params.sessiontoken) { // 400 Bad request
-            res.status(400).send({error: 'Malformed request'});
-            return
-        }
+            res.status(400).send({error: 'Malformed request'}); return }
         if (!liveUsers.find(user => user.sessionToken === req.params.sessiontoken)) { // 404 Not found — perhaps 410 Gone?
-            res.status(404).send({error: 'Session token is not valid'});
-            return
-        }
+            res.status(404).send({error: 'Session token is not valid'}); return }
 
         res.status(200).send()
     })
@@ -64,18 +66,12 @@ export default function open_endpoints(app: express.Express) {
     */
     app.get("/rooms/data/:roomid", (req: express.Request, res: express.Response) => {
         if (!req.params.roomid) { // 400 Bad request
-            res.status(400).send({error: 'Malformed request'});
-            return
-        }
+            res.status(400).send({error: 'Malformed request'}); return }
         const room = liveRooms.find(room => room.id === req.params.roomid)
         if (!room) { // 404 Not Found
-            res.status(404).send({error: 'Chatroom does not exist'});
-            return
-        }
+            res.status(404).send({error: 'Chatroom does not exist'}); return }
         if (room.invite_only && req.query.password !== room.password) { // 401 Access denied
-            res.status(401).send({error: 'Room is invite-only, no password was provided or the password was wrong'});
-            return
-        }
+            res.status(401).send({error: 'Room is invite-only, no password was provided or the password was wrong'}); return }
 
         // 200 OK
         res.status(200).send(room);
@@ -101,26 +97,16 @@ export default function open_endpoints(app: express.Express) {
     */
     app.get("/rooms/join/:roomid", (req: express.Request, res: express.Response) => {
         if (!req.params.roomid || !req.query.username) { // 400 Bad request
-            res.status(400).send({error: 'Malformed request'});
-            return
-        }
+            res.status(400).send({error: 'Malformed request'}); return }
         const room = liveRooms.find(room => room.id === req.params.roomid)
         if (!room) { // 404 Not Found
-            res.status(404).send({error: 'Chatroom does not exist'});
-            return
-        }
+            res.status(404).send({error: 'Chatroom does not exist'}); return }
         if (!isUsernameValid(req.query.username.toString())) { // 406 Not acceptable
-            res.status(406).send({error: `Username "${req.query.username}" is not valid`})
-            return
-        }
+            res.status(406).send({error: `Username "${req.query.username}" is not valid`}); return }
         if (!isUsernameAvailable(req.query.username.toString())) { // 409 Conflict
-            res.status(409).send({error: 'Username is currently taken'});
-            return
-        }
+            res.status(409).send({error: 'Username is currently taken'}); return }
         if (room.invite_only && req.query.password !== room.password) { // 401 Access denied
-            res.status(401).send({error: 'Room is invite-only, no password was provided or the password was wrong'});
-            return
-        }
+            res.status(401).send({error: 'Room is invite-only, no password was provided or the password was wrong'}); return }
 
         const new_user = createUser(req.query.username.toString());
         room.user_join(new_user)
