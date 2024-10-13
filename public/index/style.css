@@ -256,7 +256,7 @@ button:active {
 }
 .material-shadow,
 button {
-  box-shadow: -4px -4px 20px 0 rgba(255, 255, 255, 0.3), 4px 4px 20px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: -4px -4px 20px 0 rgba(255, 255, 255, 0.3), 4px 4px 20px 0 rgba(127, 127, 127, 0.5);
 }
 .material-shadow-inset,
 #live-chats-list {
