@@ -1,5 +1,5 @@
 import WebSocket from 'ws';
-import {clamp, getID, getUUID} from "./utility";
+import {clamp, deleteRoom, getID, getUUID} from "./utility";
 
 // User (client)
 export class User {
@@ -118,6 +118,12 @@ export class Room {
             type: "room-event_user-leave",
             body: {user: user}
         })
+
+        // If nobody is left, delete the room
+        if (this.participants.length < 1) {
+            console.log(`Room ${this.id} is empty and is being deleted`)
+            deleteRoom(this)
+        }
     }
 
     public message(sender: User, message: WebSocketMessage) {

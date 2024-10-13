@@ -106,6 +106,11 @@ class Room {
             type: "room-event_user-leave",
             body: { user: user }
         });
+        // If nobody is left, delete the room
+        if (this.participants.length < 1) {
+            console.log(`Room ${this.id} is empty and is being deleted`);
+            (0, utility_1.deleteRoom)(this);
+        }
     }
     message(sender, message) {
         // Copy the message
