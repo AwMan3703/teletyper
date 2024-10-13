@@ -25,6 +25,7 @@ const liveTyperTemplate = document.getElementById('live-typer-template')
 const typerInput = document.getElementById('chat-input')
 const clearButton = document.getElementById('clear-button')
 const backButton = document.getElementById('back-button')
+const copyButton = document.getElementById('copy-link-button')
 
 
 // FUNCTIONS
@@ -211,6 +212,16 @@ clearButton.onclick = _ => {
 // @ts-ignore
 backButton.onclick = _ => {
     window.location.href = 'index.html'
+}
+// @ts-ignore
+copyButton.onclick = _ => {
+    try {
+        // @ts-ignore
+        await navigator.clipboard.writeText(roomID)
+        alert('Copied to clipboard!')
+    } catch (err) {
+        alert(`Could not copy to clipboard: ${err}`)
+    }
 }
 
 // Initial data fetch

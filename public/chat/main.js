@@ -28,6 +28,7 @@ const liveTyperTemplate = document.getElementById('live-typer-template');
 const typerInput = document.getElementById('chat-input');
 const clearButton = document.getElementById('clear-button');
 const backButton = document.getElementById('back-button');
+const copyButton = document.getElementById('copy-link-button');
 // FUNCTIONS
 const liveTyperID = (user_uuid) => `liveTyper_${user_uuid}`;
 const getLiveTyperOutput = (user_uuid) => { var _a; return (_a = document.getElementById(`liveTyper_${user_uuid}`)) === null || _a === void 0 ? void 0 : _a.querySelector('.live-typer-content'); };
@@ -231,6 +232,17 @@ clearButton.onclick = _ => {
 // @ts-ignore
 backButton.onclick = _ => {
     window.location.href = 'index.html';
+};
+// @ts-ignore
+copyButton.onclick = _ => {
+    try {
+        // @ts-ignore
+        yield navigator.clipboard.writeText(roomID);
+        alert('Copied to clipboard!');
+    }
+    catch (err) {
+        alert(`Could not copy to clipboard: ${err}`);
+    }
 };
 // Initial data fetch
 fetchRoomData(roomID || '', roomPassword)
