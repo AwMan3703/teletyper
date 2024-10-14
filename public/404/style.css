@@ -269,6 +269,9 @@ input[disabled] {
 .secondary-text {
   color: rgba(127, 127, 127, 0.7);
 }
+.secondary-text a {
+  color: rgba(127, 127, 127, 0.9);
+}
 main {
   margin-block-start: 20px;
   margin-inline: 10px;

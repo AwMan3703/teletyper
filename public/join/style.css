@@ -271,6 +271,9 @@ input[disabled] {
 .secondary-text {
   color: rgba(127, 127, 127, 0.7);
 }
+.secondary-text a {
+  color: rgba(127, 127, 127, 0.9);
+}
 body {
   background-color: rgba(127, 127, 127, 0.7);
 }

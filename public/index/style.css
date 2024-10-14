@@ -273,6 +273,9 @@ input[disabled] {
 .secondary-text {
   color: rgba(127, 127, 127, 0.7);
 }
+.secondary-text a {
+  color: rgba(127, 127, 127, 0.9);
+}
 main {
   display: flex;
   flex-direction: column;
@@ -287,7 +290,7 @@ section#head-section {
   text-align: center;
 }
 section#head-section #description {
-  text-wrap: balance;
+  text-wrap: pretty;
 }
 /* CHAT LIST */
 #live-chats-list {
