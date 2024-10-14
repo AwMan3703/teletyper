@@ -129,7 +129,7 @@ function open_endpoints(app) {
         }
         const max_participants = parseInt(req.query.maxparticipants.toString());
         const invite_only = Boolean(req.query.password);
-        const owner = (0, utility_1.createUser)(req.query.username.toString());
+        const owner = (0, utility_1.createUser)(`@${req.query.username.toString()}`);
         const new_room = (0, utility_1.createRoom)(req.params.name, owner, max_participants, invite_only, (req.query.password || '').toString());
         // 201 Created
         res.status(201).send({ session_token: owner.sessionToken, room_id: new_room.id });
@@ -167,7 +167,7 @@ function open_endpoints(app) {
             res.status(401).send({ error: 'Room is invite-only, no password was provided or the password was wrong' });
             return;
         }
-        const new_user = (0, utility_1.createUser)(req.query.username.toString());
+        const new_user = (0, utility_1.createUser)(`@${req.query.username.toString()}`);
         room.user_join(new_user);
         // 202 Accepted
         res.status(202).send({ session_token: new_user.sessionToken });
@@ -179,7 +179,7 @@ function open_endpoints(app) {
                 return;
             }
             // If not, delete the user object (client may have crashed, we don't want to lock the username forever)
-            console.warn(`User @${new_user.username} was not bound to a WebSocket within ${confirmationTimeout} seconds, so it's being unregistered`);
+            console.warn(`User ${new_user.username} was not bound to a WebSocket within ${confirmationTimeout} seconds, so it's being unregistered`);
             (0, utility_1.deleteUser)(new_user);
         }, confirmationTimeout * 1000);
     });

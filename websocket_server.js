@@ -31,7 +31,7 @@ function open_websocket_server(websocket_port, handler) {
                 }
                 // Check that the user has no associated websocket, if so, bind it to this one
                 else if (!sender.websocket) {
-                    console.log(`Registering websocket for user @${sender.username}`);
+                    console.log(`Registering websocket for user ${sender.username}`);
                     sender.websocket = client_socket;
                 }
                 // Debounce messages if they are too frequent
@@ -53,7 +53,7 @@ function open_websocket_server(websocket_port, handler) {
                 console.warn('A WebSocket disconnected, but no user was associated with it');
                 return;
             }
-            console.log(`Unregistering user @${user.username}`);
+            console.log(`Unregistering user ${user.username}`);
             (0, utility_1.deleteUser)(user);
         });
     });

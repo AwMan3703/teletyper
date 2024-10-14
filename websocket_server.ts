@@ -31,7 +31,7 @@ export default function open_websocket_server(websocket_port: number, handler: (
                 if (!sender) { console.warn(`User with session token "${data.token}" does not exist! Was the server rebooted?`); return }
                 // Check that the user has no associated websocket, if so, bind it to this one
                 else if (!sender.websocket) {
-                    console.log(`Registering websocket for user @${sender.username}`)
+                    console.log(`Registering websocket for user ${sender.username}`)
                     sender.websocket = client_socket
                 }
 
@@ -58,7 +58,7 @@ export default function open_websocket_server(websocket_port: number, handler: (
                 return
             }
 
-            console.log(`Unregistering user @${user.username}`)
+            console.log(`Unregistering user ${user.username}`)
 
             deleteUser(user)
         })

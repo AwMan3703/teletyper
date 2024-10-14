@@ -12,12 +12,12 @@ import {liveRooms} from "./data";
 export function handle_room_message(message: WebSocketMessage, sender: User, client_socket: WebSocket) {
     // Check that a target room (one in which the user is participating) exists
     const target_room = liveRooms.find(room => room.get_participants.includes(sender))
-    if (!target_room) { console.error(`User @${sender.username} sent a message but is not a participant in any room`); return }
+    if (!target_room) { console.error(`User ${sender.username} sent a message but is not a participant in any room`); return }
 
     switch (message.type) {
         case "confirm_registration":
             // Check that the user has a websocket
-            if (!sender.websocket) { console.warn(`Could not catch @${sender.username} up: user has no bound WebSocket`); return }
+            if (!sender.websocket) { console.warn(`Could not catch ${sender.username} up: user has no bound WebSocket`); return }
 
             // Catch the user up on others' text
             target_room.get_participants.forEach(participant => {
