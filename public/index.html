@@ -12,35 +12,54 @@
 	<link rel="stylesheet" href="index/style.css">
 </head>
 <body>
-	<section>
-		<img src="_resources/img/logo72.png" alt="Logo not found">
-		<h1 class="logo-font">TeleTyper</h1>
-		<p>
-			Instant chatting app with live typing
-		</p>
-	</section>
+	<main>
+		<section id="head-section">
+			<img id="logo" src="_resources/img/logo72.png" alt="Logo not found">
+			<h1 id="logo-text" class="logo-font">TeleTyper</h1>
+			<p id="description">
+				by @AwMan3703
+				<span class="secondary-text">
+					Live typing platform, inspired by <a href="https://www.talkomatic.co/">Talkomatic</a> <wbr>
+					(Doug Brown & David R. Woolley, 1973
+					<sup><a href="https://en.wikipedia.org/wiki/Talkomatic">[wiki]</a></sup>)
+				</span>
 
-	<section>
-		<h2>Join a public chatroom:</h2>
-		<!--Live chats will be appended here-->
-		<div id="live-chats-list"></div>
+			</p>
+		</section>
 
-		<template id="live-chat-template">
-			<li class="live-chat">
-				<div>
-					<h4><span class="chat-title">[no title]</span></h4>
-					<p><span class="chat-participants-counter">N/A</span> participants online</p>
-					<p class="chat-creation-label">Created: <span class="chat-creation-time">N/A</span></p>
-				</div>
-				<button class="chat-connect-button">Connect</button>
-			</li>
-		</template>
-		<h2>Looking for another room? <a href="join.html">Enter a room code</a>.</h2>
-		<hr>
-		<h2>...or <a href="create.html">create your own</a>.</h2>
-	</section>
+		<section>
+			<h2>Join a public chatroom:</h2>
+			<!--Live chats will be appended here-->
+			<div id="live-chats-list">
+				<li class="live-chat">
+					<div>
+						<h4 style="display: inline" class="chat-title">REMOVE BEFORE PUSHING</h4>&nbsp;<span class="chat-id secondary-text">xxxxxx</span>
+						<p><span class="chat-participants-counter">N/A</span>&nbsp;participants&nbsp;online</p>
+						<p class="chat-creation-label secondary-text">Created&nbsp;at&nbsp;<span class="chat-creation-time">N/A</span> by&nbsp;<span class="chat-owner">[no user]</span></p>
+					</div>
+					<button class="chat-connect-button">Connect</button>
+				</li>
+			</div>
+
+			<template id="live-chat-template">
+				<li class="live-chat">
+					<div>
+						<h4 style="display: inline" class="chat-title">[no&nbsp;title]</h4>&nbsp;<span class="chat-id secondary-text">######</span>
+						<p><span class="chat-participants-counter">N/A</span>&nbsp;participants&nbsp;online</p>
+						<p class="chat-creation-label secondary-text">Created&nbsp;at&nbsp;<span class="chat-creation-time">N/A</span> by&nbsp;<span class="chat-owner">[no user]</span></p>
+					</div>
+					<button class="chat-connect-button">Connect</button>
+				</li>
+			</template>
+		</section>
+
+		<section>
+			<h2>Not what you're looking for? <a href="join.html">Enter&nbsp;a&nbsp;room&nbsp;code</a> or <a href="create.html">create&nbsp;your&nbsp;own</a>.</h2>
+		</section>
+	</main>
 
 
+	<script src="_global/utility.js"></script>
 	<script src="index/main.js"></script>
 </body>
 </html>

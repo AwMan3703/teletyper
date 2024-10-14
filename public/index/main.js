@@ -5,12 +5,20 @@ function _new_liveChatElement(room) {
     // @ts-ignore
     const node = liveChatElementTemplate.content.cloneNode(true);
     const title = node.querySelector(".chat-title");
+    const id = node.querySelector(".chat-id");
     const participants_counter = node.querySelector(".chat-participants-counter");
     const creation_date = node.querySelector(".chat-creation-time");
+    const owner = node.querySelector(".chat-owner");
     const join_button = node.querySelector(".chat-connect-button");
     title.innerText = room.name;
+    id.innerText = room.id;
     participants_counter.innerText = `${room.participants.length}/${room.max_participants}`;
     creation_date.innerText = new Date(room.creation).toLocaleTimeString();
+    owner.innerText = room.owner.username;
+    id.onclick = function () {
+        navigator.clipboard.writeText(room.id)
+            .then(_ => alert('Copied to clipboard!'));
+    };
     join_button.onclick = function () {
         const params = new URLSearchParams();
         params.set('room-id', room.id);
@@ -28,6 +36,7 @@ const updateLiveChatList = () => {
         return response.json(); // Parse JSON data
     })
         .then(data => {
+        data.sort((a, b) => Date.parse(b.creation) - Date.parse(a.creation));
         data.forEach((room) => {
             // @ts-ignore
             liveChatsList.append(_new_liveChatElement(room));
@@ -38,3 +47,15 @@ const updateLiveChatList = () => {
     });
 };
 updateLiveChatList();
+// I may be stupid
+if (Math.random() === 0) {
+    const logo = document.getElementById('logo');
+    let counter = 0;
+    setInterval((_) => {
+        // @ts-ignore
+        logo.style.rotate = `${counter}deg`;
+        if (counter >= 360)
+            counter = 0;
+        counter += 5;
+    }, 25);
+}

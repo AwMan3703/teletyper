@@ -37,7 +37,7 @@ function _new_liveTyperElement(user) {
     const node = liveTyperTemplate.content.cloneNode(true);
     node.firstElementChild.id = liveTyperID(user.uuid);
     const username = node.querySelector(".live-typer-username");
-    username.innerText = `@${user.username}`;
+    username.innerText = user.username;
     return node;
 }
 // @ts-ignore
@@ -83,7 +83,7 @@ function updateRoomData(room) {
     // @ts-ignore
     chatroomTitle.innerText = room.name;
     // @ts-ignore
-    chatroomOwner.innerText = '@' + room.owner.username;
+    chatroomOwner.innerText = room.owner.username;
     // @ts-ignore
     chatroomParticipantsCounter.innerText = `${room.participants.length}/${room.max_participants}`;
     // @ts-ignore
@@ -182,7 +182,7 @@ websocket.onmessage = (e) => {
         }
         // @ts-ignore
         liveTypersList.appendChild(_new_liveTyperElement(body.user));
-        alert(`@${body.user.username} joined the room!`);
+        alert(`${body.user.username} joined the room!`);
     });
     // User has left the room
     handleWebSocketMessage('room-event_user-leave', message, (body) => {
@@ -200,7 +200,7 @@ websocket.onmessage = (e) => {
         }
         // @ts-ignore
         liveTypersList.querySelector(`#${liveTyperID(body.user.uuid)}`).remove();
-        alert(`@${body.user.username} left the room!`);
+        alert(`${body.user.username} left the room!`);
     });
     handleWebSocketMessage('room_message', message, (body) => {
         if (!body.sender) {
@@ -215,7 +215,7 @@ websocket.onmessage = (e) => {
             console.error("Malformed data: WebSocket message user has no text");
             return;
         }
-        console.log(`Updating @${body.sender.username}'s live-typer (${liveTyperID(body.sender.uuid)})`);
+        console.log(`Updating ${body.sender.username}'s live-typer (${liveTyperID(body.sender.uuid)})`);
         // @ts-ignore
         getLiveTyperOutput(body.sender.uuid).innerText = body.text;
     });
