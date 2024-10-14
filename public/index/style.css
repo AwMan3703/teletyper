@@ -273,6 +273,9 @@ input[disabled] {
 .secondary-text {
   color: rgba(127, 127, 127, 0.7);
 }
+.secondary-text a {
+  color: rgba(127, 127, 127, 0.9);
+}
 main {
   display: flex;
   flex-direction: column;

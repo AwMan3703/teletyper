@@ -270,6 +270,9 @@ input[disabled] {
 #chat-info {
   color: rgba(127, 127, 127, 0.7);
 }
+.secondary-text a {
+  color: rgba(127, 127, 127, 0.9);
+}
 #chat-owner,
 #chat-participant-counter,
 #chat-creation-date {
