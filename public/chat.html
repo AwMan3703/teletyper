@@ -12,44 +12,45 @@
 	<link rel="stylesheet" href="chat/style.css">
 </head>
 <body>
-	<h1 id="chat-title" class="logo-font">unnamed chat</h1>
-	<p id="chat-info">
-		<!--&nbsp; stops the space from breaking the sentence-->
-		Created&nbsp;by&nbsp;<span id="chat-owner">[no&nbsp;user]</span>&nbsp;— <wbr>
-		<span id="chat-participant-counter">0</span>&nbsp;participants&nbsp;— <wbr>
-		created:&nbsp;<span id="chat-creation-date">[no&nbsp;creation&nbsp;date]</span>
-	</p>
+	<main>
+		<h1 id="chat-title" class="logo-font">unnamed chat</h1>
+		<p id="chat-info">
+			<!--&nbsp; stops the space from breaking the sentence-->
+			Created&nbsp;by&nbsp;<span id="chat-owner">[no&nbsp;user]</span>&nbsp;— <wbr>
+			<span id="chat-participant-counter">0</span>&nbsp;participants&nbsp;— <wbr>
+			created:&nbsp;<span id="chat-creation-date">[no&nbsp;creation&nbsp;date]</span>
+		</p>
 
-	<section id="live-typers-section">
-		<!--Show live chats here-->
-		<ul id="live-typers-list">
-		</ul>
-	</section>
+		<section id="live-typers-section">
+			<!--Show live chats here-->
+			<ul id="live-typers-list">
+			</ul>
 
-	<section id="chat-input-section">
-		<label for="chat-input">Your Typer:</label><br>
-		<textarea
-			name="chat-input" id="chat-input"
-			placeholder="Type here to chat live..."
-			style="font-size: 1.5rem"
-		></textarea>
-		<button id="clear-button" type="reset">Clear typer</button>
-	</section>
+			<template id="live-typer-template">
+				<li class="live-typer">
+					<h2 class="live-typer-username"></h2>
+					<p class="live-typer-content"></p>
+				</li>
+			</template>
+		</section>
+	</main>
 
-	<hr>
+	<aside>
+		<section id="chat-input-section">
+			<label for="chat-input" style="display: none"></label>
+			<textarea
+					name="chat-input" id="chat-input"
+					placeholder="Type here to chat live..."
+					style="font-size: 1.5rem"
+			></textarea>
+			<button id="clear-button" type="reset">⌫ Clear typer</button>
+		</section>
 
-	<section id="buttons-section">
-		<button id="back-button" type="button">x Exit</button>
-		<button id="copy-link-button" type="button">⎋ Copy room code</button>
-	</section>
-
-
-	<template id="live-typer-template">
-		<li class="live-typer">
-			<h2 class="live-typer-username"></h2>
-			<p class="live-typer-content"></p>
-		</li>
-	</template>
+		<section id="buttons-section">
+			<button id="back-button" type="button">x Exit</button>
+			<button id="copy-link-button" type="button">⎋ Copy room code</button>
+		</section>
+	</aside>
 
 
 	<script src="_global/utility.js"></script>

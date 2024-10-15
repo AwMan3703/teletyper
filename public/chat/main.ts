@@ -33,6 +33,24 @@ const copyButton = document.getElementById('copy-link-button')
 const liveTyperID = (user_uuid: string) => `liveTyper_${user_uuid}`
 const getLiveTyperOutput = (user_uuid: string) => document.getElementById(`liveTyper_${user_uuid}`)?.querySelector('.live-typer-content')
 
+function liveTyperScrollDown(user_uuid: string) {
+    const lt = getLiveTyperOutput(user_uuid)
+    // @ts-ignore
+    lt.scrollTop = lt.scrollHeight
+}
+
+function liveTyperFlash(user_uuid: string) {
+    const lt = document.getElementById(liveTyperID(user_uuid))
+    // @ts-ignore
+    lt.classList.remove('update-flash')
+    // @ts-ignore
+    lt.getAnimations().forEach(a => { a.cancel() })
+    // @ts-ignore
+    lt.classList.add('update-flash')
+    // @ts-ignore
+    lt.addEventListener('animationend', _ => { lt.classList.remove('update-flash') })
+}
+
 function _new_liveTyperElement(user: {uuid: string, username: string}) {
     // @ts-ignore
     const node = liveTyperTemplate.content.cloneNode(true)
@@ -197,6 +215,8 @@ websocket.onmessage = (e) => {
         console.log(`Updating ${body.sender.username}'s live-typer (${liveTyperID(body.sender.uuid)})`)
         // @ts-ignore
         getLiveTyperOutput(body.sender.uuid).innerText = body.text
+        liveTyperScrollDown(body.sender.uuid)
+        liveTyperFlash(body.sender.uuid)
     })
 }
 
@@ -204,8 +224,11 @@ websocket.onmessage = (e) => {
 // @ts-ignore
 clearButton.onclick = _ => {
     // @ts-ignore
+    if (!typerInput.value || typerInput.value === '') { return }
+    // @ts-ignore
     typerInput.value = ''
     sendWebSocketMessage('room_message', {text: ''})
+    console.log('Cleared typer')
 }
 // @ts-ignore
 backButton.onclick = _ => {

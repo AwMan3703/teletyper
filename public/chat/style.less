@@ -1,4 +1,18 @@
+
 @import "../_global/style";
+
+@keyframes live-typer-update-flash {
+	from { background-color: #fffd7e }
+	to { background-color: transparent }
+}
+
+body {
+	height: 100vh;
+}
+
+main {
+	margin: @gap-min;
+}
 
 #chat-info {
 	&:extend(.secondary-text);
@@ -9,14 +23,54 @@
 	color: initial;
 }
 
-#chat-input {
-	display: block;
+#live-typers-list {
 }
 
-#buttons-section {
+.live-typer {
+	padding: @gap-micro;
+	padding-block-end: @gap-min;
+	border-radius: @gap-medium;
+}
+.live-typer.update-flash {
+	animation: live-typer-update-flash .5s linear;
+}
+
+.live-typer-content {
+	text-wrap: wrap;
 	max-width: 100%;
+	max-height: 3.5em;
+	overflow-y: scroll;
+	margin-inline-start: @gap-min;
+}
+
+#chat-input {
+	display: block;
+	resize: none;
+}
+
+aside {
+	&:extend(.flex-v);
+	position: sticky;
+	bottom: 0;
+	width: calc(100vw - calc(2 * @gap-min));
+	padding-block-start: 50px;
+	padding-block-end: @gap-min;
+	padding-inline: @gap-min;
+	padding-inline-end: @gap-min;
+	background-image: linear-gradient(0deg, white 85%, transparent);
+}
+
+aside #chat-input-section {
+	margin-block-end: @gap-max;
+}
+aside #buttons-section {
 	display: flex;
-	flex-direction: row;
+	flex-wrap: wrap;
 	justify-content: space-between;
-	padding-inline: @gap-medium;
+	gap: @gap-min;
+}
+
+#chat-input-section textarea#chat-input {
+	width: -webkit-fill-available;
+	margin-block-end: @gap-min;
 }

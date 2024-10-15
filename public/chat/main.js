@@ -32,6 +32,22 @@ const copyButton = document.getElementById('copy-link-button');
 // FUNCTIONS
 const liveTyperID = (user_uuid) => `liveTyper_${user_uuid}`;
 const getLiveTyperOutput = (user_uuid) => { var _a; return (_a = document.getElementById(`liveTyper_${user_uuid}`)) === null || _a === void 0 ? void 0 : _a.querySelector('.live-typer-content'); };
+function liveTyperScrollDown(user_uuid) {
+    const lt = getLiveTyperOutput(user_uuid);
+    // @ts-ignore
+    lt.scrollTop = lt.scrollHeight;
+}
+function liveTyperFlash(user_uuid) {
+    const lt = document.getElementById(liveTyperID(user_uuid));
+    // @ts-ignore
+    lt.classList.remove('update-flash');
+    // @ts-ignore
+    lt.getAnimations().forEach(a => { a.cancel(); });
+    // @ts-ignore
+    lt.classList.add('update-flash');
+    // @ts-ignore
+    lt.addEventListener('animationend', _ => { lt.classList.remove('update-flash'); });
+}
 function _new_liveTyperElement(user) {
     // @ts-ignore
     const node = liveTyperTemplate.content.cloneNode(true);
@@ -218,14 +234,21 @@ websocket.onmessage = (e) => {
         console.log(`Updating ${body.sender.username}'s live-typer (${liveTyperID(body.sender.uuid)})`);
         // @ts-ignore
         getLiveTyperOutput(body.sender.uuid).innerText = body.text;
+        liveTyperScrollDown(body.sender.uuid);
+        liveTyperFlash(body.sender.uuid);
     });
 };
 // Set buttons callback
 // @ts-ignore
 clearButton.onclick = _ => {
     // @ts-ignore
+    if (!typerInput.value || typerInput.value === '') {
+        return;
+    }
+    // @ts-ignore
     typerInput.value = '';
     sendWebSocketMessage('room_message', { text: '' });
+    console.log('Cleared typer');
 };
 // @ts-ignore
 backButton.onclick = _ => {
