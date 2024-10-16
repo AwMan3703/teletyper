@@ -146,6 +146,7 @@ export interface WebSocketMessage {
         | 'room_message' // Send a message to the chatroom
         | 'room-event_user-join' // A user has joined the room
         | 'room-event_user-leave' // A user has left the room
+        | 'room-event_user-expel' // A user was expelled
     ;
     readonly token: string; // Used to authenticate user
     readonly body: any;

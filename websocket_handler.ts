@@ -1,6 +1,7 @@
 import WebSocket from 'ws';
 import {User, WebSocketMessage} from "./classes";
-import {liveRooms} from "./data";
+import {liveRooms, liveUsers} from "./data";
+import {deleteUser} from "./utility";
 
 
 /*
@@ -37,5 +38,26 @@ export function handle_room_message(message: WebSocketMessage, sender: User, cli
             //console.log(`Message from @${sender.username} to room ${target_room.id}!`);
             target_room.message(sender, message)
             return;
+
+        case 'room-event_user-expel':
+            if (sender !== target_room.owner) {
+                console.log(`${sender.username} tried to expel a participant without being the room owner`)
+                return
+            }
+
+            // Propagate event and expel user
+            const target = liveUsers.find(user => user.uuid === message.body.target_user)
+            if (!target) { return }
+
+            console.log(`${sender.username} has expelled ${target?.username}`)
+
+            target.websocket?.send(JSON.stringify({
+                type: 'room-event_user-expel',
+                body: { reason: message.body.reason },
+            }))
+
+            deleteUser(target)
+
+            return
     }
 }

@@ -239,7 +239,8 @@ aside {
   display: flex;
   flex-direction: column;
 }
-.flex-h {
+.flex-h,
+.live-typer-header {
   display: flex;
   flex-direction: row;
 }
@@ -300,6 +301,14 @@ main {
 }
 .live-typer.update-flash {
   animation: live-typer-update-flash 0.5s linear;
+}
+.live-typer-header {
+  align-items: baseline;
+  justify-content: space-between;
+}
+.expel-button {
+  color: red;
+  padding: 5px;
 }
 .live-typer-content {
   text-wrap: wrap;

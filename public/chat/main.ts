@@ -14,6 +14,8 @@ const roomID = URLParameters.get('room-id')
 const roomPassword = URLParameters.get('room-password')
 const username = URLParameters.get('username')
 
+let AM_I_OWNER = false
+
 const chatroomTitle = document.getElementById('chat-title')
 const chatroomOwner = document.getElementById('chat-owner')
 const chatroomParticipantsCounter = document.getElementById('chat-participant-counter')
@@ -56,9 +58,23 @@ function _new_liveTyperElement(user: {uuid: string, username: string}) {
     const node = liveTyperTemplate.content.cloneNode(true)
     node.firstElementChild.id = liveTyperID(user.uuid)
 
-    const username = node.querySelector(".live-typer-username")
+    const usernameField = node.querySelector(".live-typer-username")
+    const expelButton = node.querySelector(".expel-button")
 
-    username.innerText = user.username
+    usernameField.innerText = user.username
+    if (AM_I_OWNER && user.username !== `@${username}`) {
+        expelButton.dataset.target = user.uuid
+        // @ts-ignore
+        expelButton.onclick = _ => {
+            console.log(`Expelling user ${expelButton.dataset.target}`)
+            sendWebSocketMessage('room-event_user-expel', {
+                target_user: expelButton.dataset.target,
+                reason: window.prompt('Provide a reason for expelling this user:')
+            })
+        }
+    } else {
+        expelButton.remove()
+    }
 
     return node
 }
@@ -140,7 +156,6 @@ if (!SESSION_TOKEN || SESSION_TOKEN === '') returnToJoinForm('NO SESSION TOKEN F
 fetch(`/check/session-token/${SESSION_TOKEN}`)
     .then(response => {
         if (response.ok) { return }
-
         returnToJoinForm('SESSION TOKEN IS NOT VALID')
     })
 
@@ -208,6 +223,12 @@ websocket.onmessage = (e) => {
         liveTypersList.querySelector(`#${liveTyperID(body.user.uuid)}`).remove()
         alert(`${body.user.username} left the room!`)
     })
+    // You have been disconnected
+    handleWebSocketMessage('room-event_user-expel', message, (body) => {
+        alert(`You have been expelled from this room. ${ body.reason ? `Reason: ${body.reason}` : '' }`)
+        window.location.href = 'index.html'
+    })
+    // Normal message
     handleWebSocketMessage('room_message', message, (body) => {
         if (!body.sender) { console.error('Malformed data: WebSocket message has no sender'); return }
         if (!body.sender.uuid) { console.error('WebSocket message user has no UUID'); return }
@@ -247,6 +268,8 @@ copyButton.onclick = _ => {
 // Initial data fetch
 fetchRoomData(roomID || '', roomPassword)
     .then(roomData => {
+        AM_I_OWNER = roomData.owner.username === `@${username}`
+        console.log(`User is ${!AM_I_OWNER ? 'not ' : ''}the room owner`)
         updateRoomData(roomData)
         updateLiveTypers(roomData)
     })

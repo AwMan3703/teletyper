@@ -19,6 +19,7 @@ const URLParameters = new URLSearchParams(window.location.search);
 const roomID = URLParameters.get('room-id');
 const roomPassword = URLParameters.get('room-password');
 const username = URLParameters.get('username');
+let AM_I_OWNER = false;
 const chatroomTitle = document.getElementById('chat-title');
 const chatroomOwner = document.getElementById('chat-owner');
 const chatroomParticipantsCounter = document.getElementById('chat-participant-counter');
@@ -52,8 +53,23 @@ function _new_liveTyperElement(user) {
     // @ts-ignore
     const node = liveTyperTemplate.content.cloneNode(true);
     node.firstElementChild.id = liveTyperID(user.uuid);
-    const username = node.querySelector(".live-typer-username");
-    username.innerText = user.username;
+    const usernameField = node.querySelector(".live-typer-username");
+    const expelButton = node.querySelector(".expel-button");
+    usernameField.innerText = user.username;
+    if (AM_I_OWNER && user.username !== `@${username}`) {
+        expelButton.dataset.target = user.uuid;
+        // @ts-ignore
+        expelButton.onclick = _ => {
+            console.log(`Expelling user ${expelButton.dataset.target}`);
+            sendWebSocketMessage('room-event_user-expel', {
+                target_user: expelButton.dataset.target,
+                reason: window.prompt('Provide a reason for expelling this user:')
+            });
+        };
+    }
+    else {
+        expelButton.remove();
+    }
     return node;
 }
 // @ts-ignore
@@ -218,6 +234,12 @@ websocket.onmessage = (e) => {
         liveTypersList.querySelector(`#${liveTyperID(body.user.uuid)}`).remove();
         alert(`${body.user.username} left the room!`);
     });
+    // You have been disconnected
+    handleWebSocketMessage('room-event_user-expel', message, (body) => {
+        alert(`You have been expelled from this room. ${body.reason ? `Reason: ${body.reason}` : ''}`);
+        window.location.href = 'index.html';
+    });
+    // Normal message
     handleWebSocketMessage('room_message', message, (body) => {
         if (!body.sender) {
             console.error('Malformed data: WebSocket message has no sender');
@@ -267,6 +289,8 @@ copyButton.onclick = _ => {
 // Initial data fetch
 fetchRoomData(roomID || '', roomPassword)
     .then(roomData => {
+    AM_I_OWNER = roomData.owner.username === `@${username}`;
+    console.log(`User is ${!AM_I_OWNER ? 'not ' : ''}the room owner`);
     updateRoomData(roomData);
     updateLiveTypers(roomData);
 });

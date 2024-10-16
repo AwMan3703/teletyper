@@ -35,6 +35,17 @@ main {
 	animation: live-typer-update-flash .5s linear;
 }
 
+.live-typer-header {
+	&:extend(.flex-h);
+	align-items: baseline;
+	justify-content: space-between;
+}
+
+.expel-button {
+	color: red;
+	padding: @gap-micro;
+}
+
 .live-typer-content {
 	text-wrap: wrap;
 	max-width: 100%;
