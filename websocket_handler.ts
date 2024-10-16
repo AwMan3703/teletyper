@@ -35,7 +35,7 @@ export function handle_room_message(message: WebSocketMessage, sender: User, cli
 
         case 'room_message':
             // Send typing updates to peers
-            //console.log(`Message from @${sender.username} to room ${target_room.id}!`);
+            // console.log(`Message from ${sender.username} to room ${target_room.id}!`);
             target_room.message(sender, message)
             return;
 

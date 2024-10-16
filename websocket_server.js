@@ -50,7 +50,7 @@ function open_websocket_server(websocket_port, handler) {
             console.log(`Websocket disconnected`);
             const user = data_1.liveUsers.find(user => user.websocket === client_socket);
             if (!user) {
-                console.warn('A WebSocket disconnected, but no user was associated with it');
+                console.warn('  \\_ but no user was associated with it');
                 return;
             }
             console.log(`Unregistering user ${user.username}`);

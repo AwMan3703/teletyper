@@ -37,7 +37,7 @@ function handle_room_message(message, sender, client_socket) {
             return;
         case 'room_message':
             // Send typing updates to peers
-            //console.log(`Message from @${sender.username} to room ${target_room.id}!`);
+            // console.log(`Message from ${sender.username} to room ${target_room.id}!`);
             target_room.message(sender, message);
             return;
         case 'room-event_user-expel':
