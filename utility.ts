@@ -38,7 +38,7 @@ export function isUsernameValid(username: string) {
 }
 
 export function isUsernameAvailable(username: string) {
-    return !liveUsers.find(user => user.username.toLowerCase() === username.toLowerCase());
+    return !liveUsers.find(user => user.username.toLowerCase() === `@${username.toLowerCase()}`);
 }
 
 export function createUser(username: string): User {
@@ -52,6 +52,8 @@ export function createUser(username: string): User {
 export function deleteUser(user: User): void {
     const room = liveRooms.find(room => room.get_participants.includes(user))
     if (room) { room.user_disconnect(user) }
+
+    user.websocket?.close()
 
     liveUsers.splice(liveUsers.indexOf(user), 1)
 }

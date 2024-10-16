@@ -72,7 +72,7 @@ function isUsernameValid(username) {
     return username.length > 0 && username.length < 21;
 }
 function isUsernameAvailable(username) {
-    return !data_1.liveUsers.find(user => user.username.toLowerCase() === username.toLowerCase());
+    return !data_1.liveUsers.find(user => user.username.toLowerCase() === `@${username.toLowerCase()}`);
 }
 function createUser(username) {
     const user = new classes_1.User(username);
@@ -80,10 +80,12 @@ function createUser(username) {
     return user;
 }
 function deleteUser(user) {
+    var _a;
     const room = data_1.liveRooms.find(room => room.get_participants.includes(user));
     if (room) {
         room.user_disconnect(user);
     }
+    (_a = user.websocket) === null || _a === void 0 ? void 0 : _a.close();
     data_1.liveUsers.splice(data_1.liveUsers.indexOf(user), 1);
 }
 function isRoomNameValid(room_name) {
