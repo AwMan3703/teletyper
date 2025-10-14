@@ -236,7 +236,7 @@ websocket.onmessage = (e) => {
     });
     // You have been disconnected
     handleWebSocketMessage('room-event_user-expel', message, (body) => {
-        alert(`You have been expelled from this room. ${body.reason ? `Reason: ${body.reason}` : ''}`);
+        alert(`You have been expelled from this room.${body.reason ? ` Reason: ${body.reason}` : ''}`);
         window.location.href = 'index.html';
     });
     // Normal message
